@@ -1,0 +1,147 @@
+/* ============================================================
+   learn.css — Light/Dark theme + Progress + Quiz
+   Nạp SAU styles.css để override biến & bổ sung UI học tập.
+   ============================================================ */
+
+/* ---------- LIGHT THEME (override biến dark mặc định) ---------- */
+html[data-theme="light"] {
+  --bg: #f4f6fa;
+  --panel: #ffffff;
+  --panel-2: #eef1f6;
+  --line: #d9dfe8;
+  --text: #1c232c;
+  --muted: #5a6b7b;
+  --accent: #d97d15;
+  --accent-2: #1580b8;
+  --good: #1e9e63;
+}
+html[data-theme="light"] body {
+  background: radial-gradient(1200px 600px at 50% -10%, #f9efe3, var(--bg));
+}
+html[data-theme="light"] .pattern-card.available:hover {
+  box-shadow: 0 12px 30px rgba(217,125,21,.18);
+}
+/* code panel nền tối vẫn đọc tốt ở light — giữ nguyên panel-2 */
+
+body { transition: background .25s, color .25s; }
+
+/* ---------- Header bar chuẩn (giống các course khác) ---------- */
+.hbar { display: flex; align-items: center; gap: 12px; max-width: 1100px; margin: 0 auto 4px; padding: 0 20px; }
+.hbar .spacer { flex: 1; }
+/* link home/back trong hbar: inline (ghi đè .back absolute mặc định) */
+.site-header .hbar .back {
+  position: static; left: auto; top: auto;
+  color: var(--accent-2); text-decoration: none; font-size: .9rem;
+}
+.site-header .hbar .back:hover { text-decoration: underline; }
+/* nút đổi theme: ô vuông 40×40 (thay cho pill nổi trước đây) */
+.theme-toggle {
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+  border-radius: 10px; width: 40px; height: 40px; font-size: 1.1rem; line-height: 1;
+  cursor: pointer; flex: 0 0 40px; transition: border-color .15s;
+}
+.theme-toggle:hover { border-color: var(--accent); }
+
+/* ============================================================
+   TRANG CHỦ — Thanh tiến độ + badge trên thẻ
+   ============================================================ */
+.learn-progress { max-width: 720px; margin: 22px auto 6px; padding: 0 20px; }
+.learn-progress .lp-bar {
+  height: 12px; background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 999px; overflow: hidden;
+}
+.learn-progress .lp-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--good));
+  border-radius: 999px; transition: width .4s ease;
+}
+.learn-progress .lp-meta {
+  display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px;
+}
+.learn-progress .lp-label { color: var(--muted); font-size: .85rem; }
+.learn-progress .lp-reset {
+  background: none; border: 1px solid var(--line); color: var(--muted);
+  border-radius: 8px; padding: 3px 10px; font-size: .76rem; cursor: pointer;
+}
+.learn-progress .lp-reset:hover { border-color: var(--accent); color: var(--text); }
+
+/* badge trạng thái trên thẻ pattern */
+.pattern-card { position: relative; }
+.card-status {
+  position: absolute; top: 10px; right: 10px;
+  font-size: .68rem; font-weight: 700; padding: 3px 9px;
+  border-radius: 999px; letter-spacing: .3px;
+}
+.card-status.todo    { background: var(--panel-2); color: var(--muted); }
+.card-status.started { background: rgba(106,208,255,.18); color: var(--accent-2); }
+.card-status.done    { background: rgba(110,231,168,.2); color: var(--good); }
+.pattern-card.done   { border-color: rgba(110,231,168,.5); }
+.pattern-card.started{ border-color: rgba(106,208,255,.4); }
+
+/* ============================================================
+   TRANG PATTERN — Khối trắc nghiệm
+   ============================================================ */
+.quiz-section {
+  max-width: 1100px; margin: 8px auto 40px; padding: 24px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.quiz-section h3 { margin: 0 0 4px; font-size: 1.3rem; }
+.quiz-section .quiz-intro { color: var(--muted); font-size: .9rem; margin: 0 0 14px; }
+.quiz-status {
+  display: inline-block; color: var(--muted); font-size: .85rem;
+  background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 12px; margin-bottom: 16px;
+}
+
+.quiz-list .q {
+  border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px; margin-bottom: 14px; background: var(--panel-2);
+}
+.q .qtext { font-weight: 600; margin-bottom: 12px; line-height: 1.5; }
+.q .qnum { color: var(--accent); font-weight: 800; margin-right: 6px; }
+.q .opt {
+  display: block; width: 100%; text-align: left;
+  background: var(--panel); color: var(--text);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 11px 14px; margin: 8px 0; font-size: .92rem;
+  cursor: pointer; transition: border-color .15s, background .15s;
+}
+.q .opt:hover:not(.locked) { border-color: var(--accent); }
+.q .opt .letter { font-weight: 800; color: var(--accent-2); margin-right: 8px; }
+.q .opt.locked { cursor: default; }
+.q .opt.correct { border-color: var(--good); background: rgba(110,231,168,.14); }
+.q .opt.correct .letter { color: var(--good); }
+.q .opt.wrong { border-color: #ef6b6b; background: rgba(239,107,107,.14); }
+.q .opt.wrong .letter { color: #ef6b6b; }
+
+.q .explain {
+  display: none; margin-top: 10px; padding: 11px 14px;
+  border-radius: 10px; font-size: .88rem; line-height: 1.5;
+}
+.q .explain.show { display: block; }
+.q .explain.ok { background: rgba(110,231,168,.12); border: 1px solid rgba(110,231,168,.4); }
+.q .explain.no { background: rgba(239,107,107,.1); border: 1px solid rgba(239,107,107,.4); }
+
+.quiz-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.quiz-actions button {
+  border-radius: 10px; padding: 10px 18px; font-size: .9rem;
+  font-weight: 600; cursor: pointer; border: 1px solid var(--line);
+}
+#btnRetry { background: var(--panel-2); color: var(--text); }
+#btnRetry:hover { border-color: var(--accent); }
+#btnDone {
+  background: var(--good); color: #06120b; border-color: var(--good);
+}
+#btnDone:disabled { opacity: .45; cursor: not-allowed; }
+.done-hint { color: var(--muted); font-size: .85rem; margin-top: 10px; }
+
+/* Toast xác nhận */
+#dpToast {
+  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+  background: var(--good); color: #06120b; font-weight: 700;
+  padding: 12px 22px; border-radius: 999px; opacity: 0; pointer-events: none;
+  transition: opacity .25s, transform .25s; z-index: 80;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+#dpToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

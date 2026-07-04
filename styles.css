@@ -1,0 +1,121 @@
+/* =========================================================
+   Parent page — design system dùng chung (chuẩn Spring/os-course).
+   Accent trung tính (cyan); mỗi card tự tô theo màu course qua --c.
+   ========================================================= */
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-2: #1c2330;
+  --line: #2a323d;
+  --text: #e7ecf2;
+  --muted: #93a1b1;
+
+  --accent: #6ad0ff;
+  --accent-2: #6ad0ff;
+  --glow: rgba(106, 208, 255, .18);
+  --hero: #10202b;
+
+  --good: #6ee7a8;
+  --radius: 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 50% -10%, var(--hero), var(--bg));
+  color: var(--text);
+  min-height: 100vh;
+}
+a { color: var(--accent-2); }
+
+/* ---------- Light theme ---------- */
+html[data-theme="light"] {
+  --bg: #f5f7f9; --panel: #ffffff; --panel-2: #eef2f6; --line: #d7dee6;
+  --text: #1b2530; --muted: #5c6b7a;
+  --accent: #1b83c9; --accent-2: #1b83c9; --glow: rgba(27, 131, 201, .15);
+  --hero: #e2eef5; --good: #1f9d57;
+}
+
+/* ---------- Header bar + toggle ---------- */
+.hbar { display: flex; align-items: center; gap: 12px; max-width: 1100px; margin: 0 auto 4px; padding: 0 20px; }
+.hbar .spacer { flex: 1; }
+.theme-toggle {
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+  border-radius: 10px; width: 40px; height: 40px; font-size: 1.1rem; line-height: 1;
+  cursor: pointer; flex: 0 0 40px; transition: border-color .15s;
+}
+.theme-toggle:hover { border-color: var(--accent); }
+
+/* ---------- Header / footer ---------- */
+.site-header { text-align: center; padding: 52px 20px 26px; }
+.site-header h1 { margin: 0; font-size: 2.4rem; }
+.site-header h1 .leaf { filter: saturate(1.1); }
+.subtitle { color: var(--muted); margin: 10px auto 0; max-width: 620px; line-height: 1.6; }
+.site-footer { text-align: center; color: var(--muted); padding: 40px 20px; font-size: .85rem; }
+
+/* ---------- Grid các khoá học ---------- */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
+.course-grid {
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  margin-top: 20px;
+}
+
+/* ---------- Flash card 1 khoá ---------- */
+.course-card {
+  position: relative; display: flex; flex-direction: column;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 20px 20px 18px;
+  text-decoration: none; color: var(--text); overflow: hidden;
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+}
+/* dải màu course ở mép trên */
+.course-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--c); opacity: .9;
+}
+.course-card:hover {
+  transform: translateY(-4px); border-color: var(--c);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--c) 22%, transparent);
+}
+
+.cc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.cc-emoji {
+  font-size: 1.9rem; line-height: 1; width: 54px; height: 54px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 14px; background: color-mix(in srgb, var(--c) 16%, var(--panel-2));
+  border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line));
+}
+.cc-status {
+  font-size: .72rem; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
+}
+.course-card.started .cc-status { color: var(--c); border-color: var(--c); }
+.course-card.done .cc-status { color: var(--good); border-color: var(--good); }
+
+.cc-title { margin: 0 0 6px; font-size: 1.15rem; line-height: 1.25; }
+.cc-sub { margin: 0 0 16px; color: var(--muted); font-size: .88rem; line-height: 1.5; flex: 1; }
+
+.cc-foot { margin-top: auto; }
+.cc-prog {
+  height: 8px; background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 999px; overflow: hidden;
+}
+.cc-fill {
+  height: 100%; width: 0; border-radius: 999px;
+  background: linear-gradient(90deg, var(--c), color-mix(in srgb, var(--c) 55%, var(--good)));
+  transition: width .5s ease;
+}
+.cc-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 9px; }
+.cc-count { color: var(--muted); font-size: .8rem; }
+.cc-cta { color: var(--c); font-size: .82rem; font-weight: 600; }
+
+/* ---------- Responsive · điện thoại (iPhone 15 ~393px) ---------- */
+@media (max-width: 640px) {
+  .site-header { padding: 34px 16px 18px; }
+  .site-header h1 { font-size: 1.8rem; }
+  .subtitle { font-size: .9rem; }
+  .hbar { padding: 0 16px; }
+  .container { padding: 0 16px 48px; }
+  .course-grid { grid-template-columns: 1fr; gap: 14px; }
+}

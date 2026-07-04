@@ -1,0 +1,75 @@
+/* ===== Middleware / Pipeline — style RIÊNG cho chuỗi middleware ===== */
+
+.mw-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: 300px;
+  flex-direction: column; gap: 34px; padding: 10px 0;
+}
+
+/* chuỗi middleware nằm ngang */
+.mw-chain {
+  position: relative;
+  display: flex; align-items: stretch; justify-content: center;
+  gap: 6px; width: 100%;
+}
+.mw-node {
+  flex: 1; min-width: 0; padding: 14px 6px;
+}
+.mw-node b { font-size: .9rem; letter-spacing: .3px; display: block; }
+.mw-node small {
+  display: block; margin-top: 4px; color: var(--muted);
+  font-size: .68rem; font-weight: 400;
+}
+.mw-node.active b { color: var(--accent); }
+.mw-handler.active b { color: var(--good); }
+
+/* trạng thái “đã cho qua” / “bị chặn” của từng node */
+.mw-node.passed { border-color: var(--good); box-shadow: 0 0 0 2px rgba(110,231,168,.18); }
+.mw-node.passed b { color: var(--good); }
+.mw-node.blocked { border-color: #ff7a7a; box-shadow: 0 0 0 3px rgba(255,122,122,.22); }
+.mw-node.blocked b { color: #ff9b9b; }
+.mw-node.blocked { animation: mwShake .4s ease; }
+@keyframes mwShake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.mw-chain .arrow { align-self: center; transition: color .2s; }
+
+/* gói tin REQ chạy dọc chuỗi */
+.mw-packet {
+  position: absolute; left: 0; top: -30px;
+  width: 46px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .66rem; font-weight: 800; letter-spacing: 1px;
+  background: linear-gradient(#6ad0ff, #3a9fd6); color: #06222e;
+  box-shadow: 0 4px 12px rgba(106,208,255,.45);
+  opacity: 0; transform: translateX(0);
+  transition: transform .45s cubic-bezier(.45,.05,.3,1), opacity .25s, background .25s;
+}
+.mw-packet.show { opacity: 1; }
+.mw-packet.ok  { background: linear-gradient(#6ee7a8, #3fb27a); color: #04210f; box-shadow: 0 4px 12px rgba(110,231,168,.5); }
+.mw-packet.bad { background: linear-gradient(#ff8e8e, #d65a5a); color: #2a0808; box-shadow: 0 4px 12px rgba(255,122,122,.5); }
+.mw-packet.bad { animation: mwDrop .5s ease forwards; }
+@keyframes mwDrop {
+  0% { transform: var(--packet-x) translateY(0) rotate(0); }
+  100% { transform: var(--packet-x) translateY(40px) rotate(18deg); opacity: 0; }
+}
+
+.mw-meta { display: flex; justify-content: center; }
+
+/* công tắc dạng checkbox ở cột trái */
+.switch-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: .86rem; cursor: pointer;
+  background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 12px;
+}
+.switch-row input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+
+.ctrl-note {
+  font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 14px 0 4px;
+}
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }
+#btnSend { width: 100%; margin-top: 12px; }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lazy Loading — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="lazy-loading.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Lazy Loading</h1>
+    <p class="subtitle">Hoãn khởi tạo tài nguyên nặng đến khi thật sự cần lần đầu</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + trạng thái -->
+    <section class="panel controls">
+      <h3>Truy cập tài nguyên</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnAccess">🔍 hdImage.value</button>
+        <button class="btn" id="btnReset">↺ xoá cache</button>
+      </div>
+      <p class="ctrl-note">Lần đầu đọc <code>.value</code> → phải <strong>tải &amp; khởi tạo</strong>
+        (tốn thời gian). Các lần sau → trả ngay từ <strong>cache</strong>, không tải lại.</p>
+
+      <div class="sub-panel">
+        <h3>📊 Trạng thái</h3>
+        <div class="lazy-stats">
+          <div class="stat-row"><span>Đã khởi tạo?</span><b id="statInit">chưa</b></div>
+          <div class="stat-row hot"><span>Số lần tạo THẬT</span><b id="statCreated">0</b></div>
+          <div class="stat-row"><span>Số lần truy cập</span><b id="statAccess">0</b></div>
+        </div>
+        <p class="save-note" id="saveNote">Dù truy cập bao nhiêu lần, tài nguyên chỉ được tạo
+          <b>đúng 1 lần</b>.</p>
+      </div>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Tài nguyên chưa được tạo (lazy)…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area lazy-stage" id="stageArea">
+        <div class="frame" id="frame">
+          <!-- placeholder mờ khi chưa tạo -->
+          <div class="placeholder" id="placeholder">
+            <span class="ph-ic">🖼️</span>
+            <span class="ph-text">chưa khởi tạo</span>
+          </div>
+          <!-- spinner khi đang tải -->
+          <div class="spinner-wrap hidden" id="spinner">
+            <div class="spinner"></div>
+            <span class="sp-text">đang tải HD…</span>
+          </div>
+          <!-- ảnh HD sau khi tạo -->
+          <div class="hd-img hidden" id="hdImg">
+            <span class="hd-badge" id="hdBadge">HD ✓</span>
+          </div>
+        </div>
+        <div class="lazy-meta">
+          <span class="state-badge" id="badge">_value = null</span>
+        </div>
+      </div>
+      <p class="hint"><code>get value()</code> kiểm tra cache: <code>if (!this._v) this._v = heavyInit()</code>
+        — chỉ chạy <code>heavyInit()</code> <strong>một lần</strong>.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Lazy Loading?</h4>
+        <p>
+          Tài nguyên nặng (ảnh HD, kết nối DB, file cấu hình lớn) <strong>không nên</strong>
+          khởi tạo ngay lúc tạo object — phí RAM &amp; thời gian nếu chẳng bao giờ dùng tới.
+        </p>
+        <p>
+          Lazy loading <strong>hoãn</strong> tới lần truy cập đầu tiên, rồi <strong>cache</strong>
+          lại. Lần sau trả ngay. Đây là ý tưởng lõi của <em>virtual proxy</em> và lazy getter.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="lazy-loading.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

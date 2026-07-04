@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pub/Sub (Event Bus) — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="pubsub.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Pub/Sub (Event Bus)</h1>
+    <p class="subtitle">Bên phát và bên nhận không biết nhau — giao tiếp qua Event Bus theo topic</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: phát + quản lý subscribe -->
+    <section class="panel controls">
+      <h3>1 · Phát sự kiện</h3>
+      <label class="field-label">Chọn topic</label>
+      <div class="btn-row topic-picker">
+        <button class="chip topic-chip active" data-topic="order">🛒 order</button>
+        <button class="chip topic-chip" data-topic="payment">💳 payment</button>
+        <button class="chip topic-chip" data-topic="user">👤 user</button>
+      </div>
+      <button class="btn primary pub-btn" id="pubBtn">📤 bus.publish(topic, data)</button>
+
+      <h3>2 · Ai đăng ký topic nào</h3>
+      <div class="sub-grid" id="subGrid">
+        <!-- render bằng JS: mỗi subscriber 1 hàng, mỗi topic 1 chip toggle -->
+      </div>
+
+      <div class="sub-panel">
+        <h3>📜 Nhật ký bus</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Chọn topic rồi publish…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: Publisher → Bus → Subscribers -->
+    <section class="panel stage">
+      <div class="stage-area ps-stage" id="stageArea">
+        <div class="node ps-pub" id="pubNode">
+          <div class="node-title">Publisher</div>
+          <div class="node-sub">không biết ai nghe</div>
+        </div>
+
+        <div class="node ps-bus" id="busNode">
+          <div class="node-title">Event Bus</div>
+          <div class="node-sub">topic → handlers</div>
+        </div>
+
+        <div class="node ps-sub" id="sub_inventory">
+          <div class="node-title">📦 Inventory</div>
+          <div class="sub-topics" id="topics_inventory"></div>
+        </div>
+        <div class="node ps-sub" id="sub_emailer">
+          <div class="node-title">✉️ Emailer</div>
+          <div class="sub-topics" id="topics_emailer"></div>
+        </div>
+        <div class="node ps-sub" id="sub_analytics">
+          <div class="node-title">📊 Analytics</div>
+          <div class="sub-topics" id="topics_analytics"></div>
+        </div>
+      </div>
+      <p class="hint">Message bay <code>Publisher → Bus → đúng subscriber của topic</code>.
+        Ai không đăng ký topic đó thì <strong>không nhận</strong>.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Pub/Sub?</h4>
+        <p>
+          Publisher chỉ "ném" event vào <strong>Event Bus</strong> theo một <em>topic</em> —
+          nó <strong>không giữ tham chiếu</strong> tới bất kỳ subscriber nào. Bus tra bảng
+          <code>topic → handlers</code> rồi gọi đúng những ai đã <code>subscribe</code>.
+        </p>
+        <p>
+          Khác với <strong>Observer</strong> (subject giữ thẳng danh sách observer), Pub/Sub tách
+          hoàn toàn hai bên qua một <em>broker</em> trung gian + topic. Thêm/bớt subscriber lúc chạy
+          mà publisher <strong>không hề biết</strong> — ghép cực lỏng, hợp hệ phân tán.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="pubsub.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dependency Injection — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="dependency-injection.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Dependency Injection</h1>
+    <p class="subtitle">Container "tiêm" phụ thuộc vào đối tượng thay vì đối tượng tự new</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: chọn engine + inject + run -->
+    <section class="panel controls">
+      <h3>1 · Chọn loại Engine (đăng ký vào Container)</h3>
+      <div class="di-picker">
+        <button class="chip engine-chip active" data-engine="petrol">🛢️ PetrolEngine — chạy xăng</button>
+        <button class="chip engine-chip" data-engine="electric">⚡ ElectricEngine — chạy điện</button>
+        <button class="chip engine-chip" data-engine="mock">🧪 MockEngine — giả lập để test</button>
+      </div>
+
+      <h3>2 · Tiêm vào Car</h3>
+      <div class="btn-row">
+        <button class="btn primary" id="injectBtn">💉 Inject — container.resolve('Car')</button>
+        <button class="btn good" id="startBtn" disabled>🔑 car.start()</button>
+      </div>
+      <button class="btn danger" id="resetBtn" style="width:100%;margin-top:8px;">♻︎ Tháo engine (reset)</button>
+
+      <p class="ctrl-note">Car <strong>không tự</strong> <code>new PetrolEngine()</code>. Nó nhận engine
+        qua <strong>constructor</strong> — ai tiêm gì thì chạy nấy. Đổi engine = đổi đăng ký, KHÔNG sửa Car.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Chọn engine rồi bấm Inject…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu — engine trượt vào ổ của Car -->
+    <section class="panel stage">
+      <div class="stage-area di-stage" id="stageArea">
+        <div class="di-flow">
+          <div class="node container-node" id="containerNode">
+            <div class="node-title">Container</div>
+            <div class="node-sub">đăng ký: <b id="regName">PetrolEngine</b></div>
+          </div>
+          <span class="arrow" id="flowArrow">→</span>
+        </div>
+
+        <div class="car" id="car">
+          <div class="car-roof"></div>
+          <div class="car-body">
+            <span class="car-label">Car</span>
+            <div class="socket" id="socket">
+              <span class="socket-hint" id="socketHint">ổ engine<br>(rỗng)</span>
+            </div>
+          </div>
+          <div class="wheel wheel-l" id="wheelL"></div>
+          <div class="wheel wheel-r" id="wheelR"></div>
+          <div class="exhaust" id="exhaust"></div>
+        </div>
+
+        <div class="gm-meta">
+          <span class="state-badge" id="engineBadge">chưa có engine</span>
+        </div>
+      </div>
+      <p class="hint">Cùng một <code>Car</code> — chỉ đổi engine được tiêm vào là hành vi đổi theo.
+        Đây là <strong>inversion of control</strong>.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Dependency Injection?</h4>
+        <p>
+          Nếu <code>Car</code> tự gọi <code>new PetrolEngine()</code> bên trong thì nó bị
+          <strong>khoá cứng</strong> vào một loại engine — muốn đổi điện hay test phải sửa Car.
+        </p>
+        <p>
+          Với DI, Car chỉ khai báo "tôi cần <em>một Engine</em>" rồi nhận qua constructor.
+          <strong>Container</strong> chịu trách nhiệm tạo &amp; tiêm — nên dễ thay thế, dễ
+          <code>MockEngine</code> khi viết test. Đây là nền tảng của <em>loose coupling</em>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="dependency-injection.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

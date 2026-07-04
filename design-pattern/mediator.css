@@ -1,0 +1,63 @@
+/* ===== Mediator — style RIÊNG cho phòng chat ===== */
+
+.med-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 18px; padding: 8px 0;
+}
+
+/* khu vực vẽ hub + thành viên */
+.hub-wrap { position: relative; width: 340px; height: 340px; }
+
+/* mediator ở chính giữa */
+.mediator {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 3; width: 104px; padding: 14px 10px;
+  border-color: var(--accent-2);
+}
+.mediator b { color: var(--accent-2); font-size: .95rem; }
+.mediator small { display: block; color: var(--muted); font-size: .66rem; font-weight: 400; margin-top: 2px; }
+.mediator.active { box-shadow: 0 0 0 4px rgba(106,208,255,.22); border-color: var(--accent-2); }
+.mediator.pulse { animation: medPulse .55s ease; }
+@keyframes medPulse {
+  0% { transform: translate(-50%,-50%) scale(1); }
+  50% { transform: translate(-50%,-50%) scale(1.12); box-shadow: 0 0 0 10px rgba(106,208,255,.18); }
+  100% { transform: translate(-50%,-50%) scale(1); }
+}
+
+/* thành viên đặt quanh, vị trí qua biến --mx/--my */
+.member {
+  position: absolute; left: var(--mx); top: var(--my);
+  transform: translate(-50%, -50%); z-index: 3; width: 88px; padding: 10px 8px;
+}
+.member b { font-size: .9rem; }
+.member small { display: block; color: var(--muted); font-size: .64rem; font-weight: 400; margin-top: 2px; }
+.member.sender { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,180,84,.22); }
+.member.sender b { color: var(--accent); }
+.member.recv { border-color: var(--good); box-shadow: 0 0 0 3px rgba(110,231,168,.22); }
+.member.recv b { color: var(--good); }
+
+/* cạnh nối member ↔ mediator */
+.edges { position: absolute; inset: 0; z-index: 1; }
+.edges .edge {
+  position: absolute; height: 2px; background: #2f3a47;
+  transform-origin: left center; transition: background .2s;
+}
+.edges .edge.lit-up   { background: var(--accent); }   /* member -> mediator */
+.edges .edge.lit-down { background: var(--good); }     /* mediator -> member */
+
+/* bong bóng tin nhắn chạy dọc cạnh */
+.bubble {
+  position: absolute; z-index: 4; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 10px rgba(255,180,84,.7);
+  opacity: 0; transform: translate(-50%, -50%);
+  transition: left .42s ease, top .42s ease, opacity .15s;
+}
+.bubble.recv { background: var(--good); box-shadow: 0 0 10px rgba(110,231,168,.7); }
+
+.med-meta { margin-top: 4px; }
+#statusBadge.send { border-color: var(--accent); color: var(--accent); }
+#statusBadge.recv { border-color: var(--good); color: var(--good); background: #16271e; }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

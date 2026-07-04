@@ -1,0 +1,144 @@
+/* ===== Strategy Pattern — style RIÊNG cho animation SimUDuck ===== */
+/* (layout, panel, chip, btn, state-badge... dùng chung từ styles.css) */
+
+/* loại vịt: chip 2 dòng */
+.duck-picker, .strat-picker { display: flex; flex-direction: column; gap: 8px; }
+.strat-picker { gap: 6px; }
+.type-chip { display: flex; flex-direction: column; gap: 2px; line-height: 1.3; }
+.type-chip small { color: var(--muted); font-size: .72rem; }
+.type-chip.active { border-color: var(--accent); background: #2a2117; }
+.type-chip.active small { color: #d8c4a4; }
+
+.strat-chip { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; }
+.strat-chip.active { border-color: var(--accent-2); background: #16242c; color: var(--accent-2); }
+
+/* panel phụ: hành vi đang cắm */
+.behavior-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin: 8px 0;
+}
+.behavior-key {
+  font-family: ui-monospace, Menlo, monospace; font-size: .82rem; color: var(--muted);
+}
+#curFly  { border-color: var(--accent-2); color: var(--accent-2); background: #16242c; }
+#curQuack { border-color: var(--good); color: var(--good); background: #16271e; }
+.behavior-note { font-size: .78rem; color: var(--muted); margin: 10px 0 0; line-height: 1.5; }
+.behavior-note strong { color: var(--text); }
+
+/* ---------- Sân khấu vịt ---------- */
+.stage-area {
+  overflow: hidden; border-radius: 14px;
+  background: linear-gradient(180deg, #18242f 0%, #142029 60%, #122b22 100%);
+}
+.ground {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 64px;
+  background: linear-gradient(180deg, rgba(110,231,168,.12), rgba(110,231,168,.04));
+  border-top: 2px solid rgba(110,231,168,.25);
+}
+.cloud { position: absolute; font-size: 2rem; opacity: .35; filter: grayscale(.3); }
+.cloud.c1 { top: 30px; left: 36px; animation: drift 9s linear infinite; }
+.cloud.c2 { top: 70px; right: 30px; font-size: 1.5rem; animation: drift 13s linear infinite reverse; }
+@keyframes drift {
+  from { transform: translateX(-14px); }
+  50%  { transform: translateX(14px); }
+  to   { transform: translateX(-14px); }
+}
+
+/* con vịt */
+.duck {
+  position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  will-change: transform;
+}
+.duck-body {
+  font-size: 5rem; line-height: 1;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,.45));
+  animation: idle-bob 2.4s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+.duck-shadow {
+  width: 70px; height: 14px; margin-top: 2px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0,0,0,.5), transparent);
+  animation: shadow-bob 2.4s ease-in-out infinite;
+}
+
+/* biến thể theo loại vịt */
+.duck.t-RubberDuck .duck-body { filter: drop-shadow(0 8px 10px rgba(0,0,0,.45)) hue-rotate(-15deg) saturate(1.6) brightness(1.15); }
+.duck.t-DecoyDuck  .duck-body { filter: drop-shadow(0 8px 10px rgba(0,0,0,.45)) sepia(.8) saturate(.7) brightness(.85); }
+
+@keyframes idle-bob {
+  0%,100% { transform: translateY(0) rotate(-1deg); }
+  50%     { transform: translateY(-6px) rotate(1deg); }
+}
+@keyframes shadow-bob {
+  0%,100% { transform: scaleX(1); opacity: .55; }
+  50%     { transform: scaleX(.8); opacity: .35; }
+}
+
+/* --- performFly(): FlyWithWings = vỗ cánh & bay lên nhẹ --- */
+.duck.fly-wings { animation: fly-wings 1.3s cubic-bezier(.4,1.4,.5,1) both; }
+.duck.fly-wings .duck-body { animation: flap .16s ease-in-out 8; }
+@keyframes fly-wings {
+  0%   { transform: translateX(-50%) translateY(0); }
+  45%  { transform: translateX(-50%) translateY(-120px); }
+  60%  { transform: translateX(-50%) translateY(-120px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+@keyframes flap {
+  0%,100% { transform: rotate(-8deg) scaleY(1); }
+  50%     { transform: rotate(8deg) scaleY(1.08); }
+}
+
+/* --- performFly(): FlyRocketPowered = phóng vút lên + đuôi lửa 🚀 --- */
+.duck.fly-rocket { animation: fly-rocket 1.5s cubic-bezier(.5,0,.4,1) both; }
+@keyframes fly-rocket {
+  0%   { transform: translateX(-50%) translateY(0) scale(1); }
+  18%  { transform: translateX(-50%) translateY(8px) scale(.9); }     /* nhún lấy đà */
+  55%  { transform: translateX(-50%) translateY(-230px) scale(1.05); }
+  70%  { transform: translateX(-50%) translateY(-230px) scale(1.05); }
+  100% { transform: translateX(-50%) translateY(0) scale(1); }
+}
+.rocket {
+  position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+  font-size: 2rem; opacity: 0;
+}
+.duck.fly-rocket .rocket { animation: rocket-trail 1.5s ease-in both; }
+@keyframes rocket-trail {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(0) scale(.4); }
+  20%  { opacity: 1; transform: translateX(-50%) translateY(6px) scale(1); }
+  55%  { opacity: 1; transform: translateX(-50%) translateY(40px) scale(1.3); }
+  80%  { opacity: .4; transform: translateX(-50%) translateY(70px) scale(.8); }
+  100% { opacity: 0; }
+}
+
+/* --- performFly(): FlyNoWay = rung nhẹ, đứng yên --- */
+.duck.fly-noway { animation: fly-noway .5s ease both; }
+@keyframes fly-noway {
+  0%,100% { transform: translateX(-50%) rotate(0); }
+  20% { transform: translateX(-54%) rotate(-4deg); }
+  40% { transform: translateX(-46%) rotate(4deg); }
+  60% { transform: translateX(-52%) rotate(-3deg); }
+  80% { transform: translateX(-48%) rotate(3deg); }
+}
+
+/* --- performQuack(): bong bóng thoại --- */
+.speech-bubble {
+  position: absolute; left: 50%; bottom: 165px; transform: translateX(-50%) scale(.4);
+  background: #fff; color: #15202b; font-weight: 800; font-size: 1.05rem;
+  padding: 8px 16px; border-radius: 14px; white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(0,0,0,.35); opacity: 0; pointer-events: none; z-index: 5;
+}
+.speech-bubble::after {
+  content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+  border: 8px solid transparent; border-top-color: #fff; border-bottom: 0;
+}
+.speech-bubble.show { animation: bubble-pop 1.2s ease both; }
+.speech-bubble.mute { background: #2a323d; color: var(--muted); font-style: italic; }
+.speech-bubble.mute::after { border-top-color: #2a323d; }
+@keyframes bubble-pop {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(8px) scale(.4); }
+  18%  { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.08); }
+  30%  { transform: translateX(-50%) translateY(0) scale(1); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(.95); }
+}

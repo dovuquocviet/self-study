@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Object Pool — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="object-pool.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Object Pool</h1>
+    <p class="subtitle">Tái sử dụng object đắt đỏ (connection/đạn) thay vì new liên tục</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + thống kê -->
+    <section class="panel controls">
+      <h3>Thao tác lên pool</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnAcquire">⬆︎ pool.acquire()</button>
+        <button class="btn good" id="btnRelease">⬇︎ pool.release(c)</button>
+        <button class="btn" id="btnReset">↺ reset()</button>
+      </div>
+      <p class="ctrl-note"><code>acquire()</code> lấy 1 connection ra dùng. Nếu pool còn hàng
+        thì <strong>tái dùng</strong>; nếu cạn mới phải <code>new</code> (tốn kém).
+        <code>release(c)</code> trả connection về pool để lần sau dùng lại.</p>
+
+      <div class="sub-panel">
+        <h3>📊 Thống kê pool</h3>
+        <div class="pool-stats">
+          <div class="stat-row"><span>Đang rảnh (free)</span><b id="statFree">0</b></div>
+          <div class="stat-row"><span>Đang dùng (in-use)</span><b id="statUsed">0</b></div>
+          <div class="stat-row hot"><span>Tổng đã <code>new</code></span><b id="statCreated">0</b></div>
+          <div class="stat-row"><span>Số lần acquire()</span><b id="statAcquire">0</b></div>
+        </div>
+        <p class="save-note" id="saveNote">Bấm acquire/release nhiều lần — số object thật sự tạo ra
+          sẽ ít hơn nhiều số lần acquire.</p>
+      </div>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Pool khởi tạo sẵn 2 connection rảnh…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area op-stage" id="stageArea">
+        <div class="zone zone-pool">
+          <div class="zone-head">🗄️ POOL (free)</div>
+          <div class="zone-body" id="poolBody"></div>
+        </div>
+        <div class="zone zone-used">
+          <div class="zone-head">⚙️ ĐANG DÙNG (in-use)</div>
+          <div class="zone-body" id="usedBody"></div>
+        </div>
+      </div>
+      <p class="hint"><code>acquire()</code> kéo connection từ POOL sang vùng dùng;
+        <code>release()</code> đẩy ngược về POOL — <strong>cùng một object</strong>, không tạo mới.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Object Pool?</h4>
+        <p>
+          Tạo một <code>Connection</code> (hay viên đạn, thread, sprite…) <strong>tốn kém</strong>:
+          mở socket, cấp phát bộ nhớ, bắt tay TLS. Tạo/huỷ liên tục gây giật và rác GC.
+        </p>
+        <p>
+          Pool giữ sẵn một tập object <strong>tái sử dụng</strong>. <code>acquire()</code> mượn,
+          <code>release()</code> trả lại sạch sẽ. Object thật sự được <code>new</code>
+          <strong>ít hơn rất nhiều</strong> so với số lần dùng.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="object-pool.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

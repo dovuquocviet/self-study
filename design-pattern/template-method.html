@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Method Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="template-method.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Template Method Pattern</h1>
+    <p class="subtitle">Cà phê và Trà — cùng một quy trình pha (prepareRecipe), khác nhau ở vài bước</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + log các bước -->
+    <section class="panel controls">
+      <h3>1 · Chạy thuật toán prepareRecipe()</h3>
+      <div class="btn-row">
+        <button class="btn primary" id="brewCoffee">☕ Pha Cà phê</button>
+        <button class="btn" id="brewTea">🍵 Pha Trà</button>
+      </div>
+
+      <h3>2 · Hook điều khiển luồng</h3>
+      <label class="hook-row" for="wantsCondiments">
+        <input type="checkbox" id="wantsCondiments" checked />
+        <span>Khách muốn thêm gia vị?
+          <code>customerWantsCondiments()</code></span>
+      </label>
+      <p class="hook-note">Bỏ chọn → bước <code>addCondiments()</code> bị <strong>BỎ QUA</strong>.
+        Hook cho lớp con "cài cắm" vào thuật toán của lớp cha.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Các bước đã chạy</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bấm "Pha Cà phê" hoặc "Pha Trà" để chạy prepareRecipe()…</div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><i class="swatch parent"></i> Bước định sẵn trong lớp cha <code>CaffeineBeverage</code></span>
+        <span class="legend-item"><i class="swatch child"></i> Bước lớp con tự định nghĩa</span>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation — 2 cột pha -->
+    <section class="panel stage">
+      <div class="stage-area wide" id="stageArea">
+        <div class="brew-grid">
+
+          <div class="brew-col" id="col-coffee" data-bev="coffee">
+            <div class="cup">
+              <div class="steam"><span></span><span></span><span></span></div>
+              <div class="cup-body"><div class="cup-liquid" id="liquid-coffee"></div></div>
+              <div class="cup-handle"></div>
+            </div>
+            <div class="bev-name">Coffee</div>
+            <div class="step-list" id="steps-coffee">
+              <div class="step parent-step" data-i="0">
+                <span class="step-num">1</span>
+                <span class="step-method">boilWater()</span>
+                <span class="step-label">Đun sôi nước</span>
+              </div>
+              <div class="step child-step" data-i="1">
+                <span class="step-num">2</span>
+                <span class="step-method">brew()</span>
+                <span class="step-label">→ brewCoffeeGrinds()</span>
+              </div>
+              <div class="step parent-step" data-i="2">
+                <span class="step-num">3</span>
+                <span class="step-method">pourInCup()</span>
+                <span class="step-label">Rót ra cốc</span>
+              </div>
+              <div class="step child-step" data-i="3">
+                <span class="step-num">4</span>
+                <span class="step-method">addCondiments()</span>
+                <span class="step-label">→ addSugarAndMilk()</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="brew-col" id="col-tea" data-bev="tea">
+            <div class="cup">
+              <div class="steam"><span></span><span></span><span></span></div>
+              <div class="cup-body"><div class="cup-liquid" id="liquid-tea"></div></div>
+              <div class="cup-handle"></div>
+            </div>
+            <div class="bev-name">Tea</div>
+            <div class="step-list" id="steps-tea">
+              <div class="step parent-step" data-i="0">
+                <span class="step-num">1</span>
+                <span class="step-method">boilWater()</span>
+                <span class="step-label">Đun sôi nước</span>
+              </div>
+              <div class="step child-step" data-i="1">
+                <span class="step-num">2</span>
+                <span class="step-method">brew()</span>
+                <span class="step-label">→ steepTeaBag()</span>
+              </div>
+              <div class="step parent-step" data-i="2">
+                <span class="step-num">3</span>
+                <span class="step-method">pourInCup()</span>
+                <span class="step-label">Rót ra cốc</span>
+              </div>
+              <div class="step child-step" data-i="3">
+                <span class="step-num">4</span>
+                <span class="step-method">addCondiments()</span>
+                <span class="step-label">→ addLemon()</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <p class="hint"><code>prepareRecipe()</code> giữ <strong>thứ tự cố định</strong> 4 bước; chỉ <code>brew()</code> và <code>addCondiments()</code> là do lớp con điền vào</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Template Method?</h4>
+        <p>
+          Lớp cha <code>CaffeineBeverage</code> nắm <strong>bộ khung thuật toán</strong>
+          trong <code>prepareRecipe()</code> — thứ tự các bước là cố định và
+          <strong>không cho ghi đè</strong>. Các bước giống nhau
+          (<code>boilWater</code>, <code>pourInCup</code>) viết sẵn một lần ở lớp cha.
+        </p>
+        <p>
+          Bước nào <em>khác nhau</em> giữa Coffee và Tea
+          (<code>brew</code>, <code>addCondiments</code>) được khai báo trừu tượng để
+          <strong>lớp con điền vào</strong>. Một <strong>hook</strong>
+          (<code>customerWantsCondiments()</code>) cho lớp con tuỳ ý xen vào dòng chảy
+          mà không phá vỡ bộ khung.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="template-method.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

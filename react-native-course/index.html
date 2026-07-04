@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Học React Native — cho dân Java backend</title>
+  <script>try{var t=localStorage.getItem('study-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="hbar">
+      <a class="back" href="../index.html">← Trang chủ</a>
+      <span class="spacer"></span>
+      <button class="theme-toggle" id="themeToggle" title="Đổi giao diện Sáng/Tối">🌙</button>
+    </div>
+    <h1><span class="leaf">⚛️</span> React Native cho dân Java backend</h1>
+    <p class="subtitle">Mỗi bài: lý thuyết ngắn · code chạy & sửa được (như Expo Snack) · sơ đồ tương tác · trắc nghiệm.</p>
+  </header>
+
+  <main class="home">
+    <div class="bar"><span id="barFill"></span></div>
+    <p class="progress-mini" id="progressText">Hoàn thành 0 bài</p>
+    <div id="lessonList"></div>
+  </main>
+
+  <script src="vendor/marked.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

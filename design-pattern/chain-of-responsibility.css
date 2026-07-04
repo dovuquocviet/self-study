@@ -1,0 +1,52 @@
+/* ===== Chain of Responsibility — style RIÊNG cho máy ATM ===== */
+
+.atm-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 14px; padding: 8px 0;
+}
+
+/* gói yêu cầu chạy dọc chuỗi */
+.packet {
+  align-self: center;
+  min-width: 96px; padding: 8px 16px; border-radius: 12px;
+  background: #2a2117; border: 1px solid var(--accent); color: var(--accent);
+  text-align: center; font-weight: 800; font-size: 1.05rem;
+  box-shadow: 0 0 0 0 rgba(255,180,84,0);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+}
+.packet small { display: block; font-size: .62rem; font-weight: 400; color: var(--muted); }
+.packet.move { box-shadow: 0 0 0 6px rgba(255,180,84,.18); transform: scale(1.08); }
+.packet.done { border-color: var(--good); color: var(--good); }
+
+/* chuỗi handler dọc */
+.chain { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; }
+.handler {
+  width: 100%; max-width: 320px;
+  display: grid; grid-template-columns: 150px 1fr auto; align-items: center; gap: 10px;
+  opacity: .55; transition: opacity .25s;
+}
+.handler.touched { opacity: 1; }
+.handler .node { padding: 10px 12px; }
+.handler .node b { font-size: .9rem; }
+.handler .node small { display: block; color: var(--muted); font-size: .7rem; font-weight: 400; }
+
+/* các tờ tiền nhả ra */
+.bills { display: flex; flex-wrap: wrap; gap: 3px; min-height: 18px; }
+.bills .bill {
+  width: 26px; height: 15px; border-radius: 3px;
+  background: linear-gradient(135deg, #2e7d4f, #1f5c39);
+  border: 1px solid #6ee7a8; box-shadow: inset 0 0 4px rgba(110,231,168,.4);
+  animation: billPop .3s ease;
+}
+@keyframes billPop { from { transform: scale(.2) rotate(-8deg); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.took { font-size: .72rem; color: var(--good); font-weight: 700; min-width: 40px; text-align: right; }
+.handler:not(.touched) .took { color: var(--muted); }
+
+.atm-meta { margin-top: 6px; }
+.atm-meta .state-badge.warn { border-color: #ff7a7a; color: #ff9b9b; background: #2a1717; }
+.atm-meta .state-badge.ok { border-color: var(--good); color: var(--good); background: #16271e; }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

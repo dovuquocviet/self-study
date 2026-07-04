@@ -1,0 +1,115 @@
+/* ===== Observer — style RIÊNG cho sơ đồ trạm thời tiết ===== */
+/* (chỉ chứa style đặc thù; node/arrow/btn/slider/log dùng class chung) */
+
+.set-btn {
+  width: 100%;
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+/* sân khấu radial: subject ở giữa, 3 observer xung quanh */
+.weather-stage {
+  position: relative;
+  width: 420px;
+  height: 380px;
+  max-width: 100%;
+}
+
+/* dây nối subject → observer (SVG phủ kín sân khấu) */
+.wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.wire {
+  stroke: var(--line);
+  stroke-width: 2.5;
+  transition: stroke .25s ease, opacity .25s ease;
+}
+.wire.lit {
+  stroke: var(--accent);
+  stroke-width: 3.5;
+  filter: drop-shadow(0 0 6px rgba(255, 180, 84, .65));
+}
+.wire.muted {
+  stroke-dasharray: 5 5;
+  opacity: .35;
+}
+
+/* các node đặt tuyệt đối theo toạ độ khớp viewBox 420×380 */
+.weather-stage .node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  min-width: 118px;
+}
+.weather-stage .node.pulse { z-index: 2; }
+
+.subject {
+  left: 50%;
+  top: 51.6%;            /* 196/380 */
+  min-width: 138px;
+  background: #221a0f;
+}
+.pos-current  { left: 21.9%; top: 16.3%; }   /* 92/420 , 62/380 */
+.pos-stats    { left: 78.1%; top: 16.3%; }   /* 328/420, 62/380 */
+.pos-forecast { left: 50%;   top: 86.8%; }   /* 210/420, 330/380 */
+
+.node-title {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.subject .node-title { color: var(--accent); font-size: .92rem; }
+.node-sub {
+  font-size: .68rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.readings {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: .78rem;
+  color: var(--muted);
+}
+.readings b { color: var(--accent-2); }
+
+.obs-val {
+  margin-top: 6px;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--good);
+  line-height: 1.35;
+  white-space: pre-line;
+}
+
+/* huy hiệu trạng thái đăng ký của Forecast */
+.reg-badge {
+  display: inline-block;
+  font-size: .6rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  vertical-align: middle;
+  border: 1px solid var(--good);
+  color: var(--good);
+  background: #16271e;
+}
+
+/* khi Forecast đã huỷ đăng ký: làm mờ + đổi huy hiệu */
+.observer.unsubscribed {
+  opacity: .4;
+  filter: grayscale(.6);
+}
+.observer.unsubscribed .obs-val { color: var(--muted); }
+.observer.unsubscribed .reg-badge {
+  border-color: #ff7a7a;
+  color: #ff9b9b;
+  background: #2a1717;
+}

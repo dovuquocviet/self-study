@@ -1,0 +1,94 @@
+/* ===== Memento Pattern — style RIÊNG cho editor + ngăn xếp memento ===== */
+
+.mm-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 20px; padding: 6px 0;
+}
+
+/* ---- Editor (Originator) ---- */
+.mm-editor {
+  width: 100%; border: 1px solid var(--line); border-radius: 12px;
+  overflow: hidden; box-shadow: 0 8px 22px rgba(0,0,0,.35);
+}
+.mm-editor-bar {
+  display: flex; align-items: center; gap: 7px;
+  background: #0b0e12; padding: 8px 12px; border-bottom: 1px solid var(--line);
+}
+.mm-editor-bar .dot { width: 11px; height: 11px; border-radius: 50%; }
+.mm-editor-bar .dot.r { background: #ff5f56; }
+.mm-editor-bar .dot.y { background: #ffbd2e; }
+.mm-editor-bar .dot.g { background: #27c93f; }
+.mm-title { margin-left: 8px; font-size: .74rem; color: var(--muted); }
+
+.mm-paper {
+  min-height: 96px; padding: 16px 18px;
+  background: var(--panel); color: var(--text);
+  font-family: ui-monospace, Menlo, monospace; font-size: 1rem; line-height: 1.7;
+  transition: background .4s ease;
+}
+.mm-paper.flash-restore { animation: paperRestore .5s ease; }
+@keyframes paperRestore {
+  0% { box-shadow: inset 0 0 0 3px rgba(106,208,255,.6); }
+  100% { box-shadow: inset 0 0 0 0 rgba(106,208,255,0); }
+}
+.mm-paper .caret {
+  display: inline-block; width: 2px; height: 1.1em; vertical-align: text-bottom;
+  background: var(--accent); margin-left: 2px; animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- Ngăn xếp memento ---- */
+.mm-stack-wrap { width: 100%; }
+.mm-stack-label { font-size: .76rem; color: var(--muted); margin-bottom: 8px; }
+.mm-stack {
+  display: flex; flex-direction: column-reverse; gap: 6px;
+  min-height: 54px; padding: 8px; border: 1px dashed var(--line); border-radius: 12px;
+  background: rgba(0,0,0,.18);
+}
+.mm-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border: 1px solid var(--line); border-radius: 9px;
+  background: var(--panel-2); font-size: .8rem;
+  animation: cardPush .35s cubic-bezier(.34,1.56,.64,1);
+}
+.mm-card.top { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,180,84,.18); }
+.mm-card.popping { animation: cardPop .35s ease forwards; }
+.mm-card .mm-swatch {
+  width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--line); flex: 0 0 auto;
+}
+.mm-card .mm-tag { color: var(--accent-2); font-weight: 700; }
+.mm-card .mm-prev { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@keyframes cardPush {
+  0% { opacity: 0; transform: translateY(-14px) scale(.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes cardPop {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(40px) scale(.85); }
+}
+
+.mm-empty { color: var(--muted); font-size: .78rem; font-style: italic; padding: 6px 4px; }
+
+/* ---- meta ---- */
+.mm-meta { display: flex; justify-content: center; }
+
+/* ---- swatch chọn màu ở cột trái ---- */
+.swatch {
+  width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+  border: 2px solid var(--line); transition: transform .1s, border-color .15s;
+}
+.swatch:hover { border-color: var(--accent); }
+.swatch:active { transform: scale(.92); }
+.swatch.active { border-color: var(--accent-2); box-shadow: 0 0 0 2px rgba(106,208,255,.3); }
+
+/* ---- caretaker rows ---- */
+.ck-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .85rem; color: var(--muted); padding: 5px 0;
+}
+.ck-row b { color: var(--good); font-size: 1.05rem; }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

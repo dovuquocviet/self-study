@@ -1,0 +1,105 @@
+/* ===== Prototype — style RIÊNG cho quái vật game ===== */
+
+.pt-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: 360px;
+  flex-direction: row; align-items: stretch; gap: 14px; padding: 10px 0;
+}
+
+.monster-zone {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 12px;
+  min-width: 0;
+}
+.zone-label {
+  font-size: .68rem; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted); font-weight: 700;
+}
+.clones-zone .clones {
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+  align-content: flex-start; width: 100%; position: relative; min-height: 120px;
+}
+.clones-empty {
+  color: var(--muted); font-size: .8rem; font-style: italic;
+  border: 1px dashed var(--line); border-radius: 10px; padding: 14px 16px;
+}
+
+.divider-v { width: 1px; background: var(--line); align-self: stretch; }
+
+/* ---- Con quái vẽ bằng CSS ---- */
+.monster {
+  --hue: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 8px; border-radius: 12px; cursor: default;
+}
+.monster.clone { cursor: pointer; border: 1px solid transparent; transition: border-color .2s, transform .1s; }
+.monster.clone:hover { border-color: var(--line); }
+.monster.clone.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,180,84,.18); }
+
+.m-body {
+  position: relative; width: 78px; height: 70px;
+  background: hsl(var(--hue) 70% 55%);
+  border-radius: 48% 48% 42% 42% / 58% 58% 42% 42%;
+  box-shadow: inset 0 6px 12px rgba(255,255,255,.35),
+              inset 0 -8px 14px rgba(0,0,0,.3),
+              0 6px 14px rgba(0,0,0,.35);
+  transition: background .2s;
+}
+/* tai/sừng nhỏ */
+.m-body::before, .m-body::after {
+  content: ""; position: absolute; top: -8px; width: 0; height: 0;
+  border-left: 9px solid transparent; border-right: 9px solid transparent;
+  border-bottom: 16px solid hsl(var(--hue) 70% 45%);
+}
+.m-body::before { left: 12px; transform: rotate(-12deg); }
+.m-body::after  { right: 12px; transform: rotate(12deg); }
+
+.m-eye {
+  position: absolute; top: 22px; width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: inset 0 0 0 2px rgba(0,0,0,.15);
+}
+.m-eye:nth-child(1) { left: 14px; }
+.m-eye:nth-child(2) { right: 14px; }
+.m-eye::after {
+  content: ""; position: absolute; top: 4px; left: 4px;
+  width: 7px; height: 7px; border-radius: 50%; background: #1a1a1a;
+}
+.m-mouth {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 12px; border-radius: 0 0 14px 14px;
+  background: #3a1414;
+}
+
+.m-name {
+  font-size: .72rem; font-weight: 700; color: var(--text);
+  font-family: ui-monospace, Menlo, monospace; text-align: center;
+}
+.m-hpbar {
+  width: 70px; height: 7px; border-radius: 999px; background: #2a323d;
+  overflow: hidden;
+}
+.m-hpbar i {
+  display: block; height: 100%; width: 50%;
+  background: linear-gradient(90deg, #6ee7a8, #ffd166);
+  transition: width .25s ease;
+}
+
+/* bản gốc nổi bật hơn */
+.monster.original .m-body { box-shadow: inset 0 6px 12px rgba(255,255,255,.35),
+  inset 0 -8px 14px rgba(0,0,0,.3), 0 0 0 3px rgba(106,208,255,.25), 0 6px 14px rgba(0,0,0,.35); }
+
+.monster.spawn { animation: cloneSpawn .45s cubic-bezier(.34,1.56,.64,1); }
+@keyframes cloneSpawn {
+  0%   { opacity: 0; transform: scale(.3) translateY(-10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ghi chú cột trái */
+.ctrl-note {
+  font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px;
+}
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }
+
+@media (max-width: 980px) {
+  .pt-stage { flex-direction: column; }
+  .divider-v { width: 100%; height: 1px; }
+}

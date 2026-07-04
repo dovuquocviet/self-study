@@ -1,0 +1,59 @@
+/* ===== Interpreter — style RIÊNG cho cây cú pháp (AST) ===== */
+
+.ast-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 16px; padding: 8px 0;
+}
+
+.expr-line {
+  font-family: ui-monospace, Menlo, monospace; font-size: 1.15rem; letter-spacing: 1px;
+  color: var(--accent-2); background: #0b0e12; border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px 16px;
+}
+
+/* khung cây — node đặt tuyệt đối, đường nối vẽ bằng div xoay */
+.tree { position: relative; width: 100%; height: 300px; }
+
+.tree .ast-node {
+  position: absolute; transform: translate(-50%, -50%);
+  min-width: 40px; padding: 8px 10px; text-align: center;
+  border: 1px solid var(--line); background: var(--panel-2); border-radius: 10px;
+  font-weight: 700; font-size: .95rem; z-index: 2; transition: all .25s ease;
+}
+.tree .ast-node small {
+  display: block; font-size: .62rem; font-weight: 400; color: var(--muted); margin-top: 2px;
+}
+.tree .ast-node.leaf { border-color: #3a4452; }
+.tree .ast-node.op   { color: var(--accent); }
+
+/* trạng thái khi interpret lan tới */
+.tree .ast-node.active {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,180,84,.18);
+}
+.tree .ast-node.done {
+  border-color: var(--good); color: var(--good);
+  box-shadow: 0 0 0 3px rgba(110,231,168,.18);
+}
+.tree .ast-node.pulse { animation: nodePulse .6s ease; }
+
+/* giá trị tính được nổi lên cạnh nút */
+.tree .ast-node .val {
+  display: block; font-size: .72rem; color: var(--good); margin-top: 3px; font-weight: 800;
+}
+
+/* đường nối cha-con */
+.tree .edge {
+  position: absolute; height: 2px; background: #2f3a47;
+  transform-origin: left center; z-index: 1; transition: background .25s;
+}
+.tree .edge.lit { background: var(--good); }
+
+.ast-meta { margin-top: 4px; }
+#resultBadge { font-size: 1rem; }
+#resultBadge.done { border-color: var(--good); color: var(--good); background: #16271e; }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }
+.chip-expr { font-family: ui-monospace, Menlo, monospace; }
+.chip-expr.active { border-color: var(--accent); background: #2a2117; color: var(--accent); }

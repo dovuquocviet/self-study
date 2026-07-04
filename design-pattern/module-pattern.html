@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="module-pattern.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Module Pattern</h1>
+    <p class="subtitle">Đóng gói state riêng tư bằng closure, chỉ lộ API công khai</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển -->
+    <section class="panel controls">
+      <h3>Gọi qua API công khai</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnInc">➕ Counter.increment()</button>
+        <button class="btn" id="btnReset">↺ Counter.reset()</button>
+        <button class="btn good" id="btnGet">👁️ Counter.get()</button>
+      </div>
+
+      <p class="field-label">Thử phá rào</p>
+      <button class="btn danger" id="btnHack" style="width:100%">⛔ Counter.count = 999 (truy cập trực tiếp)</button>
+
+      <p class="ctrl-note">Biến <code>count</code> nằm trong <strong>closure</strong> — không có
+        tham chiếu nào từ ngoài chạm tới được. Chỉ các method public mới đọc/ghi nó.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký truy cập</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Counter khởi tạo với count = 0 (ẩn)…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area mod-stage" id="stageArea">
+        <div class="module-box" id="moduleBox">
+          <div class="mod-title">📦 Counter module (IIFE)</div>
+
+          <div class="zone private" id="privZone">
+            <div class="shield" id="shield">🛡️</div>
+            <div class="zone-tag">PRIVATE (closure)</div>
+            <div class="priv-var">
+              <span class="var-key">let count =</span>
+              <span class="var-val" id="countVal">0</span>
+            </div>
+          </div>
+
+          <div class="zone public">
+            <div class="zone-tag">PUBLIC (return {...})</div>
+            <div class="api-list">
+              <span class="api" id="apiInc">increment()</span>
+              <span class="api" id="apiReset">reset()</span>
+              <span class="api" id="apiGet">get()</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-meta">
+          <span class="state-badge" id="badge">Counter.get() → 0</span>
+        </div>
+      </div>
+      <p class="hint">Bấm method public → mũi tên chạy vào vùng PRIVATE sửa <code>count</code>.
+        Truy cập thẳng <code>Counter.count</code> → khiên đỏ chặn (undefined).</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Module Pattern?</h4>
+        <p>
+          JavaScript cổ điển không có <code>private</code>. <strong>Closure</strong> giải quyết:
+          biến khai báo trong một IIFE chỉ tồn tại trong phạm vi đó, bên ngoài
+          <strong>không</strong> với tới.
+        </p>
+        <p>
+          Object trả về (<em>revealing module</em>) chỉ <strong>lộ ra API công khai</strong>.
+          State nội bộ được bảo vệ, tránh bị sửa bậy — đóng gói đúng nghĩa.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="module-pattern.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

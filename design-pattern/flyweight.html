@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flyweight Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="flyweight.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Flyweight Pattern</h1>
+    <p class="subtitle">Rừng cây: chia sẻ TreeType (intrinsic), chỉ lưu vị trí (extrinsic)</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + thống kê -->
+    <section class="panel controls">
+      <h3>Trồng rừng</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnPlant">🌱 Trồng cây (+ vài chục cây)</button>
+        <button class="btn" id="btnPlant500">🌲 Trồng cả vạt rừng (+500)</button>
+        <button class="btn danger" id="btnClear">🧹 Dọn rừng</button>
+      </div>
+
+      <p class="ctrl-note">Mỗi click trồng thêm cây với <strong>loại ngẫu nhiên</strong>. Dù vẽ
+        hàng nghìn cây, factory chỉ tạo <strong>vài</strong> object <code>TreeType</code> dùng chung.</p>
+
+      <div class="sub-panel">
+        <h3>📊 So sánh bộ nhớ</h3>
+        <div class="stat-row">
+          <span class="stat-label">🌳 Số cây vẽ (extrinsic)</span>
+          <span class="stat-val big" id="treeCount">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">🎨 TreeType thực tạo (flyweight)</span>
+          <span class="stat-val good" id="typeCount">0</span>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-row">
+          <span class="stat-label">Tiết kiệm</span>
+          <span class="stat-val accent" id="savedVal">—</span>
+        </div>
+        <div class="pool-head">Pool flyweight (TreeFactory):</div>
+        <div class="pool" id="pool"></div>
+      </div>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký factory</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bấm “Trồng cây” để bắt đầu…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area fw-stage" id="stageArea">
+        <div class="forest" id="forest"></div>
+        <div class="fw-meta">
+          <span class="state-badge" id="badge">0 cây · 0 loại</span>
+        </div>
+      </div>
+      <p class="hint"><code>factory.getTreeType(name,color)</code> trả về <strong>CÙNG một object</strong>
+        khi loại đã có — phần thay đổi (x, y) nằm ở <code>Tree</code> bên ngoài</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Flyweight?</h4>
+        <p>
+          Vẽ một khu rừng triệu cây: nếu mỗi <code>Tree</code> tự ôm cả texture, màu, mesh thì
+          <strong>nổ RAM</strong>. Nhưng những thứ đó <strong>giống nhau</strong> giữa vô số cây.
+        </p>
+        <p>
+          Flyweight tách phần <strong>intrinsic</strong> (dùng chung, bất biến: tên loài, màu,
+          texture → <code>TreeType</code>) khỏi phần <strong>extrinsic</strong> (riêng từng cây:
+          x, y → <code>Tree</code>). <code>TreeFactory</code> giữ một <strong>pool</strong>, cùng
+          loại thì trả về <strong>chung một</strong> <code>TreeType</code>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="flyweight.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bridge Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="bridge.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Bridge Pattern</h1>
+    <p class="subtitle">Điều khiển từ xa (abstraction) tách rời khỏi Thiết bị (implementation)</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: 2 trục chọn ĐỘC LẬP + điều khiển -->
+    <section class="panel controls">
+      <h3>① Chọn Remote (abstraction)</h3>
+      <div class="btn-row" id="remotePicker">
+        <button class="btn primary" data-remote="basic">📺 BasicRemote</button>
+        <button class="btn" data-remote="advanced">✨ AdvancedRemote</button>
+      </div>
+
+      <h3>② Chọn Device (implementation)</h3>
+      <div class="btn-row" id="devicePicker">
+        <button class="btn primary" data-device="tv">📺 TV</button>
+        <button class="btn" data-device="radio">📻 Radio</button>
+      </div>
+
+      <p class="ctrl-note">Hai trục thay đổi <strong>độc lập</strong>: M loại remote × N loại
+        thiết bị mà <strong>không nổ class</strong> (không cần TvBasicRemote, RadioAdvancedRemote…).</p>
+
+      <h3>Bấm nút trên remote</h3>
+      <div class="btn-row">
+        <button class="btn good" id="btnPower">⏻ power()</button>
+        <button class="btn" id="btnVolDown">🔉 volumeDown()</button>
+        <button class="btn" id="btnVolUp">🔊 volumeUp()</button>
+        <button class="btn" id="btnMute" disabled>🔇 mute() (Advanced)</button>
+      </div>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Chọn remote &amp; thiết bị, rồi bấm nút…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area br-stage" id="stageArea">
+        <!-- REMOTE -->
+        <div class="remote-box" id="remoteBox">
+          <div class="remote-name" id="remoteName">BasicRemote</div>
+          <div class="remote-btns">
+            <span class="r-btn power" id="rPower">⏻</span>
+            <span class="r-btn" id="rDown">−</span>
+            <span class="r-btn" id="rUp">+</span>
+            <span class="r-btn mute" id="rMute">🔇</span>
+          </div>
+          <div class="remote-tag">abstraction</div>
+        </div>
+
+        <!-- CẦU NỐI -->
+        <div class="bridge-link" id="bridgeLink">
+          <span class="bl-label">device</span>
+          <span class="bl-line"></span>
+          <span class="bl-arrow">▶</span>
+        </div>
+
+        <!-- DEVICE -->
+        <div class="device-box" id="deviceBox">
+          <div class="screen" id="screen">
+            <div class="screen-icon" id="screenIcon">📺</div>
+            <div class="screen-state" id="screenState">OFF</div>
+          </div>
+          <div class="vol-wrap">
+            <div class="vol-bar"><span class="vol-fill" id="volFill"></span></div>
+            <div class="vol-num"><span id="volNum">30</span>%</div>
+          </div>
+          <div class="device-name" id="deviceName">TV</div>
+          <div class="remote-tag impl">implementation</div>
+        </div>
+      </div>
+      <p class="hint"><code>remote.volumeUp()</code> chỉ gọi <code>device.setVolume(...)</code> —
+        remote <strong>không biết</strong> nó đang điều khiển TV hay Radio</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Bridge?</h4>
+        <p>
+          Có 2 trục thay đổi: loại <strong>Remote</strong> (Basic, Advanced…) và loại
+          <strong>Device</strong> (TV, Radio…). Nếu kế thừa, bạn phải tạo
+          <code>TvBasicRemote</code>, <code>TvAdvancedRemote</code>, <code>RadioBasicRemote</code>…
+          → <strong>M × N</strong> lớp.
+        </p>
+        <p>
+          Bridge tách abstraction (Remote) khỏi implementation (Device) bằng
+          <strong>tham chiếu</strong> (<code>this.device</code>). Remote chỉ gọi qua
+          interface <code>Device</code>. Thêm Device mới hay Remote mới = thêm
+          <strong>M + N</strong> lớp, hai phía tiến hoá độc lập.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="bridge.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

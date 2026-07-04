@@ -1,0 +1,87 @@
+/* ===== Null Object Pattern — style RIÊNG cho sân khấu ===== */
+
+.no-stage {
+  width: 100%; max-width: 420px; height: auto; min-height: auto;
+  flex-direction: column; gap: 10px; padding: 6px 0;
+}
+
+/* node Client + object + result xếp dọc */
+.no-node {
+  width: 100%; border: 1px solid var(--line); background: var(--panel-2);
+  border-radius: 12px; padding: 12px 14px; text-align: center;
+}
+.no-node b { color: var(--accent-2); }
+.no-node small { display: block; margin-top: 3px; color: var(--muted);
+  font-size: .76rem; font-family: ui-monospace, Menlo, monospace; }
+
+.no-arrow { font-size: 1.6rem; transition: color .2s; }
+.no-arrow.lit { color: var(--good); }
+.no-arrow.bad { color: #ff6b6b; }
+
+/* object ở giữa — đổi diện mạo theo loại */
+.no-obj {
+  width: 100%; border-radius: 14px; padding: 16px 14px; text-align: center;
+  border: 2px solid var(--line); background: var(--panel-2);
+  transition: border-color .25s, background .25s, transform .15s;
+}
+.no-obj-title {
+  font-weight: 800; font-size: 1.05rem; letter-spacing: .3px;
+  font-family: ui-monospace, Menlo, monospace;
+}
+.no-obj-body { margin-top: 6px; font-size: .82rem; color: var(--muted); }
+.no-obj-body b { color: var(--text); }
+
+.no-obj.is-real  { border-color: var(--accent-2); background: #142028; }
+.no-obj.is-real  .no-obj-title { color: var(--accent-2); }
+.no-obj.is-guest { border-color: var(--good); background: #16271e; }
+.no-obj.is-guest .no-obj-title { color: var(--good); }
+.no-obj.is-null  { border: 2px dashed #ff6b6b; background: #2a1414; }
+.no-obj.is-null  .no-obj-title { color: #ff9b9b; }
+
+/* hiệu ứng chạy OK */
+.no-obj.pulse-ok { animation: noPulse .55s ease; }
+@keyframes noPulse {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(110,231,168,.22); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(110,231,168,0); }
+}
+
+/* hiệu ứng VỠ khi gọi method trên null */
+.no-obj.broken { animation: noShake .5s ease; }
+@keyframes noShake {
+  0%,100% { transform: translateX(0); }
+  15% { transform: translateX(-7px) rotate(-1.5deg); }
+  30% { transform: translateX(7px) rotate(1.5deg); }
+  45% { transform: translateX(-6px) rotate(-1deg); }
+  60% { transform: translateX(6px) rotate(1deg); }
+  80% { transform: translateX(-3px); }
+}
+
+/* hộp kết quả */
+.no-result {
+  width: 100%; border-radius: 10px; padding: 12px 14px; text-align: center;
+  border: 1px solid var(--line); background: #0b0e12; color: var(--muted);
+  font-family: ui-monospace, Menlo, monospace; font-size: .82rem;
+  min-height: 44px; display: flex; align-items: center; justify-content: center;
+}
+.no-result.ok  { color: var(--good); border-color: var(--good); background: #122019; }
+.no-result.err { color: #ff9b9b; border-color: #ff6b6b; background: #2a1414;
+  animation: fadeUp .3s ease; }
+
+.no-meta { margin-top: 6px; display: flex; justify-content: center; }
+
+/* ---- cột trái: so sánh code trong sub-panel ---- */
+.cmp { margin-top: 10px; border-radius: 10px; padding: 10px 12px;
+  border: 1px solid var(--line); background: #0b0e12; }
+.cmp:first-of-type { margin-top: 4px; }
+.cmp pre { margin: 8px 0 0; }
+.cmp code {
+  font-family: ui-monospace, Menlo, monospace; font-size: .76rem;
+  line-height: 1.55; color: #c7d2dd; white-space: pre; display: block;
+}
+.cmp-tag { font-size: .72rem; font-weight: 700; padding: 2px 8px;
+  border-radius: 999px; display: inline-block; }
+.cmp-tag.bad  { color: #ff9b9b; border: 1px solid #ff6b6b; background: #2a1414; }
+.cmp-tag.good { color: var(--good); border: 1px solid var(--good); background: #16271e; }
+.bad-cmp  { border-color: rgba(255,107,107,.35); }
+.good-cmp { border-color: rgba(110,231,168,.35); }

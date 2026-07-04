@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abstract Factory — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="abstract-factory.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Abstract Factory</h1>
+    <p class="subtitle">Lò pizza NY và Chicago — mỗi vùng một họ nguyên liệu khớp nhau</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: chọn vùng + nhật ký -->
+    <section class="panel controls">
+      <h3>Chọn lò nguyên liệu (factory)</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnNY">🗽 NYPizzaIngredientFactory</button>
+        <button class="btn" id="btnChicago">🏙️ ChicagoPizzaIngredientFactory</button>
+      </div>
+      <p class="ctrl-note">Cùng một <strong>interface</strong>
+        <code>PizzaIngredientFactory</code>. Đổi factory = đổi cả
+        <strong>họ nguyên liệu</strong> — nhưng code làm pizza không đổi một dòng.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nguyên liệu factory nhả ra</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Chọn một vùng để factory tạo họ nguyên liệu…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area af-stage" id="stageArea">
+        <div class="factory-box" id="factoryBox">
+          <div class="factory-label" id="factoryLabel">PizzaIngredientFactory</div>
+          <div class="factory-mouth"></div>
+        </div>
+
+        <div class="ingredient-grid" id="grid">
+          <div class="ing-card" data-slot="dough">
+            <span class="ing-icon">🫓</span>
+            <b class="ing-kind">Dough</b>
+            <small class="ing-name">—</small>
+          </div>
+          <div class="ing-card" data-slot="sauce">
+            <span class="ing-icon">🥫</span>
+            <b class="ing-kind">Sauce</b>
+            <small class="ing-name">—</small>
+          </div>
+          <div class="ing-card" data-slot="cheese">
+            <span class="ing-icon">🧀</span>
+            <b class="ing-kind">Cheese</b>
+            <small class="ing-name">—</small>
+          </div>
+          <div class="ing-card" data-slot="veggies">
+            <span class="ing-icon">🥬</span>
+            <b class="ing-kind">Veggies</b>
+            <small class="ing-name">—</small>
+          </div>
+        </div>
+
+        <div class="af-meta">
+          <span class="state-badge" id="factoryBadge">Chưa chọn factory</span>
+        </div>
+      </div>
+      <p class="hint"><code>factory.createDough()</code> luôn cùng cú pháp — nhưng
+        ra <code>ThinCrustDough</code> hay <code>ThickCrustDough</code> tuỳ
+        <strong>factory cụ thể</strong> đang dùng</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Abstract Factory?</h4>
+        <p>
+          Abstract Factory cung cấp một interface để tạo <strong>một họ sản phẩm
+          liên quan</strong> mà không cần biết lớp cụ thể của chúng.
+        </p>
+        <p>
+          Code làm pizza chỉ phụ thuộc <code>PizzaIngredientFactory</code>. Muốn
+          đổi sang nguyên liệu Chicago, ta <strong>thay factory</strong> — mọi
+          nguyên liệu tự khớp với nhau, không lo lỡ trộn dough NY với cheese Chicago.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="abstract-factory.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

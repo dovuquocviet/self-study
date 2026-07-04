@@ -1,0 +1,83 @@
+/* ===== Unit of Work — style RIÊNG cho 3 giỏ + flush DB ===== */
+
+.uow-stage {
+  width: 100%; max-width: 480px; height: auto; min-height: auto;
+  flex-direction: column; gap: 18px; padding: 10px 0;
+}
+
+/* 3 giỏ new / dirty / removed */
+.uow-buckets {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; width: 100%;
+}
+.bucket {
+  position: relative; padding: 16px 8px; overflow: hidden;
+}
+.bucket b { font-size: .92rem; letter-spacing: .5px; }
+.bucket small { display: block; margin-top: 3px; color: var(--muted); font-size: .68rem; }
+.bucket.new.active    { border-color: var(--good);   box-shadow: 0 0 0 3px rgba(110,231,168,.2); }
+.bucket.dirty.active  { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,180,84,.18); }
+.bucket.removed.active{ border-color: #ff8a8a;       box-shadow: 0 0 0 3px rgba(255,138,138,.2); }
+.bucket.new b    { color: var(--good); }
+.bucket.dirty b  { color: var(--accent); }
+.bucket.removed b{ color: #ff9b9b; }
+
+.badge-n {
+  position: absolute; top: 6px; right: 8px; min-width: 20px;
+  font-size: .72rem; font-weight: 700; color: var(--bg);
+  background: var(--muted); border-radius: 999px; padding: 1px 6px;
+}
+.bucket.new .badge-n     { background: var(--good); }
+.bucket.dirty .badge-n   { background: var(--accent); }
+.bucket.removed .badge-n { background: #ff8a8a; }
+
+/* ống flush xuống DB */
+.uow-pipe { height: 26px; display: flex; align-items: center; justify-content: center; }
+.flush-arrow { font-size: 1.6rem; color: var(--line); transition: color .2s; }
+.flush-arrow.lit { color: var(--accent-2); text-shadow: 0 0 12px rgba(106,208,255,.6); animation: flushPump .5s ease; }
+@keyframes flushPump { 0%,100% { transform: translateY(0);} 50% { transform: translateY(6px);} }
+
+.db-node { width: 240px; padding: 16px; transition: all .3s; }
+.db-node b { font-size: 1rem; }
+.db-node small { display: block; margin-top: 4px; color: var(--muted); font-size: .72rem; }
+.db-node.commit { border-color: var(--good); box-shadow: 0 0 0 3px rgba(110,231,168,.22); }
+.db-node.rollback { border-color: #ff8a8a; box-shadow: 0 0 0 3px rgba(255,138,138,.22); }
+
+.uow-meta { display: flex; justify-content: center; }
+#txBadge.ok    { border-color: var(--good); color: var(--good); background: #16271e; }
+#txBadge.undo  { border-color: #ff8a8a; color: #ff9b9b; background: #2a1717; }
+
+/* 3 danh sách ở cột trái */
+.uow-bucket { margin-bottom: 10px; }
+.uow-bucket:last-child { margin-bottom: 0; }
+.bucket-title {
+  font-size: .74rem; font-weight: 700; margin-bottom: 5px;
+  font-family: ui-monospace, Menlo, monospace;
+}
+.new-title    { color: var(--good); }
+.dirty-title  { color: var(--accent); }
+.removed-title{ color: #ff9b9b; }
+.bucket-list {
+  background: #0b0e12; border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 8px; font-family: ui-monospace, Menlo, monospace; font-size: .74rem;
+  min-height: 30px; max-height: 90px; overflow-y: auto;
+}
+.bucket-list .row { padding: 2px 0; color: var(--text); animation: fadeUp .3s ease; }
+.bucket-empty { color: var(--muted); opacity: .5; }
+
+/* "viên" bay xuống DB khi commit */
+.uow-fly {
+  position: absolute; width: 14px; height: 14px; border-radius: 4px;
+  background: var(--accent-2); box-shadow: 0 0 10px rgba(106,208,255,.7);
+  left: 50%; top: 70px; opacity: 0; z-index: 20;
+}
+.uow-fly.go { animation: flyDown .55s ease forwards; }
+@keyframes flyDown {
+  0%   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, 150px) scale(.4); }
+}
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 8px 0 14px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }
+.ctrl-note em { color: var(--accent); font-style: normal; }

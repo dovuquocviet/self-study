@@ -1,0 +1,102 @@
+/* ===== Dependency Injection — style RIÊNG cho Car + Engine ===== */
+
+.di-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: 360px;
+  flex-direction: column; gap: 26px; padding: 6px 0; justify-content: center;
+}
+
+.di-picker { display: flex; flex-direction: column; gap: 8px; }
+.engine-chip.active { border-color: var(--accent); background: #2a2117; }
+
+/* container → car flow */
+.di-flow { display: flex; align-items: center; gap: 12px; }
+.container-node { min-width: 150px; }
+.container-node .node-title { color: var(--accent-2); font-weight: 700; font-size: .9rem; }
+.container-node .node-sub { font-size: .72rem; color: var(--muted); margin-top: 3px; }
+.container-node .node-sub b { color: var(--accent); }
+.di-flow .arrow { transition: color .25s ease, transform .25s ease; }
+.di-flow .arrow.lit { color: var(--accent); transform: scale(1.3); }
+
+/* ---- Car vẽ bằng CSS ---- */
+.car {
+  position: relative; width: 240px; height: 130px;
+}
+.car-roof {
+  position: absolute; top: 0; left: 58px; width: 124px; height: 46px;
+  background: linear-gradient(#3a5bd0, #2b46a8);
+  border-radius: 18px 22px 0 0;
+}
+.car-body {
+  position: absolute; top: 40px; left: 0; width: 240px; height: 62px;
+  background: linear-gradient(#4d70e8, #3a5bd0);
+  border-radius: 16px;
+  box-shadow: inset 0 4px 10px rgba(255,255,255,.18), 0 10px 22px rgba(0,0,0,.4);
+  display: flex; align-items: center; justify-content: center;
+}
+.car-label {
+  position: absolute; left: 16px; top: 8px;
+  font-weight: 800; font-size: .9rem; color: #fff; letter-spacing: .5px;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+.car.running { animation: carShake .12s linear infinite; }
+@keyframes carShake { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+/* ổ cắm engine */
+.socket {
+  position: relative; width: 92px; height: 44px;
+  border: 2px dashed rgba(255,255,255,.5); border-radius: 10px;
+  background: rgba(0,0,0,.28);
+  display: flex; align-items: center; justify-content: center;
+  overflow: visible;
+}
+.socket-hint {
+  font-size: .62rem; color: rgba(255,255,255,.7); text-align: center; line-height: 1.3;
+}
+.socket.filled { border-style: solid; border-color: rgba(255,255,255,.2); background: transparent; }
+
+/* engine block tiêm vào */
+.engine-block {
+  position: absolute; width: 88px; height: 40px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .7rem; font-weight: 800; color: #15120c; text-align: center; line-height: 1.1;
+  box-shadow: inset 0 3px 6px rgba(255,255,255,.4), 0 4px 10px rgba(0,0,0,.45);
+}
+.engine-block.petrol   { background: radial-gradient(circle at 35% 30%, #ffd166, #f4a261); }
+.engine-block.electric { background: radial-gradient(circle at 35% 30%, #8af0c0, #06d6a0); }
+.engine-block.mock     { background: radial-gradient(circle at 35% 30%, #d8b6ff, #a06cf0); }
+.engine-block.injecting { animation: injectSlide .7s cubic-bezier(.34,1.4,.64,1) forwards; }
+@keyframes injectSlide {
+  0%   { transform: translateY(-120px) scale(.8); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.engine-block.revving { animation: engineRev .25s ease-in-out infinite; }
+@keyframes engineRev { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+/* bánh xe */
+.wheel {
+  position: absolute; bottom: -8px; width: 38px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #555 38%, #1a1a1a 40%);
+  border: 4px solid #111;
+}
+.wheel-l { left: 28px; }
+.wheel-r { right: 28px; }
+.car.running .wheel { animation: spin .4s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* khói xả khi chạy */
+.exhaust {
+  position: absolute; right: -10px; bottom: 6px; width: 12px; height: 12px;
+  border-radius: 50%; background: rgba(200,200,200,.5); opacity: 0;
+}
+.car.running .exhaust { animation: puff .8s ease-out infinite; }
+@keyframes puff {
+  0%   { opacity: .6; transform: translate(0,0) scale(.6); }
+  100% { opacity: 0; transform: translate(26px,-14px) scale(1.7); }
+}
+
+.gm-meta { display: flex; gap: 12px; align-items: center; justify-content: center; }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 14px 0 4px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

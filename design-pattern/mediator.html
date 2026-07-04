@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mediator — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="mediator.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Mediator</h1>
+    <p class="subtitle">Phòng chat: các thành viên nói qua trung gian, không nối trực tiếp</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + log -->
+    <section class="panel controls">
+      <h3>Gửi tin nhắn</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" data-from="A">💬 Alice gửi</button>
+        <button class="btn primary" data-from="B">💬 Bob gửi</button>
+        <button class="btn primary" data-from="C">💬 Carol gửi</button>
+        <button class="btn primary" data-from="D">💬 Dave gửi</button>
+      </div>
+      <div class="ctrl-row" style="margin-top:8px">
+        <button class="btn" id="btnReset">↺ Xoá log</button>
+      </div>
+      <p class="ctrl-note">Mỗi nút gọi <code>colleague.send(msg)</code>. Thành viên
+        <strong>chỉ biết mediator</strong> — không giữ tham chiếu tới ai khác.
+        Mediator nhận rồi phát lại cho tất cả người còn lại.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký phòng chat</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bấm một thành viên để gửi tin nhắn…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area med-stage" id="stageArea">
+        <div class="hub-wrap" id="hubWrap">
+          <!-- cạnh nối member ↔ mediator (vẽ trong JS) -->
+          <div class="edges" id="edges"></div>
+
+          <div class="mediator node" id="mediator">
+            <b>ChatRoom</b><small>Mediator</small>
+          </div>
+
+          <div class="member node" data-id="A" style="--mx:50%; --my:8%;">
+            <b>Alice</b><small>Colleague</small>
+          </div>
+          <div class="member node" data-id="B" style="--mx:92%; --my:50%;">
+            <b>Bob</b><small>Colleague</small>
+          </div>
+          <div class="member node" data-id="C" style="--mx:50%; --my:92%;">
+            <b>Carol</b><small>Colleague</small>
+          </div>
+          <div class="member node" data-id="D" style="--mx:8%; --my:50%;">
+            <b>Dave</b><small>Colleague</small>
+          </div>
+
+          <div class="bubble" id="bubble"></div>
+        </div>
+        <div class="med-meta">
+          <span class="state-badge" id="statusBadge">Chưa có tin nhắn</span>
+        </div>
+      </div>
+      <p class="hint">4 thành viên = chỉ <strong>4 đường</strong> nối tới mediator. Nếu nối trực
+        tiếp từng cặp sẽ thành <code>n·(n−1)/2</code> = 6 đường chằng chịt và tăng vọt khi đông người.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Mediator?</h4>
+        <p>
+          Khi nhiều object phải nói chuyện với nhau, nối <strong>trực tiếp</strong> từng cặp tạo
+          ra mạng lưới phụ thuộc rối rắm — đổi một object là phải sửa nhiều object khác.
+        </p>
+        <p>
+          Mediator gom logic giao tiếp về <strong>một chỗ</strong>. Mỗi thành viên chỉ biết
+          mediator; muốn thêm thành viên mới chỉ cần <code>register()</code> vào mediator,
+          <strong>không đụng</strong> tới các thành viên cũ.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="mediator.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

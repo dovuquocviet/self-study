@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service Locator Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="service-locator.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Service Locator Pattern</h1>
+    <p class="subtitle">Một registry trung tâm: đăng ký rồi "định vị" service theo khoá</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + danh sách registry -->
+    <section class="panel controls">
+      <h3>① register(key, instance)</h3>
+      <p class="ctrl-note">Cất một service vào tủ theo khoá.</p>
+      <div class="btn-row">
+        <button class="btn" data-reg="logger">📝 register('logger')</button>
+        <button class="btn" data-reg="db">🗃️ register('db')</button>
+        <button class="btn" data-reg="mailer">✉️ register('mailer')</button>
+      </div>
+
+      <h3>② get(key)</h3>
+      <p class="ctrl-note">Định vị &amp; lấy service ra trao cho client.</p>
+      <div class="btn-row">
+        <button class="btn good" data-get="logger">get('logger')</button>
+        <button class="btn good" data-get="db">get('db')</button>
+        <button class="btn good" data-get="mailer">get('mailer')</button>
+      </div>
+
+      <div class="sub-panel">
+        <h3>🗂️ Registry (Map khoá → instance)</h3>
+        <div class="output-box" id="registryBox">
+          <div class="log-line muted-line">Tủ trống — hãy register() một service.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area sl-stage" id="stageArea">
+        <div class="sl-cabinet" id="cabinet">
+          <div class="sl-cab-head">🗄️ ServiceLocator <small>registry: Map</small></div>
+          <div class="sl-shelf" id="shelf"></div>
+          <div class="sl-shelf-empty" id="shelfEmpty">— chưa có service nào —</div>
+        </div>
+
+        <div class="sl-wire" id="wire"></div>
+
+        <div class="sl-client" id="clientBox">
+          <b>Client</b>
+          <div class="sl-hand" id="hand">chưa nhận service</div>
+        </div>
+
+        <span class="sl-fly" id="fly"></span>
+
+        <div class="sl-meta">
+          <span class="state-badge" id="actionBadge">sẵn sàng</span>
+        </div>
+      </div>
+      <p class="hint">Client không tự <code>new</code> service — nó hỏi
+        <code>ServiceLocator.get('logger')</code> rồi tủ trao đúng instance đã đăng ký.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Service Locator khác gì DI?</h4>
+        <p>
+          Cả hai đều gỡ phụ thuộc khỏi việc <code>new</code> trực tiếp. Khác ở chiều:
+          với <strong>Service Locator</strong> client tự <em>KÉO</em> service ra khỏi registry
+          (<code>get('db')</code>).
+        </p>
+        <p>
+          Với <strong>Dependency Injection</strong> thì ngược lại — container <em>ĐẨY</em>
+          service vào client (qua constructor). Locator tiện nhưng giấu phụ thuộc nên khó test hơn;
+          DI khai báo phụ thuộc rõ ràng.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="service-locator.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

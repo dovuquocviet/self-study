@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decorator Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Decorator Pattern</h1>
+    <p class="subtitle">Một đồ uống chính, "bọc" bởi nhiều topping</p>
+  </header>
+
+  <main class="decorator-layout">
+    <!-- CỘT TRÁI: chọn topping + hoá đơn -->
+    <section class="panel controls">
+      <h3>1 · Chọn đồ uống gốc</h3>
+      <div class="base-picker" id="basePicker">
+        <button class="chip base-chip active" data-name="Espresso" data-cost="1.99" data-color="#3b2417">Espresso · $1.99</button>
+        <button class="chip base-chip" data-name="Dark Roast" data-cost="0.99" data-color="#4a2c1a">Dark Roast · $0.99</button>
+        <button class="chip base-chip" data-name="Decaf" data-cost="1.05" data-color="#6b4226">Decaf · $1.05</button>
+      </div>
+
+      <h3>2 · Thêm topping (decorator)</h3>
+      <div class="topping-picker" id="toppingPicker">
+        <button class="chip topping-chip" data-name="Sữa" data-cls="Milk" data-cost="0.10" data-color="#f4e4cf">+ Sữa · $0.10</button>
+        <button class="chip topping-chip" data-name="Mocha" data-cls="Mocha" data-cost="0.20" data-color="#7b3f1d">+ Mocha · $0.20</button>
+        <button class="chip topping-chip" data-name="Đậu nành" data-cls="Soy" data-cost="0.15" data-color="#e8d9a0">+ Đậu nành · $0.15</button>
+        <button class="chip topping-chip" data-name="Kem" data-cls="Whip" data-cost="0.10" data-color="#fff7ec">+ Kem · $0.10</button>
+      </div>
+
+      <button class="reset-btn" id="resetBtn">↺ Làm lại từ đầu</button>
+
+      <h3 class="receipt-head">🧾 Hoá đơn</h3>
+      <ul class="receipt-list" id="receiptList">
+        <li class="receipt-base"><span>Espresso</span><span>$1.99</span></li>
+      </ul>
+      <div class="receipt-total">
+        <span>Tổng cộng</span>
+        <span id="totalCost">$1.99</span>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area" id="stageArea">
+        <div class="drink" id="drink">
+          <div class="ring-core" id="core">
+            <span class="core-label" id="coreLabel">Espresso</span>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Mỗi topping bọc thêm một vòng quanh đồ uống — đúng như <code>new Milk(new Espresso())</code></p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo chi tiết -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Pha chế (runtime)</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <!-- TAB 1: code dựng đối tượng theo lựa chọn hiện tại -->
+      <pre class="code-view" id="buildView"><code></code></pre>
+
+      <!-- TAB 2: định nghĩa các lớp (tĩnh) -->
+      <pre class="code-view hidden" id="classView"><code class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Decorator?</h4>
+        <p>
+          Nếu mỗi tổ hợp <em>đồ uống + topping</em> là một class riêng thì số class
+          <strong>bùng nổ</strong>. Decorator giữ <strong>1 đồ uống gốc</strong> rồi
+          <strong>bọc</strong> dần — mỗi lớp tự cộng giá &amp; mô tả của nó.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="decorator.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

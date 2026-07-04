@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repository Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="repository.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Repository Pattern</h1>
+    <p class="subtitle">Lớp Repository che giấu nguồn dữ liệu (memory ↔ API) sau cùng interface</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: thao tác + đổi backing store -->
+    <section class="panel controls">
+      <h3>1 · Chọn backing store</h3>
+      <div class="btn-row store-switch">
+        <button class="btn store-btn active" data-store="memory">🧠 In-Memory</button>
+        <button class="btn store-btn" data-store="api">☁️ Fake API</button>
+      </div>
+      <p class="ctrl-note">Đổi store nhưng <strong>client không đổi một dòng code</strong> —
+        vẫn gọi <code>repo.add()</code> / <code>repo.findById()</code> như cũ.</p>
+
+      <h3>2 · Thao tác qua repository</h3>
+      <label class="field-label">Tên user</label>
+      <input class="repo-input" id="nameInput" type="text" value="Mai" placeholder="tên user…" />
+      <div class="btn-row">
+        <button class="btn primary" id="addBtn">＋ add(user)</button>
+        <button class="btn good" id="findBtn">🔎 findById()</button>
+        <button class="btn danger" id="removeBtn">🗑 remove()</button>
+      </div>
+      <label class="field-label">ID để find/remove</label>
+      <input class="repo-input" id="idInput" type="number" value="1" min="1" />
+
+      <div class="sub-panel">
+        <h3>🗄 Nội dung store hiện tại</h3>
+        <div class="output-box" id="store">
+          <div class="log-line muted-line">Store rỗng…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: Client → Repository → DataSource -->
+    <section class="panel stage">
+      <div class="stage-area repo-stage" id="stageArea">
+        <div class="node layer client-node" id="clientNode">
+          <div class="node-title">Client</div>
+          <div class="node-sub">UserService / Controller</div>
+        </div>
+        <span class="arrow conn" id="arrow1">↓</span>
+
+        <div class="node layer repo-node active" id="repoNode">
+          <div class="node-title">UserRepository</div>
+          <div class="node-sub">«interface» — che giấu nguồn dữ liệu</div>
+        </div>
+        <span class="arrow conn" id="arrow2">↓</span>
+
+        <div class="node layer source-node" id="sourceNode">
+          <div class="node-title" id="sourceTitle">InMemoryUserRepository</div>
+          <div class="node-sub" id="sourceSub">Map trong RAM</div>
+        </div>
+
+        <div class="packet" id="packet"></div>
+      </div>
+      <p class="hint">Dữ liệu đi <code>Client → Repository → DataSource</code>.
+        Client chỉ thấy <strong>interface</strong>, không biết phía sau là RAM hay API.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Repository?</h4>
+        <p>
+          Client chỉ làm việc với <strong>interface <code>UserRepository</code></strong>
+          (add / findById / remove). Nó <strong>không quan tâm</strong> dữ liệu nằm trong RAM,
+          SQL hay gọi REST API.
+        </p>
+        <p>
+          Nhờ vậy ta <strong>thay nguồn dữ liệu</strong> (in-memory khi test ↔ API thật khi chạy)
+          chỉ bằng cách tiêm một bản cài khác — <strong>không đụng</strong> logic nghiệp vụ.
+          Repository tách <em>"lấy dữ liệu ở đâu"</em> khỏi <em>"làm gì với dữ liệu"</em>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="repository.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

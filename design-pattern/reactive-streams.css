@@ -1,0 +1,78 @@
+/* ===== Reactive Streams — style RIÊNG cho luồng giá trị ===== */
+
+.rx-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: 300px;
+  flex-direction: column; gap: 40px; padding: 14px 0;
+}
+
+.rx-pipe {
+  position: relative;
+  display: flex; align-items: stretch; justify-content: center;
+  gap: 6px; width: 100%;
+}
+.rx-station { flex: 1; min-width: 0; padding: 14px 4px; }
+.rx-station b { font-size: .88rem; display: block; }
+.rx-station small {
+  display: block; margin-top: 4px; color: var(--muted);
+  font-size: .66rem; font-weight: 400;
+}
+.rx-station.active b { color: var(--accent); }
+.rx-sub.active b { color: var(--good); }
+
+/* toán tử đang TẮT thì mờ + gạch */
+.rx-station.off { opacity: .4; }
+.rx-station.off small { text-decoration: line-through; }
+
+.rx-pipe .arrow { align-self: center; }
+
+/* viên giá trị chạy dọc đường ống */
+.rx-value {
+  position: absolute; left: 0; top: -34px;
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 800;
+  background: radial-gradient(circle at 35% 30%, #9be0ff, #4aa6dd);
+  color: #06222e; box-shadow: 0 4px 12px rgba(106,208,255,.45);
+  opacity: 0; transform: translateX(0);
+  transition: transform .42s cubic-bezier(.45,.05,.3,1), opacity .25s,
+              background .3s, width .25s, height .25s;
+}
+.rx-value.show { opacity: 1; }
+.rx-value.mapped { background: radial-gradient(circle at 35% 30%, #ffe08a, #ffb454); color: #2a1c04; }
+.rx-value.delivered { background: radial-gradient(circle at 35% 30%, #aef5cf, #6ee7a8); color: #04210f; }
+
+/* bị filter loại bỏ */
+.rx-value.dropped { animation: rxDrop .55s ease forwards; }
+@keyframes rxDrop {
+  0%   { transform: var(--vx) translateY(0) scale(1); opacity: 1; background: radial-gradient(circle at 35% 30%, #ff9b9b, #d65a5a); color: #2a0808; }
+  100% { transform: var(--vx) translateY(46px) scale(.5) rotate(20deg); opacity: 0; }
+}
+
+/* nhãn nhỏ "×10" hiện lên ở trạm map */
+.rx-pop {
+  position: absolute; top: -64px;
+  font-size: .72rem; font-weight: 700; color: var(--accent);
+  opacity: 0;
+}
+.rx-pop.go { animation: rxPop .7s ease; }
+@keyframes rxPop {
+  0% { opacity: 0; transform: translateY(6px); }
+  30% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+.rx-meta { display: flex; justify-content: center; }
+
+.switch-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: .82rem; cursor: pointer;
+  background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 12px;
+}
+.switch-row input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex: none; }
+
+#btnEmit { width: 100%; }
+#btnReset { width: 100%; margin-top: 8px; }
+
+.output-box .rx-emit { color: var(--good); }
+.output-box .rx-skip { color: var(--muted); }

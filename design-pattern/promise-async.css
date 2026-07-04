@@ -1,0 +1,85 @@
+/* ===== Promise / Async — style RIÊNG cho vòng đời Promise ===== */
+
+.pr-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: 320px;
+  flex-direction: column; gap: 30px; padding: 12px 0;
+}
+
+/* ---- Vòng tròn Promise ---- */
+.pr-promise {
+  position: relative; width: 132px; height: 132px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--panel-2);
+  transition: background .35s, box-shadow .35s;
+}
+.pr-ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 5px solid var(--line);
+}
+/* pending: vành xoay */
+.pr-promise.pending .pr-ring {
+  border-top-color: var(--accent-2);
+  animation: prSpin 1s linear infinite;
+}
+@keyframes prSpin { to { transform: rotate(360deg); } }
+
+.pr-face { text-align: center; z-index: 2; }
+.pr-state { display: block; font-size: .8rem; color: var(--muted); letter-spacing: .5px; }
+.pr-val { display: block; font-size: 1.8rem; font-weight: 800; margin-top: 2px; }
+
+/* fulfilled */
+.pr-promise.fulfilled { background: #16271e; box-shadow: 0 0 0 4px rgba(110,231,168,.18); }
+.pr-promise.fulfilled .pr-ring { border-color: var(--good); animation: prSettle .5s ease; }
+.pr-promise.fulfilled .pr-state { color: var(--good); }
+.pr-promise.fulfilled .pr-val { color: var(--good); }
+
+/* rejected */
+.pr-promise.rejected { background: #2a1313; box-shadow: 0 0 0 4px rgba(255,122,122,.2); }
+.pr-promise.rejected .pr-ring { border-color: #ff7a7a; animation: prSettle .5s ease; }
+.pr-promise.rejected .pr-state { color: #ff9b9b; }
+.pr-promise.rejected .pr-val { color: #ff9b9b; font-size: 1.3rem; }
+@keyframes prSettle {
+  0% { transform: scale(.85); } 60% { transform: scale(1.08); } 100% { transform: scale(1); }
+}
+
+/* ---- Chuỗi then + catch ---- */
+.pr-chain {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 6px; width: 100%;
+}
+.pr-link {
+  border: 1px solid var(--line); background: var(--panel-2); border-radius: 10px;
+  padding: 8px 10px; font-size: .76rem; text-align: center;
+  font-family: ui-monospace, Menlo, monospace; color: var(--muted);
+  transition: all .3s ease; position: relative;
+}
+.pr-link b { display: block; color: var(--accent-2); font-size: .68rem; font-weight: 700; }
+.pr-link .pr-pass { display: block; color: var(--text); margin-top: 2px; }
+
+.pr-link.lit {
+  border-color: var(--good); color: var(--text);
+  box-shadow: 0 0 0 3px rgba(110,231,168,.18);
+  transform: translateY(-2px);
+}
+.pr-link.lit b { color: var(--good); }
+.pr-link.skip { opacity: .35; }
+
+.pr-link.catch { border-style: dashed; }
+.pr-link.catch b { color: #ff9b9b; }
+.pr-link.catch.lit {
+  border-color: #ff7a7a; border-style: solid;
+  box-shadow: 0 0 0 3px rgba(255,122,122,.2);
+}
+.pr-link.catch.lit b { color: #ff9b9b; }
+
+.pr-conn { color: var(--muted); font-size: 1rem; }
+
+.pr-meta { display: flex; justify-content: center; }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 14px 0 4px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }
+
+.output-box .pr-sync { color: var(--accent-2); }
+.output-box .pr-micro { color: var(--good); }
+.output-box .pr-err { color: #ff9b9b; }

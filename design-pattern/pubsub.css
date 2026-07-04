@@ -1,0 +1,68 @@
+/* ===== Pub/Sub — style RIÊNG cho Publisher → Bus → Subscribers ===== */
+
+.ps-stage {
+  position: relative; width: 100%; max-width: 440px;
+  height: 360px; min-height: 360px;
+}
+
+.ps-stage .node {
+  position: absolute; transform: translate(-50%, -50%); min-width: 110px; z-index: 1;
+}
+.ps-stage .node-title { font-weight: 700; font-size: .84rem; }
+.ps-stage .node-sub { font-size: .66rem; color: var(--muted); margin-top: 3px; }
+
+.ps-pub  { left: 15%; top: 50%; background: #221a0f; }
+.ps-pub .node-title { color: var(--accent); }
+
+.ps-bus  { left: 50%; top: 50%; min-width: 124px; background: #101820; }
+.ps-bus .node-title { color: var(--accent-2); font-size: .92rem; }
+.ps-bus.active { border-color: var(--accent-2); box-shadow: 0 0 0 4px rgba(106,208,255,.18); }
+
+.ps-sub  { left: 85%; }
+#sub_inventory { top: 16%; }
+#sub_emailer   { top: 50%; }
+#sub_analytics { top: 84%; }
+.ps-sub .node-title { color: var(--good); }
+.ps-sub.receiving { border-color: var(--good); box-shadow: 0 0 0 4px rgba(110,231,168,.22); }
+.ps-sub.idle { opacity: .5; }
+
+/* chip topic nhỏ trong node subscriber */
+.sub-topics { display: flex; gap: 3px; justify-content: center; margin-top: 5px; flex-wrap: wrap; }
+.sub-topics .t {
+  font-size: .56rem; padding: 1px 5px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--muted); background: var(--panel);
+}
+.sub-topics .t.on { border-color: var(--good); color: var(--good); background: #16271e; }
+
+/* dot message bay */
+.msg-dot {
+  position: absolute; width: 18px; height: 18px; border-radius: 5px;
+  transform: translate(-50%, -50%); z-index: 6; pointer-events: none;
+  box-shadow: 0 0 10px rgba(255,255,255,.4);
+  transition: left .45s ease, top .45s ease;
+  display: flex; align-items: center; justify-content: center; font-size: .6rem;
+}
+.dot-order   { background: #ffb454; }
+.dot-payment { background: #6ad0ff; }
+.dot-user    { background: #c08bff; }
+
+/* controls */
+.topic-picker { flex-wrap: wrap; }
+.topic-chip.active { border-color: var(--accent); background: #2a2117; color: var(--accent); font-weight: 600; }
+.pub-btn { width: 100%; margin-top: 12px; }
+
+/* lưới subscribe ở cột trái */
+.sub-grid { display: flex; flex-direction: column; gap: 8px; }
+.sub-line {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  font-size: .82rem;
+}
+.sub-line .who { color: var(--text); min-width: 86px; }
+.sub-line .toggles { display: flex; gap: 4px; }
+.sub-toggle {
+  font-size: .66rem; padding: 3px 7px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--muted);
+  transition: all .15s;
+}
+.sub-toggle:hover { border-color: var(--accent); }
+.sub-toggle.on { border-color: var(--good); color: var(--good); background: #16271e; }

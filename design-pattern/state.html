@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>State Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="state.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>State Pattern</h1>
+    <p class="subtitle">Máy bán kẹo cao su — mỗi thao tác do trạng thái hiện tại quyết định</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + nhật ký -->
+    <section class="panel controls">
+      <h3>Thao tác lên máy</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnInsert">🪙 insertQuarter()</button>
+        <button class="btn" id="btnEject">↩︎ ejectQuarter()</button>
+        <button class="btn good" id="btnCrank">🔄 turnCrank()</button>
+        <button class="btn" id="btnRefill">📦 refill()</button>
+      </div>
+      <p class="ctrl-note">Mỗi nút gọi <code>machine.action()</code>. Máy <strong>uỷ quyền</strong>
+        cho object trạng thái đang giữ — chính nó quyết định kết quả &amp; bước chuyển.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký máy</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bỏ xu rồi quay tay để lấy kẹo…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area gm-stage" id="stageArea">
+        <div class="state-diagram" id="diagram">
+          <div class="node" data-state="soldOut"><b>SoldOut</b><small>Hết kẹo</small></div>
+          <div class="node" data-state="noQuarter"><b>NoQuarter</b><small>Chưa bỏ xu</small></div>
+          <div class="node" data-state="hasQuarter"><b>HasQuarter</b><small>Đã có xu</small></div>
+          <div class="node" data-state="sold"><b>Sold</b><small>Đang nhả kẹo</small></div>
+        </div>
+
+        <div class="machine">
+          <div class="dome"><div class="gumballs" id="gumballs"></div></div>
+          <div class="neck"></div>
+          <div class="body">
+            <div class="crank" id="crank"></div>
+            <div class="slot"></div>
+            <div class="coin" id="coin"></div>
+            <div class="window">GUMBALL · 25¢</div>
+            <div class="chute"><span class="out-ball" id="outBall"></span></div>
+          </div>
+        </div>
+
+        <div class="gm-meta">
+          <span class="state-badge" id="stateBadge">NoQuarterState</span>
+          <span class="count-chip">Kẹo còn: <b id="countVal">5</b></span>
+        </div>
+      </div>
+      <p class="hint"><code>machine.turnCrank()</code> chỉ là một dòng — nhưng kết quả khác nhau tuỳ
+        <strong>currentState</strong> đang là <code>NoQuarterState</code> hay <code>HasQuarterState</code></p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng State?</h4>
+        <p>
+          <code>GumballMachine</code> <strong>không</strong> chứa khối <code>if/else</code> khổng lồ.
+          Nó giữ một <code>currentState</code> và <strong>uỷ quyền</strong> mọi thao tác cho object
+          trạng thái đó.
+        </p>
+        <p>
+          Mỗi <strong>State</strong> tự xử lý hành động và tự gọi <code>machine.setState(...)</code>
+          để chuyển sang trạng thái kế tiếp. Thêm một trạng thái mới = thêm một lớp, <strong>không
+          phải sửa</strong> các lớp cũ.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="state.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strategy Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="strategy.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Strategy Pattern</h1>
+    <p class="subtitle">Trình mô phỏng vịt SimUDuck — tách hành vi <em>bay</em> &amp; <em>kêu</em> thành chiến lược thay được lúc chạy</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + panel phụ -->
+    <section class="panel controls">
+      <h3>1 · Chọn loại vịt</h3>
+      <div class="duck-picker" id="typePicker">
+        <button class="chip type-chip active" data-type="MallardDuck">🦆 MallardDuck<small>Vịt trời — bay bằng cánh, kêu Quack</small></button>
+        <button class="chip type-chip" data-type="RubberDuck">🐤 RubberDuck<small>Vịt cao su — không bay, kêu Squeak</small></button>
+        <button class="chip type-chip" data-type="DecoyDuck">🪶 DecoyDuck<small>Vịt mồi gỗ — không bay, câm</small></button>
+      </div>
+
+      <p class="field-label">2 · Đổi FlyBehavior lúc chạy</p>
+      <div class="strat-picker" id="flyPicker">
+        <button class="chip strat-chip" data-fly="FlyWithWings">FlyWithWings</button>
+        <button class="chip strat-chip" data-fly="FlyNoWay">FlyNoWay</button>
+        <button class="chip strat-chip" data-fly="FlyRocketPowered">FlyRocketPowered</button>
+      </div>
+
+      <p class="field-label">3 · Đổi QuackBehavior lúc chạy</p>
+      <div class="strat-picker" id="quackPicker">
+        <button class="chip strat-chip" data-quack="Quack">Quack</button>
+        <button class="chip strat-chip" data-quack="Squeak">Squeak</button>
+        <button class="chip strat-chip" data-quack="MuteQuack">MuteQuack</button>
+      </div>
+
+      <div class="divider"></div>
+      <div class="btn-row">
+        <button class="btn primary" id="flyBtn">performFly()</button>
+        <button class="btn good" id="quackBtn">performQuack()</button>
+      </div>
+
+      <div class="sub-panel">
+        <h3>🔌 Hành vi đang cắm vào</h3>
+        <div class="behavior-row">
+          <span class="behavior-key">flyBehavior</span>
+          <span class="state-badge" id="curFly">FlyWithWings</span>
+        </div>
+        <div class="behavior-row">
+          <span class="behavior-key">quackBehavior</span>
+          <span class="state-badge" id="curQuack">Quack</span>
+        </div>
+        <p class="behavior-note">Đổi chiến lược ở trên → vịt làm việc khác mà <strong>class Duck không đổi một dòng</strong>.</p>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area" id="stageArea">
+        <div class="cloud c1">☁️</div>
+        <div class="cloud c2">☁️</div>
+        <div class="speech-bubble" id="speechBubble"><span id="speechText">Quack!</span></div>
+        <div class="duck" id="duck">
+          <div class="rocket" id="rocket">🚀</div>
+          <div class="duck-body" id="duckBody">🦆</div>
+          <div class="duck-shadow"></div>
+        </div>
+        <div class="ground"></div>
+      </div>
+      <p class="hint">Nhấn <code>performFly()</code> / <code>performQuack()</code> — vịt <strong>uỷ quyền</strong> cho object hành vi đang cắm vào.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Strategy?</h4>
+        <p>
+          Nếu nhồi <code>fly()</code>/<code>quack()</code> vào lớp <strong>Duck</strong> bằng kế thừa,
+          mỗi loại vịt mới lại phải sửa/đè method — <strong>cứng &amp; dễ vỡ</strong>.
+        </p>
+        <p>
+          Strategy tách mỗi hành vi thành <strong>một họ class</strong> (interface
+          <code>FlyBehavior</code>, <code>QuackBehavior</code>). Duck chỉ <strong>giữ tham chiếu</strong>
+          tới một chiến lược và <strong>uỷ quyền</strong> cho nó. Đổi object chiến lược lúc chạy bằng
+          <code>setFlyBehavior()</code> là đổi luôn việc vịt làm — không đụng tới <code>class Duck</code>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="strategy.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

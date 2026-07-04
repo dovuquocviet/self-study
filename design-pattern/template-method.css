@@ -1,0 +1,163 @@
+/* ===== Template Method — style RIÊNG cho animation 2 cột pha ===== */
+/* (chỉ style đặc thù; layout/nút/log/lesson dùng class chung trong styles.css) */
+
+#stageArea { flex-direction: column; }
+
+/* hai cột Coffee | Tea cạnh nhau */
+.brew-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  width: 100%;
+}
+
+.brew-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel-2);
+  transition: border-color .3s, box-shadow .3s, opacity .3s;
+}
+.brew-col.brewing {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 180, 84, .15);
+}
+.brew-col.idle { opacity: .5; }
+
+.bev-name {
+  margin: 10px 0 12px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: .3px;
+}
+
+/* ---------- Cốc + nước + hơi ---------- */
+.cup { position: relative; width: 88px; height: 78px; }
+.cup-body {
+  position: absolute; left: 6px; top: 8px;
+  width: 64px; height: 64px;
+  border: 3px solid #cdd5df;
+  border-radius: 8px 8px 16px 16px;
+  background: #0b0e12;
+  overflow: hidden;
+}
+.cup-liquid {
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 0;
+  background: #6ad0ff;
+  transition: height .45s ease, background .45s ease;
+}
+.cup-handle {
+  position: absolute; right: 4px; top: 18px;
+  width: 22px; height: 30px;
+  border: 3px solid #cdd5df; border-left: none;
+  border-radius: 0 14px 14px 0;
+}
+
+/* hơi nước — chỉ hiện khi đang pha (sau boilWater) */
+.steam {
+  position: absolute; top: -22px; left: 14px;
+  display: flex; gap: 9px; opacity: 0; transition: opacity .3s;
+}
+.brew-col.steaming .steam { opacity: 1; }
+.steam span {
+  width: 5px; height: 18px; border-radius: 3px;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0));
+  animation: rise 1.6s ease-in-out infinite;
+}
+.steam span:nth-child(2) { animation-delay: .35s; }
+.steam span:nth-child(3) { animation-delay: .7s; }
+@keyframes rise {
+  0%   { transform: translateY(6px) scaleY(.6); opacity: 0; }
+  40%  { opacity: .8; }
+  100% { transform: translateY(-14px) scaleY(1.2); opacity: 0; }
+}
+
+/* ---------- Danh sách bước ---------- */
+.step-list { display: flex; flex-direction: column; gap: 7px; width: 100%; }
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  grid-template-areas: "num method" "num label";
+  column-gap: 8px;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  transition: all .25s ease;
+}
+.step-num {
+  grid-area: num;
+  align-self: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  background: var(--line); color: var(--muted);
+}
+.step-method {
+  grid-area: method;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .8rem; font-weight: 700;
+}
+.step-label {
+  grid-area: label;
+  font-size: .72rem; color: var(--muted);
+}
+
+/* lớp cha vs lớp con: tô màu trái dấu */
+.parent-step { border-left: 3px solid var(--accent-2); }
+.parent-step .step-method { color: var(--accent-2); }
+.child-step  { border-left: 3px solid var(--good); }
+.child-step  .step-method { color: var(--good); }
+
+/* trạng thái khi chạy */
+.step.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 180, 84, .18);
+  transform: translateX(3px);
+}
+.step.active .step-num { background: var(--accent); color: #1a1205; }
+.step.done { opacity: .9; }
+.step.done .step-num::after { content: "✓"; }
+.step.done .step-num { font-size: 0; background: var(--good); color: #06210f; }
+.step.done .step-num::after { font-size: .72rem; }
+
+.step.skipped { opacity: .4; border-style: dashed; }
+.step.skipped .step-method { text-decoration: line-through; }
+.step.skipped .step-num { font-size: 0; background: #5c2a2a; }
+.step.skipped .step-num::after { content: "⨯"; font-size: .72rem; color: #ff9b9b; }
+
+/* ---------- Chú thích màu (legend) ---------- */
+.legend {
+  margin-top: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  font-size: .76rem; color: var(--muted);
+}
+.legend-item { display: flex; align-items: center; gap: 8px; line-height: 1.3; }
+.swatch {
+  flex: none; width: 14px; height: 14px; border-radius: 4px;
+}
+.swatch.parent { background: var(--accent-2); }
+.swatch.child  { background: var(--good); }
+
+/* ---------- Hook checkbox ---------- */
+.hook-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  cursor: pointer; font-size: .86rem; line-height: 1.4;
+  padding: 4px 0;
+}
+.hook-row input { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--accent); }
+.hook-row code { color: var(--accent-2); }
+.hook-note {
+  font-size: .78rem; color: var(--muted); margin: 6px 0 0; line-height: 1.5;
+}
+.hook-note code { color: var(--accent-2); }
+
+@media (max-width: 460px) {
+  .brew-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,65 @@
+/* ===== MVC / MVVM — style RIÊNG cho vòng Model-View-Controller ===== */
+
+.mvc-stage {
+  width: 100%; max-width: 420px; height: 360px; min-height: 360px;
+  position: relative;
+}
+
+.mvc-box {
+  position: absolute; width: 150px; transform: translate(-50%, -50%);
+  transition: all .3s ease;
+}
+.mvc-tag { font-weight: 800; font-size: .95rem; }
+.mvc-desc { font-size: .72rem; color: var(--muted); margin-top: 4px; }
+.mvc-desc b { color: var(--accent); font-size: 1rem; }
+
+.controller-box { left: 50%;  top: 16%; }
+.controller-box .mvc-tag { color: var(--accent-2); }
+.model-box      { left: 22%;  top: 76%; }
+.model-box .mvc-tag { color: var(--accent); }
+.view-box       { left: 78%;  top: 76%; }
+.view-box .mvc-tag { color: var(--good); }
+
+/* màn hình của View */
+.mvc-screen {
+  margin-top: 8px; background: #0b0e12; border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px; font-size: 1.5rem; font-weight: 800;
+  color: var(--good); font-family: ui-monospace, Menlo, monospace;
+  transition: transform .25s ease;
+}
+.mvc-screen.bump { animation: screenBump .4s ease; }
+@keyframes screenBump {
+  0% { transform: scale(1); } 45% { transform: scale(1.25); color: #fff; } 100% { transform: scale(1); }
+}
+
+/* mũi tên vòng giữa 3 khối */
+.flow-arrow {
+  position: absolute; font-size: .68rem; font-weight: 700;
+  color: var(--muted); white-space: nowrap;
+  padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--panel-2); transition: all .25s ease; opacity: .55;
+}
+.flow-arrow.lit {
+  opacity: 1; color: var(--bg); background: var(--accent);
+  border-color: var(--accent); box-shadow: 0 0 12px rgba(255,180,84,.5);
+  transform: scale(1.12);
+}
+/* C → M (trái xuống) */
+.a-cm { left: 20%; top: 45%; }
+/* M → V (đáy, sang phải) */
+.a-mv { left: 50%; top: 82%; transform: translateX(-50%); }
+.a-mv.lit { transform: translateX(-50%) scale(1.12); }
+/* V → user → C (phải lên) */
+.a-vc { right: 12%; top: 45%; }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 4px 0 12px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }
+
+/* panel đồng bộ */
+.sync-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: .85rem;
+}
+.sync-val { color: var(--good); font-size: 1.15rem; font-weight: 800; font-family: ui-monospace, Menlo, monospace; }
+.sync-note { font-size: .74rem; color: var(--muted); margin: 8px 0 0; }

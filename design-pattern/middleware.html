@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Middleware / Pipeline — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="middleware.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Middleware / Pipeline</h1>
+    <p class="subtitle">Request đi qua chuỗi middleware (logger → auth → handler) như Express</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + nhật ký -->
+    <section class="panel controls">
+      <h3>Soạn request</h3>
+      <div class="ctrl-row">
+        <label class="switch-row">
+          <input type="checkbox" id="tglAuth" checked />
+          <span>🔑 Đã đăng nhập? (kèm token hợp lệ)</span>
+        </label>
+        <label class="switch-row">
+          <input type="checkbox" id="tglBody" checked />
+          <span>📦 Body hợp lệ? (có dữ liệu)</span>
+        </label>
+      </div>
+
+      <button class="btn primary" id="btnSend">🚀 Gửi request</button>
+      <p class="ctrl-note">Một request <strong>đi qua từng middleware</strong>. Mỗi middleware
+        có thể gọi <code>next()</code> để cho đi tiếp, hoặc <strong>chặn</strong> (trả lỗi) và dừng chuỗi.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký pipeline</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bấm “Gửi request” để theo dõi gói tin đi qua chuỗi…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area mw-stage" id="stageArea">
+        <div class="mw-chain" id="chain">
+          <div class="node mw-node" data-mw="logger"><b>Logger</b><small>ghi log</small></div>
+          <span class="arrow" data-gap="0">→</span>
+          <div class="node mw-node" data-mw="auth"><b>Auth</b><small>kiểm tra token</small></div>
+          <span class="arrow" data-gap="1">→</span>
+          <div class="node mw-node" data-mw="validator"><b>Validator</b><small>kiểm tra body</small></div>
+          <span class="arrow" data-gap="2">→</span>
+          <div class="node mw-node mw-handler" data-mw="handler"><b>Handler</b><small>trả response</small></div>
+        </div>
+
+        <div class="mw-packet" id="packet">REQ</div>
+
+        <div class="mw-meta">
+          <span class="state-badge" id="statusBadge">chờ gửi…</span>
+        </div>
+      </div>
+      <p class="hint">Cùng một <code>app.handle(req)</code> — nhưng nếu <code>auth</code> không gọi
+        <code>next()</code> thì gói tin <strong>dừng lại</strong>, các middleware sau không chạy.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Middleware?</h4>
+        <p>
+          Mỗi việc chéo nhau (logging, xác thực, kiểm tra dữ liệu) là <strong>một hàm độc lập</strong>
+          <code>(req, res, next)</code>. Bạn <strong>xếp chồng</strong> chúng bằng <code>app.use(...)</code>
+          mà không phải sửa các hàm khác.
+        </p>
+        <p>
+          Khác <strong>Chain of Responsibility</strong>: ở đó chỉ một mắt xích “nhận” việc rồi dừng.
+          Ở Middleware <strong>mọi middleware đều có cơ hội xử lý</strong> request rồi gọi
+          <code>next()</code> trao tiếp cho mắt xích sau.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="middleware.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

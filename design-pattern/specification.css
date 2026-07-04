@@ -1,0 +1,53 @@
+/* ===== Specification — style RIÊNG cho danh sách sản phẩm ===== */
+
+.spec-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 16px; padding: 6px 0;
+}
+
+.prod-list { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+.prod {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto 20px;
+  align-items: center; gap: 10px;
+  padding: 11px 14px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--panel-2);
+  font-size: .86rem;
+  transition: opacity .35s ease, transform .35s ease, border-color .25s, background .25s;
+}
+.prod.pass {
+  border-color: var(--good); background: #16271e;
+}
+.prod.fail {
+  opacity: .32; transform: translateX(14px);
+  filter: grayscale(.6);
+}
+
+.p-name { font-weight: 600; color: var(--text); }
+.prod.pass .p-name { color: var(--good); }
+.p-tag {
+  font-size: .68rem; color: var(--muted); border: 1px solid var(--line);
+  border-radius: 999px; padding: 1px 8px;
+}
+.p-price { color: var(--accent); font-family: ui-monospace, Menlo, monospace; font-size: .8rem; }
+.p-stock { font-size: .7rem; font-weight: 700; }
+.p-stock.in  { color: var(--accent-2); }
+.p-stock.out { color: #ff9b9b; }
+.p-mark { text-align: center; font-weight: 800; }
+.prod.pass .p-mark { color: var(--good); }
+.prod.fail .p-mark { color: #ff9b9b; }
+
+.match-meta { display: flex; justify-content: center; }
+
+/* ---- toán tử ---- */
+.op-btn { flex: 1; font-size: .82rem; }
+.op-btn.active { border-color: var(--accent); background: #2a2117; color: var(--accent); font-weight: 600; }
+.not-btn.on { border-color: #ff7a7a; background: #2a1717; color: #ff9b9b; font-weight: 700; }
+
+/* ---- cây spec ---- */
+.spec-tree {
+  margin: 0; font-family: ui-monospace, Menlo, monospace; font-size: .8rem;
+  color: var(--accent-2); line-height: 1.6; white-space: pre;
+  overflow-x: auto;
+}

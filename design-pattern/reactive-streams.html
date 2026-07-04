@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reactive Streams (Observable) — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="reactive-streams.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Reactive Streams (Observable)</h1>
+    <p class="subtitle">Luồng giá trị qua các toán tử map/filter rồi tới subscriber (kiểu RxJS)</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + giá trị nhận được -->
+    <section class="panel controls">
+      <h3>Điều khiển luồng</h3>
+      <button class="btn primary" id="btnEmit">⚡ Emit giá trị tiếp theo</button>
+      <button class="btn" id="btnReset">↺ Reset luồng (về 1)</button>
+
+      <p class="field-label">Toán tử trong pipe()</p>
+      <div class="ctrl-row">
+        <label class="switch-row">
+          <input type="checkbox" id="opFilter" checked />
+          <span>🔍 filter(x =&gt; x % 2 === 0) — chỉ giữ số chẵn</span>
+        </label>
+        <label class="switch-row">
+          <input type="checkbox" id="opMap" checked />
+          <span>✺ map(x =&gt; x * 10) — nhân 10</span>
+        </label>
+      </div>
+
+      <div class="sub-panel">
+        <h3>📥 Subscriber nhận được</h3>
+        <div class="output-box" id="received">
+          <div class="log-line muted-line">next() chưa được gọi lần nào…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area rx-stage" id="stageArea">
+        <div class="rx-pipe" id="pipe">
+          <div class="node rx-station" data-st="source"><b>Observable</b><small>phát giá trị</small></div>
+          <span class="arrow">→</span>
+          <div class="node rx-station" data-st="filter"><b>filter</b><small>x % 2 === 0</small></div>
+          <span class="arrow">→</span>
+          <div class="node rx-station" data-st="map"><b>map</b><small>x × 10</small></div>
+          <span class="arrow">→</span>
+          <div class="node rx-station rx-sub" data-st="subscriber"><b>Subscriber</b><small>next(value)</small></div>
+        </div>
+
+        <div class="rx-value" id="value">1</div>
+
+        <div class="rx-meta">
+          <span class="state-badge" id="emitBadge">next phát ra: 1</span>
+        </div>
+      </div>
+      <p class="hint">Mỗi toán tử là một <strong>trạm biến đổi</strong> trả về một
+        <code>Observable</code> mới. Giá trị chỉ “chảy” khi có <code>subscribe()</code>.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Reactive Streams?</h4>
+        <p>
+          Thay vì xử lý từng giá trị bằng tay, bạn <strong>khai báo</strong> một đường ống:
+          dữ liệu chảy qua <code>filter</code> → <code>map</code> → … rồi tới
+          <code>subscribe</code>. Mỗi toán tử là thuần khiết, ghép nối được.
+        </p>
+        <p>
+          <code>filter</code>/<code>map</code> <strong>không sửa</strong> Observable gốc — chúng trả về
+          một Observable <strong>mới</strong>. Đây là kiểu “lazy”: không có subscriber thì
+          <strong>không có gì chạy</strong>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="reactive-streams.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

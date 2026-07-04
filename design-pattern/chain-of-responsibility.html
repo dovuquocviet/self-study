@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chain of Responsibility — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="chain-of-responsibility.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Chain of Responsibility</h1>
+    <p class="subtitle">Máy ATM nhả tiền: chuyền yêu cầu qua chuỗi handler $50→$20→$10→$5</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + nhật ký -->
+    <section class="panel controls">
+      <h3>Rút tiền</h3>
+      <div class="field-label">Số tiền (bội số của 5):
+        <span class="slider-val" id="amtVal">$185</span></div>
+      <input type="range" class="slider" id="amtSlider" min="5" max="500" step="5" value="185" />
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn" data-quick="65">$65</button>
+        <button class="btn" data-quick="185">$185</button>
+        <button class="btn" data-quick="240">$240</button>
+        <button class="btn" data-quick="500">$500</button>
+      </div>
+      <div class="ctrl-row" style="margin-top:14px">
+        <button class="btn primary" id="btnDispense">💵 dispense(amount)</button>
+        <button class="btn" id="btnReset">↺ Reset chuỗi</button>
+      </div>
+      <p class="ctrl-note">Yêu cầu là một <strong>gói</strong> chạy dọc chuỗi. Mỗi handler chỉ
+        biết nhả mệnh giá của mình rồi đưa <code>remainder</code> cho <code>next</code>.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký chuỗi</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Chọn số tiền rồi bấm dispense()…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area atm-stage" id="stageArea">
+        <div class="packet" id="packet"><span id="packetVal">$0</span><small>còn lại</small></div>
+
+        <div class="chain" id="chain">
+          <div class="handler" data-denom="50">
+            <div class="node"><b>$50 Handler</b><small>handle50</small></div>
+            <div class="bills" id="bills50"></div>
+            <div class="took" id="took50">0 tờ</div>
+          </div>
+          <span class="arrow" data-link="0">↓</span>
+          <div class="handler" data-denom="20">
+            <div class="node"><b>$20 Handler</b><small>handle20</small></div>
+            <div class="bills" id="bills20"></div>
+            <div class="took" id="took20">0 tờ</div>
+          </div>
+          <span class="arrow" data-link="1">↓</span>
+          <div class="handler" data-denom="10">
+            <div class="node"><b>$10 Handler</b><small>handle10</small></div>
+            <div class="bills" id="bills10"></div>
+            <div class="took" id="took10">0 tờ</div>
+          </div>
+          <span class="arrow" data-link="2">↓</span>
+          <div class="handler" data-denom="5">
+            <div class="node"><b>$5 Handler</b><small>handle5</small></div>
+            <div class="bills" id="bills5"></div>
+            <div class="took" id="took5">0 tờ</div>
+          </div>
+        </div>
+
+        <div class="atm-meta">
+          <span class="state-badge" id="statusBadge">Sẵn sàng</span>
+        </div>
+      </div>
+      <p class="hint">Cùng một lời gọi <code>handle(amount)</code> nhưng mỗi handler tự quyết
+        lấy bao nhiêu tờ rồi chuyển <strong>phần dư</strong> cho handler kế tiếp.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Chain of Responsibility?</h4>
+        <p>
+          Người gửi yêu cầu <strong>không cần biết</strong> handler nào sẽ xử lý phần nào.
+          Nó chỉ ném yêu cầu vào đầu chuỗi; mỗi handler làm phần việc của mình rồi
+          <strong>chuyển tiếp</strong> phần còn lại.
+        </p>
+        <p>
+          Thêm/bớt mệnh giá = thêm/bớt một mắt xích, <strong>không phải sửa</strong> các handler khác.
+          Thứ tự xử lý do cách nối <code>setNext()</code> quyết định.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="chain-of-responsibility.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

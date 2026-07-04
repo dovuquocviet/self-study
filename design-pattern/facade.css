@@ -1,0 +1,121 @@
+/* ===== Facade Pattern — style RIÊNG cho animation Home Theater ===== */
+/* (các class chung .panel .node .output-box .btn ... nằm ở styles.css) */
+
+/* --- nút bấm to ở cột trái --- */
+.big-btn {
+  width: 100%;
+  padding: 16px 14px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.ctrl-row { gap: 12px; }
+
+.facade-tip {
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 16px 0 4px;
+}
+.facade-tip code { color: var(--accent-2); }
+.facade-tip strong { color: var(--text); }
+
+/* --- sân khấu: ngăn xếp subsystem theo chiều dọc --- */
+.facade-stage {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  min-height: 320px;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 0;
+}
+
+/* "màn hình rạp" phía trên ngăn xếp */
+.marquee {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #05070a;
+  padding: 16px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all .35s ease;
+}
+.marquee-label {
+  font-size: .68rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+}
+.marquee-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #3a4453;
+  font-family: ui-monospace, Menlo, monospace;
+}
+.marquee.on {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(106,208,255,.12), inset 0 0 40px rgba(106,208,255,.12);
+  animation: screenGlow 2.4s ease-in-out infinite;
+}
+.marquee.on .marquee-title { color: var(--accent-2); }
+@keyframes screenGlow {
+  0%,100% { box-shadow: 0 0 0 3px rgba(106,208,255,.12), inset 0 0 40px rgba(106,208,255,.10); }
+  50%     { box-shadow: 0 0 0 3px rgba(106,208,255,.20), inset 0 0 60px rgba(106,208,255,.22); }
+}
+
+.subsystem-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* mỗi subsystem là 1 .node (đã có border/active/pulse từ styles.css) */
+.sys-node {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 12px 16px;
+}
+.sys-icon {
+  font-size: 1.4rem;
+  filter: grayscale(.7) brightness(.85);
+  transition: filter .3s ease, transform .3s ease;
+}
+.sys-name {
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.sys-status {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  font-family: ui-monospace, Menlo, monospace;
+  min-width: 42px;
+  text-align: right;
+}
+.sys-status.on { color: var(--good); }
+
+/* khi subsystem được facade bật */
+.sys-node.active .sys-icon {
+  filter: none;
+  transform: scale(1.1);
+}
+
+/* --- tô sáng dòng code đang được facade gọi (cột phải) --- */
+.code-view .code-line {
+  display: block;
+  border-radius: 6px;
+  padding: 0 6px;
+  margin: 0 -6px;
+  transition: background .2s ease;
+}
+.code-view .code-line.hl {
+  background: rgba(255,180,84,.16);
+  box-shadow: inset 3px 0 0 var(--accent);
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bài học</title>
+  <script>try{var t=localStorage.getItem('study-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header compact">
+    <div class="hbar">
+      <a class="back" href="index.html">← Lộ trình</a>
+      <span class="spacer"></span>
+      <a class="back" href="../index.html">🏠 Trang chủ</a>
+      <button class="theme-toggle" id="themeToggle" title="Đổi giao diện Sáng/Tối">🌙</button>
+    </div>
+    <h1 id="lessonTitle">Đang tải…</h1>
+    <p class="lesson-kicker"><span class="progress-mini" id="lessonPhase"></span></p>
+    <div class="course-progress">
+      <div class="bar slim"><span id="courseBarFill"></span></div>
+      <span class="progress-mini" id="courseProgressText"></span>
+    </div>
+  </header>
+
+  <main class="lesson-wrap" id="lessonRoot">
+    <!-- 1. Lý thuyết -->
+    <section class="section">
+      <h2 class="section-head"><span class="n">1</span> Lý thuyết</h2>
+      <div class="theory" id="theory"></div>
+    </section>
+
+    <!-- 2. Code demo -->
+    <section class="section">
+      <h2 class="section-head"><span class="n">2</span> Code demo — sửa & bấm ▶ Run</h2>
+      <div id="snack"></div>
+    </section>
+
+    <!-- 3. Sơ đồ -->
+    <section class="section">
+      <h2 class="section-head"><span class="n">3</span> Sơ đồ minh hoạ</h2>
+      <div class="diagram" id="diagram"></div>
+    </section>
+
+    <!-- 4. Trắc nghiệm -->
+    <section class="section">
+      <h2 class="section-head"><span class="n">4</span> Trắc nghiệm</h2>
+      <div class="quiz">
+        <div class="quiz-status" id="quizStatus"></div>
+        <div id="quizList"></div>
+        <div class="lesson-actions">
+          <button class="btn primary" id="btnDone" disabled>✓ Hoàn thành & bài sau</button>
+          <button class="btn" id="btnRetry">↺ Làm lại</button>
+          <span class="done-hint" id="doneHint"></span>
+        </div>
+      </div>
+    </section>
+
+    <nav class="lesson-nav">
+      <span id="prevLink"></span>
+      <span id="nextLink"></span>
+    </nav>
+  </main>
+
+  <script src="vendor/marked.min.js"></script>
+  <script src="vendor/highlight.min.js"></script>
+  <script src="vendor/mermaid.min.js"></script>
+  <script src="vendor/babel.min.js"></script>
+  <script src="data.js"></script>
+  <script src="diagrams.js"></script>
+  <script src="runtime.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

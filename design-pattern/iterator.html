@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iterator Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="iterator.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Iterator Pattern</h1>
+    <p class="subtitle">Hai thực đơn lưu khác nhau (ArrayList vs Array) — Waitress vẫn duyệt y hệt</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + món hiện tại + output -->
+    <section class="panel controls">
+      <h3>1 · Waitress duyệt menu</h3>
+      <div class="btn-row">
+        <button class="btn primary" id="nextBtn">⏭ Bước tiếp (next)</button>
+        <button class="btn" id="autoBtn">▶ Tự động duyệt hết (printMenu)</button>
+      </div>
+      <button class="btn reset-row" id="resetBtn">↺ Làm lại từ đầu</button>
+
+      <div class="sub-panel">
+        <h3>🍽 Món hiện tại — <code>it.next()</code></h3>
+        <div class="cur-card" id="curCard">
+          <div class="cur-empty" id="curEmpty">Chưa bắt đầu — bấm <code>Bước tiếp</code> để Waitress gọi <code>next()</code>.</div>
+          <div class="cur-body hidden" id="curBody">
+            <div class="cur-line"><span class="cur-name" id="curName"></span><span class="cur-price" id="curPrice"></span></div>
+            <div class="cur-meta" id="curMeta"></div>
+          </div>
+        </div>
+        <div class="hasnext-row">
+          <span class="field-label" style="margin:0">it.hasNext()</span>
+          <span class="state-badge" id="hasNextBadge">—</span>
+        </div>
+      </div>
+
+      <div class="sub-panel">
+        <h3>🧾 printMenu() in ra</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Output sẽ hiện ở đây khi duyệt…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu — hai menu cấu trúc khác nhau -->
+    <section class="panel stage">
+      <div class="stage-area wide" id="stageArea">
+        <div class="menus">
+          <!-- PancakeHouseMenu: ArrayList (động) -->
+          <div class="menu-box pancake" id="pancakeBox">
+            <div class="menu-head">
+              <span class="menu-title">PancakeHouseMenu</span>
+              <span class="menu-struct">ArrayList&lt;MenuItem&gt;</span>
+            </div>
+            <div class="menu-rows" id="pancakeRows"></div>
+          </div>
+
+          <!-- DinerMenu: Array cố định (có ô null) -->
+          <div class="menu-box diner" id="dinerBox">
+            <div class="menu-head">
+              <span class="menu-title">DinerMenu</span>
+              <span class="menu-struct">MenuItem[]  ·  MAX_ITEMS=6</span>
+            </div>
+            <div class="menu-rows" id="dinerRows"></div>
+          </div>
+        </div>
+        <!-- con trỏ Waitress di chuyển -->
+        <div class="cursor" id="cursor">👩‍🍳<span class="cursor-tag">Waitress</span></div>
+      </div>
+      <p class="hint">Hai menu lưu <strong>khác nhau</strong> bên trong, nhưng cùng có <code>createIterator()</code> → Waitress duyệt bằng <code>hasNext()/next()</code> y hệt</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Iterator?</h4>
+        <p>
+          <code>PancakeHouseMenu</code> lưu món bằng <strong>ArrayList</strong>, còn
+          <code>DinerMenu</code> lưu bằng <strong>Array cố định</strong>. Nếu Waitress phải tự
+          biết từng kiểu, code sẽ phải có <em>hai vòng lặp khác nhau</em>.
+        </p>
+        <p>
+          Iterator <strong>gói cách duyệt</strong> lại sau <code>hasNext()/next()</code>. Mỗi menu
+          tự trả về Iterator phù hợp qua <code>createIterator()</code>, nên
+          <code>Waitress.printMenu(iterator)</code> chỉ cần <strong>một vòng lặp duy nhất</strong>
+          dùng được cho mọi menu — cấu trúc bên trong bị <strong>giấu kín</strong>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="iterator.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Promise / Async — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="promise-async.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Promise / Async</h1>
+    <p class="subtitle">Vòng đời Promise: pending → fulfilled / rejected; chuỗi then/await</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + nhật ký microtask -->
+    <section class="panel controls">
+      <h3>Điều khiển Promise</h3>
+      <div class="btn-row">
+        <button class="btn good" id="btnResolve">✓ resolve(1)</button>
+        <button class="btn danger" id="btnReject">✗ reject(Error)</button>
+      </div>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn" id="btnAddThen">＋ thêm .then</button>
+        <button class="btn" id="btnReset">↺ reset (pending)</button>
+      </div>
+      <p class="ctrl-note">Mỗi <code>.then</code> nhận giá trị từ mắt trước, trả giá trị cho mắt sau.
+        Khi <strong>reject</strong>, các <code>.then</code> bị bỏ qua, lỗi nhảy thẳng tới <code>.catch</code>.</p>
+
+      <div class="sub-panel">
+        <h3>⏱️ Thứ tự thực thi (microtask)</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Promise đang pending… bấm resolve hoặc reject.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area pr-stage" id="stageArea">
+        <div class="pr-promise pending" id="promise">
+          <div class="pr-ring"></div>
+          <div class="pr-face">
+            <span class="pr-state" id="prState">pending</span>
+            <span class="pr-val" id="prVal">?</span>
+          </div>
+        </div>
+
+        <div class="pr-chain" id="chain"></div>
+
+        <div class="pr-meta">
+          <span class="state-badge" id="prBadge">PromiseState: pending</span>
+        </div>
+      </div>
+      <p class="hint">Vòng tròn xoay = <code>pending</code>. <code>resolve</code> → xanh (fulfilled),
+        <code>reject</code> → đỏ (rejected). Giá trị chạy dọc chuỗi <code>then</code>.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Promise?</h4>
+        <p>
+          Một Promise là “lời hứa” về một giá trị tương lai. Nó đi qua đúng <strong>một lần</strong>
+          từ <code>pending</code> sang <code>fulfilled</code> hoặc <code>rejected</code> — đã settle
+          thì <strong>không đổi nữa</strong>.
+        </p>
+        <p>
+          Callback của <code>.then</code>/<code>.catch</code> không chạy ngay mà được xếp vào
+          <strong>microtask queue</strong>, chạy sau khi code đồng bộ hiện tại xong.
+          <code>async/await</code> chỉ là cú pháp đẹp hơn cho cùng cơ chế này.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="promise-async.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

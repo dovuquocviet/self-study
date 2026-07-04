@@ -1,0 +1,74 @@
+/* ===== Flyweight Pattern — style RIÊNG cho rừng cây ===== */
+
+.fw-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: 360px;
+  flex-direction: column; gap: 14px; padding: 6px 0;
+}
+
+/* ---- khu rừng ---- */
+.forest {
+  position: relative; width: 100%; height: 320px;
+  background:
+    linear-gradient(180deg, #0d161b 0%, #0d1f17 60%, #0a1a12 100%);
+  border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  box-shadow: inset 0 8px 24px rgba(0,0,0,.45);
+}
+/* lớp đất */
+.forest::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 38%;
+  background: linear-gradient(180deg, rgba(40,70,40,.0), rgba(30,50,30,.35));
+}
+
+/* mỗi cây = 1 thẻ nhỏ, dùng emoji loài để khỏi tải ảnh */
+.tree {
+  position: absolute; transform: translate(-50%, -100%) scale(0);
+  font-size: 18px; line-height: 1; will-change: transform;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.5));
+  animation: treeGrow .4s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes treeGrow {
+  0%   { transform: translate(-50%, -100%) scale(0); opacity: 0; }
+  100% { transform: translate(-50%, -100%) scale(var(--s,1)); opacity: 1; }
+}
+
+.fw-meta { display: flex; justify-content: center; }
+
+/* ---- thống kê cột trái ---- */
+.stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; font-size: .82rem; color: var(--muted);
+}
+.stat-val { font-weight: 700; font-size: 1.05rem; color: var(--text); }
+.stat-val.big  { font-size: 1.5rem; color: var(--accent-2); }
+.stat-val.good { font-size: 1.5rem; color: var(--good); }
+.stat-val.accent { color: var(--accent); }
+.stat-val.bump { animation: statBump .35s ease; }
+@keyframes statBump {
+  0% { transform: scale(1); } 50% { transform: scale(1.25); } 100% { transform: scale(1); }
+}
+
+/* ---- pool flyweight ---- */
+.pool-head { font-size: .75rem; color: var(--muted); margin: 12px 0 8px; }
+.pool { display: flex; flex-wrap: wrap; gap: 8px; }
+.pool-item {
+  display: flex; align-items: center; gap: 6px;
+  border: 1px solid var(--good); background: #16271e; color: var(--good);
+  border-radius: 999px; padding: 4px 10px; font-size: .78rem; font-weight: 600;
+  animation: fadeUp .35s ease;
+}
+.pool-item .swatch {
+  width: 12px; height: 12px; border-radius: 50%; display: inline-block;
+}
+.pool-item .reuse {
+  margin-left: 2px; font-size: .68rem; color: var(--muted);
+  background: #0b0e12; border-radius: 999px; padding: 1px 6px;
+}
+.pool-item.hit { animation: poolHit .4s ease; }
+@keyframes poolHit {
+  0% { box-shadow: 0 0 0 0 rgba(110,231,168,.5); }
+  50% { box-shadow: 0 0 0 5px rgba(110,231,168,.25); }
+  100% { box-shadow: 0 0 0 0 rgba(110,231,168,0); }
+}
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px; }
+.ctrl-note strong { color: var(--text); }

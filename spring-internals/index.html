@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spring Internals — Hiểu cơ chế bên trong Spring Framework</title>
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("study-theme")||"dark");}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="hbar">
+      <a class="back" href="../index.html">← Trang chủ</a>
+      <span class="spacer"></span>
+      <button class="theme-toggle" id="themeToggle" title="Đổi giao diện Sáng/Tối">🌙</button>
+    </div>
+    <h1><span class="leaf">🌱</span> Spring Internals</h1>
+    <p class="subtitle">Mổ xẻ cơ chế bên trong Spring: <em>ai</em> tạo bean, tạo <em>thế nào</em>, theo <em>thứ tự</em> gì</p>
+  </header>
+
+  <main class="container">
+    <p class="intro">
+      Bạn dùng <code>@Service</code>, <code>@Autowired</code>, <code>application.properties</code> mỗi ngày
+      nhưng chưa từng thấy Spring làm gì bên dưới? Mỗi bài dưới đây gồm 4 phần:
+      <strong>lý thuyết ngắn</strong> → <strong>code demo</strong> →
+      <strong>animation từng bước</strong> (bấm để xem container chạy) → <strong>trắc nghiệm</strong>.
+    </p>
+
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="progress-label" id="progressLabel">0/0 bài đã hoàn thành</p>
+    </div>
+
+    <div id="home"><!-- render bởi common.js --></div>
+  </main>
+
+  <footer class="site-footer">Tự học · Vanilla HTML/CSS/JS · Tiến độ lưu trong trình duyệt của bạn</footer>
+
+  <!-- dữ liệu bài học -->
+  <script src="lessons/00-index.js"></script>
+  <script src="lessons/01-ioc-di.js"></script>
+  <script src="lessons/02-component-scan.js"></script>
+  <script src="lessons/03-bean-definition.js"></script>
+  <script src="lessons/04-bean-lifecycle.js"></script>
+  <script src="lessons/05-di-deep.js"></script>
+  <script src="lessons/06-bean-scope.js"></script>
+  <script src="lessons/07-configuration-proxy.js"></script>
+  <script src="lessons/08-properties.js"></script>
+  <script src="lessons/09-auto-configuration.js"></script>
+  <script src="lessons/10-bean-post-processor.js"></script>
+  <script src="lessons/11-aop-proxy.js"></script>
+  <script src="lessons/12-spring-application-run.js"></script>
+  <script src="lessons/13-dispatcher-servlet.js"></script>
+  <!-- engine -->
+  <script src="common.js"></script>
+</body>
+</html>

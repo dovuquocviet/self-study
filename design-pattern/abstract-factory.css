@@ -1,0 +1,81 @@
+/* ===== Abstract Factory — style RIÊNG cho lò pizza ===== */
+
+.af-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 26px; padding: 10px 0;
+}
+
+/* ---- Hộp factory (cái lò) ---- */
+.factory-box {
+  --factory-color: #5a6675;
+  position: relative; width: 230px; padding: 18px 16px 26px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #232b35, #1a2029);
+  border: 2px solid var(--factory-color);
+  box-shadow: 0 8px 22px rgba(0,0,0,.4),
+              inset 0 1px 0 rgba(255,255,255,.06);
+  text-align: center;
+  transition: border-color .3s, box-shadow .3s;
+}
+.factory-label {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .82rem; font-weight: 700; color: var(--factory-color);
+  letter-spacing: .3px;
+}
+.factory-mouth {
+  position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%);
+  width: 70px; height: 14px; border-radius: 0 0 10px 10px;
+  background: #0b0e12;
+  border: 2px solid var(--factory-color); border-top: none;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,.7);
+}
+.factory-box.produce {
+  animation: factoryPulse .55s ease;
+}
+@keyframes factoryPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.04); box-shadow: 0 0 0 8px rgba(255,255,255,.06), 0 8px 22px rgba(0,0,0,.4); }
+  100% { transform: scale(1); }
+}
+
+/* ---- Lưới 4 nguyên liệu ---- */
+.ingredient-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 12px; width: 100%;
+}
+.ing-card {
+  --ing-color: transparent;
+  position: relative; padding: 12px 10px 10px;
+  border-radius: 12px; text-align: center;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ing-color);
+  opacity: .45;
+  transition: opacity .3s, border-color .3s;
+}
+.ing-card.filled { opacity: 1; border-color: var(--ing-color); }
+.ing-card.drop { animation: ingDrop .45s cubic-bezier(.34,1.56,.64,1); }
+@keyframes ingDrop {
+  0%   { opacity: 0; transform: translateY(-26px) scale(.7); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.ing-icon { font-size: 1.7rem; line-height: 1; display: block; }
+.ing-kind {
+  display: block; margin-top: 6px; font-size: .74rem;
+  color: var(--muted); text-transform: uppercase; letter-spacing: .8px;
+}
+.ing-name {
+  display: block; margin-top: 3px; font-size: .82rem; font-weight: 700;
+  color: var(--text); font-family: ui-monospace, Menlo, monospace;
+}
+
+/* meta */
+.af-meta { display: flex; justify-content: center; }
+.af-meta .state-badge { font-family: ui-monospace, Menlo, monospace; }
+
+/* ghi chú cột trái */
+.ctrl-note {
+  font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px;
+}
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

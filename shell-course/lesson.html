@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bài học · Nhập môn Shell / Dòng lệnh</title>
+  <script>window.COURSE={slug:"shell"};try{document.documentElement.setAttribute("data-theme",localStorage.getItem("study-theme")||"dark");}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header compact">
+    <div class="hbar">
+      <a class="back" href="index.html">← Tất cả bài học</a>
+      <span class="spacer"></span>
+      <a class="back" href="../index.html">🏠 Trang chủ</a>
+      <button class="theme-toggle" id="themeToggle" title="Đổi giao diện Sáng/Tối">🌙</button>
+    </div>
+    <h1 id="lessonTitle">Đang tải…</h1>
+    <p class="lesson-kicker" id="lessonKicker"></p>
+    <div class="progress-wrap lesson-prog">
+      <div class="progress-bar"><div class="progress-fill" id="lessonProgFill"></div></div>
+      <p class="progress-label" id="lessonProgLabel"></p>
+    </div>
+  </header>
+  <main class="lesson-wrap" id="lesson">
+    <section class="panel theory" id="theory"></section>
+    <div class="lesson-main">
+      <section class="panel code-panel">
+        <h3>💻 Code demo</h3>
+        <div class="code-tabs" id="codeTabs"></div>
+        <div id="codeViews"></div>
+      </section>
+      <section class="panel stage-panel">
+        <h3>🎬 Xem cơ chế chạy — bấm từng bước</h3>
+        <div class="stage-area" id="stageArea"></div>
+        <div class="step-desc" id="stepDesc"></div>
+        <p class="step-counter" id="stepCounter"></p>
+        <div class="step-controls">
+          <button class="btn" id="stepPrev">◀ Trước</button>
+          <button class="btn primary" id="stepNext">Bước tiếp ▶</button>
+          <button class="btn" id="stepReset">↺ Reset</button>
+        </div>
+      </section>
+    </div>
+    <section class="panel quiz">
+      <h3>📝 Trắc nghiệm</h3>
+      <p class="quiz-status" id="quizStatus"></p>
+      <div id="quizList"></div>
+      <div class="quiz-actions">
+        <button class="btn" id="btnRetry">↺ Làm lại</button>
+        <button class="btn good" id="btnDone" disabled>✓ Đánh dấu hoàn thành</button>
+      </div>
+      <p class="done-hint" id="doneHint"></p>
+    </section>
+    <nav class="lesson-nav"><span id="prevLink"></span><span id="nextLink"></span></nav>
+  </main>
+  <div id="toast"></div>
+  <script src="lessons/00-index.js"></script>
+  <script src="lessons/01.js"></script>
+  <script src="lessons/02.js"></script>
+  <script src="lessons/03.js"></script>
+  <script src="lessons/04.js"></script>
+  <script src="lessons/05.js"></script>
+  <script src="lessons/06.js"></script>
+  <script src="lessons/07.js"></script>
+  <script src="lessons/08.js"></script>
+  <script src="lessons/09.js"></script>
+  <script src="lessons/10.js"></script>
+  <script src="lessons/11.js"></script>
+  <script src="lessons/12.js"></script>
+  <script src="common.js"></script>
+</body>
+</html>

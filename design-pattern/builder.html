@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Builder — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="builder.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Builder</h1>
+    <p class="subtitle">Dựng một chiếc burger theo từng bước, rồi build()</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: các bước build + trạng thái -->
+    <section class="panel controls">
+      <h3>Thêm từng lớp (fluent steps)</h3>
+      <div class="ctrl-row">
+        <button class="btn" data-add="bun">🍞 addBun()</button>
+        <button class="btn" data-add="patty">🥩 addPatty()</button>
+        <button class="btn" data-add="cheese">🧀 addCheese()</button>
+        <button class="btn" data-add="veggies">🥬 addVeggies()</button>
+        <button class="btn" data-add="sauce">🥫 addSauce()</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn good" id="btnBuild">📦 build()</button>
+        <button class="btn danger" id="btnReset">↺ new Builder()</button>
+        <button class="btn" id="btnDirector">🎬 Director: makeBigMac()</button>
+      </div>
+      <p class="ctrl-note">Mỗi <code>addX()</code> trả về <code>this</code> nên có thể
+        <strong>nối chuỗi</strong>. <code>build()</code> mới đóng gói ra sản phẩm cuối.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Trạng thái builder</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Thêm vài lớp rồi gọi build()…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area bd-stage" id="stageArea">
+        <div class="burger-area" id="burgerArea">
+          <div class="burger-stack" id="stack"></div>
+          <div class="burger-empty" id="emptyHint">Builder rỗng — chưa có lớp nào</div>
+        </div>
+        <div class="bd-meta">
+          <span class="state-badge" id="badge">BurgerBuilder (đang dựng)</span>
+        </div>
+      </div>
+      <p class="hint">Cùng một <code>BurgerBuilder</code> dựng được vô số biến thể —
+        <strong>tách</strong> cách dựng khỏi <strong>biểu diễn</strong> cuối cùng</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Builder?</h4>
+        <p>
+          Khi một object cần dựng qua <strong>nhiều bước</strong> và có nhiều biến
+          thể, constructor khổng lồ nhiều tham số rất khó đọc. Builder cho phép
+          dựng <strong>từng bước</strong> với cú pháp <em>fluent</em> dễ hiểu.
+        </p>
+        <p>
+          <code>Director</code> (tuỳ chọn) gói sẵn một "công thức" dựng quen thuộc,
+          còn <code>build()</code> trả về sản phẩm hoàn chỉnh sau cùng.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="builder.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tự học — Bộ sưu tập khoá học tương tác</title>
+  <!-- theme dùng chung cho parent + mọi course con -->
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("study-theme")||"dark");}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="hbar">
+      <span class="spacer"></span>
+      <button class="theme-toggle" id="themeToggle" title="Đổi giao diện Sáng/Tối">🌙</button>
+    </div>
+    <h1><span class="leaf">🎓</span> Tự học</h1>
+    <p class="subtitle">Bộ sưu tập khoá học tương tác — chọn một khoá để bắt đầu.
+      Mỗi khoá lưu tiến độ riêng trong trình duyệt của bạn.</p>
+  </header>
+
+  <main class="container">
+    <div class="course-grid" id="courseGrid"><!-- render bởi app.js --></div>
+  </main>
+
+  <footer class="site-footer">Tự học · Vanilla HTML/CSS/JS · Tiến độ &amp; giao diện lưu trong trình duyệt</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

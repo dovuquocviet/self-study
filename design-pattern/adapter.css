@@ -1,0 +1,144 @@
+/* ===== Adapter Pattern — style riêng cho animation =====
+   Chỉ chứa style đặc thù của trang này.
+   Các class chung (.panel .stage .output-box .btn .divider ...) ở styles.css. */
+
+/* toggle chọn đối tượng đích */
+.target-toggle { gap: 8px; }
+.target-chip { flex: 1; text-align: center; }
+.target-chip.active { border-color: var(--accent); background: #2a2117; color: var(--accent); font-weight: 600; }
+
+/* ---------- Sân khấu ---------- */
+.stage-area {
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* bong bóng lời gọi của client rơi từ trên xuống */
+.call-bubble {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .9rem; font-weight: 700;
+  color: #0b0e12; background: var(--accent-2);
+  padding: 6px 14px; border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(106,208,255,.3);
+}
+.call-bubble.drop { animation: callDrop .5s ease; }
+@keyframes callDrop {
+  0%   { opacity: 0; transform: translateY(-18px) scale(.85); }
+  60%  { opacity: 1; transform: translateY(4px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.call-wire {
+  width: 2px; height: 18px;
+  background: linear-gradient(var(--accent-2), transparent);
+}
+
+/* hộp "sinh vật" — mallard hoặc adapter */
+.creature {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.creature.hidden { display: none; }
+
+/* nhãn interface phơi ra ngoài (vỏ Duck) */
+.iface-tag {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .72rem; font-weight: 700; letter-spacing: .3px;
+  color: var(--accent); background: #2a2117;
+  border: 1px solid var(--accent); border-radius: 999px;
+  padding: 3px 12px;
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+.iface-tag.pulse { animation: ifacePulse .55s ease; }
+@keyframes ifacePulse {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,180,84,0); }
+  50%  { transform: scale(1.08); box-shadow: 0 0 0 6px rgba(255,180,84,.22); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,180,84,0); }
+}
+
+/* khung adapter bọc quanh con gà tây */
+.adapter-box {
+  position: relative;
+  border: 2px dashed var(--accent);
+  border-radius: 16px;
+  padding: 26px 22px 14px;
+  background: rgba(255,180,84,.05);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  transition: box-shadow .25s ease, border-color .25s ease;
+}
+.adapter-box.active {
+  box-shadow: 0 0 0 4px rgba(255,180,84,.16);
+  border-color: var(--accent);
+}
+.adapter-title {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .74rem; font-weight: 700; color: #0b0e12;
+  background: var(--accent); padding: 1px 10px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* mũi tên dịch lời gọi quack()->gobble() */
+.translate {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .78rem; font-weight: 700;
+  color: var(--muted);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 4px 10px; background: #0b0e12;
+  transition: color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.translate.lit {
+  color: var(--good); border-color: var(--good);
+  box-shadow: 0 0 0 3px rgba(110,231,168,.18);
+}
+
+/* con vật + bong bóng thoại */
+.animal-wrap { position: relative; }
+.animal {
+  font-size: 4.2rem; line-height: 1;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.45));
+  will-change: transform;
+}
+.animal.gobble { animation: gobbleShake .5s ease; }
+@keyframes gobbleShake {
+  0%,100% { transform: rotate(0) scale(1); }
+  25%     { transform: rotate(-7deg) scale(1.1); }
+  75%     { transform: rotate(7deg) scale(1.1); }
+}
+.animal.hop { animation: hop .34s ease; }
+@keyframes hop {
+  0%   { transform: translate(0,0); }
+  45%  { transform: translate(7px,-28px); }
+  100% { transform: translate(0,0); }
+}
+.animal.fly-long { animation: flyLong 1.1s ease; }
+@keyframes flyLong {
+  0%   { transform: translate(0,0) rotate(0); }
+  45%  { transform: translate(46px,-72px) rotate(-12deg); }
+  100% { transform: translate(0,0) rotate(0); }
+}
+
+.animal-name {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .72rem; color: var(--muted);
+}
+
+/* bong bóng thoại "Quack!" / "Gobble gobble!" */
+.speech {
+  position: absolute; top: -6px; left: 100%;
+  transform: translateX(6px);
+  background: #fff; color: #1a1a1a;
+  font-size: .78rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 12px;
+  white-space: nowrap;
+  opacity: 0; pointer-events: none;
+}
+.speech::before {
+  content: ""; position: absolute; left: -6px; top: 12px;
+  border: 6px solid transparent; border-right-color: #fff;
+}
+.speech.show { animation: speechPop 1.1s ease forwards; }
+@keyframes speechPop {
+  0%   { opacity: 0; transform: translateX(0) scale(.7); }
+  15%  { opacity: 1; transform: translateX(6px) scale(1); }
+  80%  { opacity: 1; transform: translateX(6px) scale(1); }
+  100% { opacity: 0; transform: translateX(6px) scale(.95); }
+}

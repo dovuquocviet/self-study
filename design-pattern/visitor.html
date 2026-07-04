@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visitor Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="visitor.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Visitor Pattern</h1>
+    <p class="subtitle">Giỏ hàng: nhiều thao tác (tính giá, phí ship) ghé thăm cùng tập phần tử</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: chọn visitor + kết quả -->
+    <section class="panel controls">
+      <h3>Chọn thao tác (Visitor)</h3>
+      <div class="ctrl-row" id="visitorPicker">
+        <button class="chip visitor-chip active" data-v="price">🧮 PriceVisitor — tính giá phải trả</button>
+        <button class="chip visitor-chip" data-v="shipping">🚚 ShippingVisitor — tính phí ship</button>
+        <button class="chip visitor-chip" data-v="giftwrap">🎁 GiftWrapVisitor — phí gói quà</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn primary" id="btnApply">▶ Áp dụng — ghé thăm từng phần tử</button>
+      </div>
+      <p class="ctrl-note">Đổi visitor cho kết quả <strong>khác hẳn</strong> mà
+        <em>không</em> sửa một dòng nào trong các lớp <code>Book</code>, <code>Fruit</code>,
+        <code>Electronic</code>.</p>
+
+      <div class="sub-panel">
+        <h3>🧾 <span id="resultTitle">PriceVisitor</span></h3>
+        <div class="output-box" id="result">
+          <div class="log-line muted-line">Bấm "Áp dụng" để visitor ghé thăm…</div>
+        </div>
+        <div class="vs-total">
+          <span>Tổng cộng</span><b id="totalVal">—</b>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area vs-stage" id="stageArea">
+        <div class="vs-track" id="track">
+          <div class="vs-visitor" id="visitor">🧮</div>
+          <div class="vs-items" id="items">
+            <div class="vs-card" data-type="Book">
+              <div class="vs-icon">📕</div>
+              <b>Head First</b>
+              <small>Book</small>
+              <div class="vs-attrs">giá 120 · 0.8kg</div>
+              <div class="vs-out" data-out></div>
+            </div>
+            <div class="vs-card" data-type="Fruit">
+              <div class="vs-icon">🍎</div>
+              <b>Táo Fuji</b>
+              <small>Fruit</small>
+              <div class="vs-attrs">giá 40 · 1.2kg</div>
+              <div class="vs-out" data-out></div>
+            </div>
+            <div class="vs-card" data-type="Electronic">
+              <div class="vs-icon">🎧</div>
+              <b>Tai nghe</b>
+              <small>Electronic</small>
+              <div class="vs-attrs">giá 300 · 0.3kg</div>
+              <div class="vs-out" data-out></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vs-meta">
+          <span class="state-badge" id="visitorBadge">PriceVisitor</span>
+        </div>
+      </div>
+      <p class="hint">Cùng một vòng lặp <code>items.forEach(i =&gt; i.accept(visitor))</code> —
+        nhưng mỗi <strong>loại</strong> phần tử trả kết quả riêng nhờ
+        <strong>double dispatch</strong>.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Visitor?</h4>
+        <p>
+          Khi cần <strong>thêm thao tác mới</strong> (tính giá → phí ship → gói quà) lên một tập
+          phần tử ổn định, Visitor gom mỗi thao tác vào <em>một lớp visitor</em> thay vì rải method
+          khắp các lớp phần tử.
+        </p>
+        <p>
+          <strong>Double dispatch</strong>: <code>element.accept(v)</code> biết kiểu thật của phần tử
+          nên gọi đúng <code>v.visitBook(this)</code>; visitor biết thao tác. Thêm visitor mới =
+          thêm 1 lớp, <strong>không đụng</strong> tới <code>Book/Fruit/Electronic</code>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="visitor.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

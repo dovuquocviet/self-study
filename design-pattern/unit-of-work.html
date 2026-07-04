@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit of Work — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="unit-of-work.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Unit of Work</h1>
+    <p class="subtitle">Gom các thay đổi (new/dirty/removed) rồi commit trong MỘT giao dịch</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + 3 danh sách theo dõi -->
+    <section class="panel controls">
+      <h3>📝 Đăng ký thay đổi</h3>
+      <div class="ctrl-row">
+        <button class="btn good" id="btnNew">➕ registerNew()</button>
+        <button class="btn primary" id="btnDirty">✏️ registerDirty()</button>
+        <button class="btn danger" id="btnRemoved">🗑️ registerRemoved()</button>
+      </div>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnCommit">💾 commit()</button>
+        <button class="btn" id="btnRollback">↩︎ rollback()</button>
+      </div>
+      <p class="ctrl-note">Các nút chỉ <strong>ghi nhận ý định</strong> vào UoW. DB
+        <em>chưa</em> bị đụng tới — đến khi <code>commit()</code> mới flush tất cả một lượt.</p>
+
+      <div class="sub-panel">
+        <h3>🧺 UnitOfWork đang theo dõi</h3>
+        <div class="uow-bucket">
+          <div class="bucket-title new-title">newObjects</div>
+          <div class="bucket-list" id="listNew"><div class="bucket-empty">—</div></div>
+        </div>
+        <div class="uow-bucket">
+          <div class="bucket-title dirty-title">dirtyObjects</div>
+          <div class="bucket-list" id="listDirty"><div class="bucket-empty">—</div></div>
+        </div>
+        <div class="uow-bucket">
+          <div class="bucket-title removed-title">removedObjects</div>
+          <div class="bucket-list" id="listRemoved"><div class="bucket-empty">—</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area uow-stage" id="stageArea">
+        <div class="uow-buckets">
+          <div class="node bucket new" id="bucketNew">
+            <b>NEW</b><small>INSERT</small><span class="badge-n" id="nNew">0</span>
+          </div>
+          <div class="node bucket dirty" id="bucketDirty">
+            <b>DIRTY</b><small>UPDATE</small><span class="badge-n" id="nDirty">0</span>
+          </div>
+          <div class="node bucket removed" id="bucketRemoved">
+            <b>REMOVED</b><small>DELETE</small><span class="badge-n" id="nRemoved">0</span>
+          </div>
+        </div>
+
+        <div class="uow-pipe">
+          <span class="arrow flush-arrow" id="flushArrow">⟱</span>
+        </div>
+
+        <div class="node db-node" id="dbNode">
+          <b>🛢️ Database</b>
+          <small id="dbState">1 giao dịch · BEGIN…COMMIT</small>
+        </div>
+
+        <div class="uow-meta">
+          <span class="state-badge" id="txBadge">chưa có giao dịch</span>
+        </div>
+      </div>
+      <p class="hint">Nhiều thay đổi gom lại, <code>commit()</code> flush tất cả trong
+        <strong>MỘT</strong> transaction; <code>rollback()</code> vứt sạch, DB nguyên vẹn.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Unit of Work?</h4>
+        <p>
+          Thay vì mỗi thay đổi tự đi xuống DB ngay, <strong>UnitOfWork</strong> gom chúng vào ba
+          danh sách: <code>new</code>, <code>dirty</code>, <code>removed</code>.
+        </p>
+        <p>
+          Đến <code>commit()</code> mới mở một <strong>transaction duy nhất</strong> và flush
+          theo thứ tự (INSERT → UPDATE → DELETE). Lỗi giữa chừng thì <code>rollback()</code> —
+          dữ liệu nhất quán, ít round-trip xuống DB.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="unit-of-work.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

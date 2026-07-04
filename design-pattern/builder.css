@@ -1,0 +1,64 @@
+/* ===== Builder — style RIÊNG cho burger ===== */
+
+.bd-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: 360px;
+  flex-direction: column; gap: 22px; justify-content: flex-end; padding: 10px 0;
+}
+
+/* Khu burger: các lớp xếp chồng từ dưới lên */
+.burger-area {
+  position: relative; width: 100%;
+  min-height: 280px;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 10px;
+}
+.burger-stack {
+  display: flex; flex-direction: column-reverse; align-items: center;
+  gap: 3px; width: 200px;
+}
+.burger-stack.wrapped { animation: wrapUp .5s ease; }
+@keyframes wrapUp {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(.92) rotate(-1deg); }
+  100% { transform: scale(1); }
+}
+
+/* mỗi lớp burger */
+.layer {
+  width: 200px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: inset 0 3px 6px rgba(255,255,255,.25),
+              inset 0 -4px 8px rgba(0,0,0,.28),
+              0 3px 7px rgba(0,0,0,.3);
+  color: #20140a; font-weight: 700; font-size: .76rem;
+  position: relative;
+}
+/* bún trên/dưới bo tròn nhiều hơn */
+.layer-bun { border-radius: 100px 100px 14px 14px; width: 210px; }
+.burger-stack .layer-bun:first-child { border-radius: 14px 14px 100px 100px; }
+.layer-emoji { font-size: 1rem; }
+.layer-name { font-family: ui-monospace, Menlo, monospace; letter-spacing: .3px; }
+
+.layer.drop { animation: layerDrop .45s cubic-bezier(.34,1.56,.64,1); }
+@keyframes layerDrop {
+  0%   { opacity: 0; transform: translateY(-60px) scaleX(.6); }
+  60%  { opacity: 1; transform: translateY(4px) scaleX(1.05); }
+  100% { opacity: 1; transform: translateY(0) scaleX(1); }
+}
+
+.burger-empty {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  color: var(--muted); font-size: .85rem; font-style: italic;
+  border: 1px dashed var(--line); border-radius: 10px; padding: 16px 20px;
+}
+
+/* meta */
+.bd-meta { display: flex; justify-content: center; }
+.bd-meta .state-badge { font-family: ui-monospace, Menlo, monospace; }
+
+/* ghi chú cột trái */
+.ctrl-note {
+  font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px;
+}
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

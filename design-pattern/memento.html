@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memento Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="memento.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Memento Pattern</h1>
+    <p class="subtitle">Trình soạn thảo có Undo/Redo: lưu &amp; khôi phục trạng thái</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + trạng thái -->
+    <section class="panel controls">
+      <h3>Soạn thảo</h3>
+      <div class="btn-row">
+        <button class="btn primary" id="btnType">⌨️ Gõ thêm 1 từ</button>
+        <button class="btn" id="btnErase">⌫ Xoá 1 từ</button>
+      </div>
+
+      <p class="field-label">Đổi màu nền (cũng tạo snapshot):</p>
+      <div class="btn-row" id="colorRow">
+        <button class="swatch" data-bg="#171c23" style="background:#171c23"></button>
+        <button class="swatch" data-bg="#2a2117" style="background:#2a2117"></button>
+        <button class="swatch" data-bg="#16271e" style="background:#16271e"></button>
+        <button class="swatch" data-bg="#1d2433" style="background:#1d2433"></button>
+        <button class="swatch" data-bg="#2a1a26" style="background:#2a1a26"></button>
+      </div>
+
+      <hr class="divider" />
+
+      <h3>Undo / Redo</h3>
+      <div class="btn-row">
+        <button class="btn" id="btnUndo">↶ Undo</button>
+        <button class="btn" id="btnRedo">↷ Redo</button>
+      </div>
+      <p class="ctrl-note">Mỗi thay đổi gọi <code>caretaker.push(editor.save())</code> — đẩy 1
+        <strong>Memento</strong> (ảnh chụp trạng thái) vào ngăn xếp. <code>Undo</code> lấy memento
+        gần nhất ra rồi <code>editor.restore(...)</code> khôi phục lại.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Caretaker</h3>
+        <div class="ck-row"><span>Undo stack</span><b id="undoCount">0</b></div>
+        <div class="ck-row"><span>Redo stack</span><b id="redoCount">0</b></div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area mm-stage" id="stageArea">
+        <!-- Editor (Originator) -->
+        <div class="mm-editor">
+          <div class="mm-editor-bar">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="mm-title">editor.txt — Originator</span>
+          </div>
+          <div class="mm-paper" id="paper"><span id="paperText"></span><span class="caret"></span></div>
+        </div>
+
+        <div class="mm-stack-wrap">
+          <div class="mm-stack-label">↓ Ngăn xếp Memento (Caretaker) — mới nhất ở trên</div>
+          <div class="mm-stack" id="stack"></div>
+        </div>
+
+        <div class="mm-meta">
+          <span class="state-badge" id="stateBadge">v0</span>
+        </div>
+      </div>
+      <p class="hint">Cùng một <code>editor</code>, nhưng quá khứ được cất trong các
+        <strong>Memento</strong> bất biến — Caretaker giữ chúng mà <em>không</em> cần biết bên trong là gì.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Memento?</h4>
+        <p>
+          Muốn có <strong>Undo</strong> mà không phá vỡ đóng gói: trạng thái nội bộ của
+          <code>Editor</code> không bị lộ ra ngoài. <code>Editor</code> tự đóng gói trạng thái vào một
+          <strong>Memento</strong> bất biến qua <code>save()</code>, và tự đọc lại qua <code>restore()</code>.
+        </p>
+        <p>
+          <strong>Caretaker</strong> chỉ giữ chồng memento như những "hộp đen" — nó không cần (và không thể)
+          xem hay sửa bên trong. Tách bạch <em>ai tạo</em> trạng thái với <em>ai lưu giữ</em> nó.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="memento.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

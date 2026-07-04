@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adapter Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="adapter.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Adapter Pattern</h1>
+    <p class="subtitle">Một con gà tây được "bọc" để trông như một con vịt</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + log dịch lời gọi -->
+    <section class="panel controls">
+      <h3>1 · Client cầm đối tượng nào?</h3>
+      <p class="field-label">Cùng một biến <code>duck</code> kiểu Duck — nhưng bên trong là gì?</p>
+      <div class="btn-row target-toggle" id="targetToggle">
+        <button class="btn target-chip" data-target="mallard">🦆 MallardDuck (vịt thật)</button>
+        <button class="btn target-chip primary active" data-target="adapter">🦃 TurkeyAdapter (gà tây)</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <h3>2 · Gọi method qua interface Duck</h3>
+      <div class="btn-row">
+        <button class="btn good" id="btnQuack">duck.quack()</button>
+        <button class="btn good" id="btnFly">duck.fly()</button>
+      </div>
+      <p class="hint" style="text-align:left;margin-top:10px">
+        Client luôn gọi <code>duck.quack()</code> / <code>duck.fly()</code> — không biết
+        bên trong là vịt hay gà tây.
+      </p>
+
+      <div class="sub-panel">
+        <h3>🔁 Nhật ký dịch lời gọi</h3>
+        <div class="output-box" id="translateLog">
+          <div class="log-line muted-line">Bấm một method để xem adapter dịch lời gọi…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area" id="stageArea">
+        <div class="call-bubble" id="callBubble">duck.quack()</div>
+        <div class="call-wire"></div>
+
+        <!-- Chế độ vịt thật -->
+        <div class="creature hidden" id="mallardView">
+          <div class="iface-tag">interface Duck</div>
+          <div class="animal-wrap">
+            <div class="animal" id="mallardAnimal">🦆</div>
+            <div class="speech" id="mallardSpeech"></div>
+          </div>
+          <div class="animal-name">MallardDuck</div>
+        </div>
+
+        <!-- Chế độ adapter: gà tây bọc trong vỏ Duck -->
+        <div class="creature" id="adapterView">
+          <div class="iface-tag" id="adapterIface">interface Duck</div>
+          <div class="adapter-box" id="adapterBox">
+            <div class="adapter-title">TurkeyAdapter</div>
+            <div class="translate" id="translateArrow">quack() → gobble()</div>
+            <div class="animal-wrap">
+              <div class="animal" id="turkeyAnimal">🦃</div>
+              <div class="speech" id="turkeySpeech"></div>
+            </div>
+            <div class="animal-name">WildTurkey · interface Turkey</div>
+          </div>
+        </div>
+      </div>
+      <p class="hint">
+        Vỏ ngoài là <code>Duck</code>, bên trong là <code>Turkey</code> —
+        adapter dịch <code>quack()</code> thành <code>gobble()</code>, và
+        <code>fly()</code> thành <code>fly() × 5</code>.
+      </p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Adapter?</h4>
+        <p>
+          Client chỉ biết nói chuyện qua interface <strong>Duck</strong>. Một lớp
+          <strong>Turkey</strong> có interface khác (<code>gobble()</code>, bay quãng ngắn)
+          nên <strong>không cắm thẳng</strong> vào được.
+        </p>
+        <p>
+          <strong>TurkeyAdapter</strong> vừa <em>là</em> Duck, vừa <em>bọc</em> một Turkey:
+          nó nhận lời gọi Duck rồi <strong>chuyển đổi</strong> sang lời gọi Turkey —
+          nhờ vậy class không tương thích vẫn dùng được mà không phải sửa code client.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="adapter.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

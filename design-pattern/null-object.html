@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Null Object Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="null-object.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Null Object Pattern</h1>
+    <p class="subtitle">Đối tượng "rỗng" hợp lệ thay cho null — bỏ hẳn <code>if (x != null)</code></p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + so sánh code -->
+    <section class="panel controls">
+      <h3>Khi không tìm thấy user thì…</h3>
+      <div class="btn-row mode-row">
+        <button class="btn primary" id="modeNO">✅ Trả Null Object</button>
+        <button class="btn" id="modeNull">⚠️ Trả null thẳng</button>
+      </div>
+
+      <h3>Người dùng hiện tại</h3>
+      <div class="btn-row who-row">
+        <button class="btn good" id="whoAlice">👤 Đã đăng nhập (Alice)</button>
+        <button class="btn" id="whoGuest">🚪 Khách (không tìm thấy)</button>
+      </div>
+
+      <p class="field-label">Gọi method lên <code>user</code></p>
+      <div class="btn-row">
+        <button class="btn" id="callName">user.getName()</button>
+        <button class="btn" id="callDiscount">user.getDiscount()</button>
+      </div>
+
+      <div class="sub-panel">
+        <h3>📐 So sánh code</h3>
+        <div class="cmp bad-cmp">
+          <span class="cmp-tag bad">Không Null Object</span>
+          <pre><code>if (user != null) {
+  d = user.getDiscount();
+} else {
+  d = 0;          // phải nhớ check!
+}</code></pre>
+        </div>
+        <div class="cmp good-cmp">
+          <span class="cmp-tag good">Có Null Object</span>
+          <pre><code>d = user.getDiscount();
+// luôn an toàn — GuestUser trả 0</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area no-stage" id="stageArea">
+        <div class="no-node no-client" id="clientNode">
+          <b>Client</b><small id="clientCall">gọi user.method()</small>
+        </div>
+        <div class="arrow no-arrow" id="arrow1">↓</div>
+
+        <div class="no-obj" id="userObj">
+          <div class="no-obj-title" id="objTitle">GuestUser</div>
+          <div class="no-obj-body" id="objBody">Null Object hợp lệ</div>
+        </div>
+
+        <div class="arrow no-arrow" id="arrow2">↓</div>
+        <div class="no-result" id="resultBox">— chờ lời gọi —</div>
+
+        <div class="no-meta">
+          <span class="state-badge" id="objBadge">GuestUser</span>
+        </div>
+      </div>
+      <p class="hint">Cùng một dòng <code>user.getDiscount()</code> — Null Object trả mặc định an toàn,
+        còn <code>null</code> thì <strong>vỡ</strong> với TypeError.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Null Object?</h4>
+        <p>
+          Thay vì rải <code>if (x != null)</code> khắp nơi, ta tạo một lớp "rỗng nhưng hợp lệ"
+          (<code>GuestUser</code>, <code>NullLogger</code>) cài đủ method và trả về
+          <strong>giá trị mặc định vô hại</strong>.
+        </p>
+        <p>
+          Client gọi method <strong>như bình thường</strong> mà không bao giờ gặp
+          <code>null</code>. Logic kiểm tra null biến mất, code sạch và an toàn hơn.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="null-object.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

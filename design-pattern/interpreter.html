@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interpreter — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="interpreter.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Interpreter</h1>
+    <p class="subtitle">Thông dịch biểu thức số học: dựng cây cú pháp rồi interpret()</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + output -->
+    <section class="panel controls">
+      <h3>Chọn biểu thức</h3>
+      <div class="ctrl-row" id="exprPicker">
+        <button class="btn chip-expr active" data-expr="5 + 3 * 2">5 + 3 * 2</button>
+        <button class="btn chip-expr" data-expr="( 5 + 3 ) * 2">( 5 + 3 ) * 2</button>
+        <button class="btn chip-expr" data-expr="10 + 2 * 6 - 4">10 + 2 * 6 - 4</button>
+        <button class="btn chip-expr" data-expr="7 * 3 + 8 * 2">7 * 3 + 8 * 2</button>
+      </div>
+
+      <div class="ctrl-row" style="margin-top:14px">
+        <button class="btn primary" id="btnEval">🌳 interpret()</button>
+        <button class="btn" id="btnReset">↺ Đặt lại cây</button>
+      </div>
+      <p class="ctrl-note">Biểu thức được phân tích thành <strong>cây cú pháp (AST)</strong>:
+        lá là <code>Number</code>, nút trong là <code>Add</code>/<code>Subtract</code>/<code>Multiply</code>.
+        <code>interpret()</code> chạy <strong>từ lá lên gốc</strong>.</p>
+
+      <div class="sub-panel">
+        <h3>🧮 Quá trình tính</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Chọn biểu thức rồi bấm interpret()…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area ast-stage" id="stageArea">
+        <div class="expr-line" id="exprLine">5 + 3 * 2</div>
+        <div class="tree" id="tree"></div>
+        <div class="ast-meta">
+          <span class="state-badge" id="resultBadge">= ?</span>
+        </div>
+      </div>
+      <p class="hint">Mỗi nút biết tự <code>interpret()</code> chính mình: lá trả về số,
+        nút phép tính gọi <code>left.interpret()</code> và <code>right.interpret()</code> rồi gộp lại.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Interpreter?</h4>
+        <p>
+          Mỗi luật ngữ pháp trở thành <strong>một lớp</strong>. Số là biểu thức
+          <em>terminal</em> (lá); phép cộng/nhân là biểu thức <em>nonterminal</em> (nút trong,
+          chứa các biểu thức con).
+        </p>
+        <p>
+          Việc tính toán chỉ là gọi <code>interpret()</code> đệ quy trên cây. Muốn thêm phép
+          toán mới (ví dụ chia, luỹ thừa) = thêm một lớp <code>Expression</code>,
+          <strong>không phải</strong> viết lại bộ phân tích.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="interpreter.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

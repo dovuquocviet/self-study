@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Patterns — Minh hoạ động (Head First)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🎨 Design Patterns</h1>
+    <p class="subtitle">Minh hoạ <em>động</em>, tương tác — 23 pattern GoF kinh điển + 16 pattern hiện đại</p>
+  </header>
+
+  <main class="container">
+    <p class="intro">Mỗi pattern có animation tương tác + panel code chi tiết. Bấm vào thẻ để mở.</p>
+
+    <!-- ============================================================= -->
+    <!-- NHÓM 1 — 23 PATTERN GoF KINH ĐIỂN                            -->
+    <!-- ============================================================= -->
+    <div class="group-head">
+      <h2>🏛️ GoF — 23 Pattern kinh điển <span class="count">23</span></h2>
+      <p>Bộ pattern gốc của "Gang of Four", chia 3 nhóm: Khởi tạo · Cấu trúc · Hành vi.</p>
+    </div>
+
+    <p class="subgroup-label">Creational · Khởi tạo (5)</p>
+    <section class="pattern-grid">
+      <a class="pattern-card available" href="singleton.html">
+        <div class="card-icon"><span class="glyph gl-singleton"><span class="one">1</span></span></div>
+        <h2>Singleton</h2>
+        <p>Nồi sô-cô-la: mọi getInstance() đều trả về cùng một thể hiện.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="factory.html">
+        <div class="card-icon"><span class="glyph gl-factory">
+          <span class="hopper"></span><span class="out"></span>
+        </span></div>
+        <h2>Factory Method</h2>
+        <p>Lò pizza tạo loại pizza phù hợp mà không cần biết chi tiết.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="abstract-factory.html">
+        <div class="card-icon"><span class="emoji">🏭</span></div>
+        <h2>Abstract Factory</h2>
+        <p>Tạo cả HỌ nguyên liệu khớp nhau theo vùng (NY / Chicago).</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="builder.html">
+        <div class="card-icon"><span class="emoji">🧱</span></div>
+        <h2>Builder</h2>
+        <p>Dựng burger / đối tượng phức tạp theo từng bước rồi build().</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="prototype.html">
+        <div class="card-icon"><span class="emoji">🧬</span></div>
+        <h2>Prototype</h2>
+        <p>Nhân bản (clone) đối tượng thay vì new lại từ đầu.</p>
+        <span class="badge">Mở →</span>
+      </a>
+    </section>
+
+    <p class="subgroup-label">Structural · Cấu trúc (7)</p>
+    <section class="pattern-grid">
+      <a class="pattern-card available" href="adapter.html">
+        <div class="card-icon"><span class="glyph gl-adapter">
+          <span class="sq"></span><span class="link"></span><span class="ci"></span>
+        </span></div>
+        <h2>Adapter</h2>
+        <p>Bọc con gà tây để nó "giả" làm con vịt biết quack().</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="bridge.html">
+        <div class="card-icon"><span class="emoji">🌉</span></div>
+        <h2>Bridge</h2>
+        <p>Tách điều khiển khỏi thiết bị — đổi độc lập hai trục.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="composite.html">
+        <div class="card-icon"><span class="glyph gl-composite">
+          <span class="root"></span><span class="child c1"></span><span class="child c2"></span>
+        </span></div>
+        <h2>Composite</h2>
+        <p>Thực đơn lồng thực đơn — xử lý lá và nhánh như nhau.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="decorator.html">
+        <div class="card-icon">
+          <span class="ring r3"></span><span class="ring r2"></span>
+          <span class="ring r1"></span><span class="core"></span>
+        </div>
+        <h2>Decorator</h2>
+        <p>Đồ uống được "bọc" bởi nhiều topping — mỗi topping một vòng tròn.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="facade.html">
+        <div class="card-icon"><span class="glyph gl-facade">
+          <span class="back b1"></span><span class="back b2"></span><span class="front"></span>
+        </span></div>
+        <h2>Facade</h2>
+        <p>Một nút watchMovie() bật cả dàn rạp hát tại gia.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="flyweight.html">
+        <div class="card-icon"><span class="emoji">🌲</span></div>
+        <h2>Flyweight</h2>
+        <p>Chia sẻ phần dùng chung để trồng cả rừng cây nhẹ tênh.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="proxy.html">
+        <div class="card-icon"><span class="glyph gl-proxy">
+          <span class="frame back"></span><span class="frame front"></span>
+        </span></div>
+        <h2>Proxy</h2>
+        <p>Proxy ảnh: hiện ảnh tạm, tải ảnh thật khi cần.</p>
+        <span class="badge">Mở →</span>
+      </a>
+    </section>
+
+    <p class="subgroup-label">Behavioral · Hành vi (11)</p>
+    <section class="pattern-grid">
+      <a class="pattern-card available" href="chain-of-responsibility.html">
+        <div class="card-icon"><span class="emoji">⛓️</span></div>
+        <h2>Chain of Responsibility</h2>
+        <p>Chuyền yêu cầu qua chuỗi handler (máy ATM nhả tiền).</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="command.html">
+        <div class="card-icon"><span class="glyph gl-command">
+          <span class="remote"><i></i><i></i></span>
+        </span></div>
+        <h2>Command</h2>
+        <p>Điều khiển từ xa: mỗi nút gói một "lệnh" execute()/undo().</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="interpreter.html">
+        <div class="card-icon"><span class="emoji">🧮</span></div>
+        <h2>Interpreter</h2>
+        <p>Dựng cây cú pháp rồi thông dịch biểu thức số học.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="iterator.html">
+        <div class="card-icon"><span class="glyph gl-iterator">
+          <span class="dot"></span><span class="dot cur"></span><span class="dot"></span>
+          <span class="ptr"></span>
+        </span></div>
+        <h2>Iterator</h2>
+        <p>Duyệt các thực đơn khác cấu trúc bằng cùng một cách.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="mediator.html">
+        <div class="card-icon"><span class="emoji">🗣️</span></div>
+        <h2>Mediator</h2>
+        <p>Các thành viên chat qua một trung gian, không nối chéo.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="memento.html">
+        <div class="card-icon"><span class="emoji">⏪</span></div>
+        <h2>Memento</h2>
+        <p>Lưu & khôi phục trạng thái — Undo/Redo cho editor.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="observer.html">
+        <div class="card-icon"><span class="glyph gl-observer">
+          <span class="hub"></span>
+          <span class="sat s1"></span><span class="sat s2"></span><span class="sat s3"></span>
+        </span></div>
+        <h2>Observer</h2>
+        <p>Trạm thời tiết phát dữ liệu, các bảng hiển thị tự cập nhật.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="state.html">
+        <div class="card-icon"><span class="glyph gl-state"><span class="cyc"></span></span></div>
+        <h2>State</h2>
+        <p>Máy bán kẹo gumball chuyển trạng thái theo hành động.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="strategy.html">
+        <div class="card-icon"><span class="glyph gl-strategy">
+          <span class="bar"></span><span class="bar on"></span><span class="bar"></span>
+        </span></div>
+        <h2>Strategy</h2>
+        <p>Con vịt đổi hành vi bay/kêu lúc chạy mà không sửa lớp gốc.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="template-method.html">
+        <div class="card-icon"><span class="glyph gl-template">
+          <span class="step"></span><span class="step v"></span>
+          <span class="step"></span><span class="step v"></span>
+        </span></div>
+        <h2>Template Method</h2>
+        <p>Pha Cà phê &amp; Trà chung khung thuật toán, khác vài bước.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="visitor.html">
+        <div class="card-icon"><span class="emoji">🧳</span></div>
+        <h2>Visitor</h2>
+        <p>Thêm thao tác mới lên tập phần tử mà không sửa lớp cũ.</p>
+        <span class="badge">Mở →</span>
+      </a>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- NHÓM 2 — PATTERN HIỆN ĐẠI                                    -->
+    <!-- ============================================================= -->
+    <div class="group-head modern">
+      <h2>⚡ Pattern hiện đại <span class="count">16</span></h2>
+      <p>Ngoài GoF: các pattern hay gặp trong ứng dụng & kiến trúc thực tế ngày nay.</p>
+    </div>
+
+    <p class="subgroup-label">Phổ biến (5)</p>
+    <section class="pattern-grid">
+      <a class="pattern-card available" href="dependency-injection.html">
+        <div class="card-icon"><span class="emoji">💉</span></div>
+        <h2>Dependency Injection</h2>
+        <p>Tiêm phụ thuộc từ ngoài vào thay vì đối tượng tự new.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="repository.html">
+        <div class="card-icon"><span class="emoji">🗄️</span></div>
+        <h2>Repository</h2>
+        <p>Che giấu nguồn dữ liệu (memory ↔ API) sau một interface chung.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="mvc.html">
+        <div class="card-icon"><span class="emoji">🔄</span></div>
+        <h2>MVC / MVVM</h2>
+        <p>Tách Model – View – Controller, dữ liệu chảy một vòng.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="pubsub.html">
+        <div class="card-icon"><span class="emoji">📡</span></div>
+        <h2>Pub/Sub (Event Bus)</h2>
+        <p>Phát/nhận sự kiện qua Event Bus theo topic, tách rời nhau.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="null-object.html">
+        <div class="card-icon"><span class="emoji">🕳️</span></div>
+        <h2>Null Object</h2>
+        <p>Đối tượng rỗng hợp lệ — bỏ hẳn if (x != null).</p>
+        <span class="badge">Mở →</span>
+      </a>
+    </section>
+
+    <p class="subgroup-label">Kiến trúc backend (4)</p>
+    <section class="pattern-grid">
+      <a class="pattern-card available" href="cqrs.html">
+        <div class="card-icon"><span class="emoji">✂️</span></div>
+        <h2>CQRS</h2>
+        <p>Tách đường ghi (Command) khỏi đường đọc (Query).</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="event-sourcing.html">
+        <div class="card-icon"><span class="emoji">📜</span></div>
+        <h2>Event Sourcing</h2>
+        <p>Lưu chuỗi sự kiện, phát lại để dựng lại trạng thái.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="unit-of-work.html">
+        <div class="card-icon"><span class="emoji">📦</span></div>
+        <h2>Unit of Work</h2>
+        <p>Gom mọi thay đổi rồi commit trong một giao dịch.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="service-locator.html">
+        <div class="card-icon"><span class="emoji">🧭</span></div>
+        <h2>Service Locator</h2>
+        <p>Registry trung tâm: đăng ký rồi định vị service theo khoá.</p>
+        <span class="badge">Mở →</span>
+      </a>
+    </section>
+
+    <p class="subgroup-label">Tiện ích (4)</p>
+    <section class="pattern-grid">
+      <a class="pattern-card available" href="object-pool.html">
+        <div class="card-icon"><span class="emoji">♻️</span></div>
+        <h2>Object Pool</h2>
+        <p>Tái dùng object đắt đỏ thay vì tạo mới liên tục.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="specification.html">
+        <div class="card-icon"><span class="emoji">🔖</span></div>
+        <h2>Specification</h2>
+        <p>Ghép quy tắc nghiệp vụ (AND/OR/NOT) để lọc dữ liệu.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="lazy-loading.html">
+        <div class="card-icon"><span class="emoji">💤</span></div>
+        <h2>Lazy Loading</h2>
+        <p>Hoãn khởi tạo tài nguyên nặng đến khi cần lần đầu.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="module-pattern.html">
+        <div class="card-icon"><span class="emoji">🧩</span></div>
+        <h2>Module Pattern</h2>
+        <p>Đóng gói state riêng tư bằng closure, chỉ lộ API công khai.</p>
+        <span class="badge">Mở →</span>
+      </a>
+    </section>
+
+    <p class="subgroup-label">Async / JavaScript (3)</p>
+    <section class="pattern-grid">
+      <a class="pattern-card available" href="middleware.html">
+        <div class="card-icon"><span class="emoji">🚇</span></div>
+        <h2>Middleware / Pipeline</h2>
+        <p>Request đi qua chuỗi middleware kiểu Express.</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="reactive-streams.html">
+        <div class="card-icon"><span class="emoji">🌊</span></div>
+        <h2>Reactive Streams</h2>
+        <p>Luồng giá trị qua map/filter tới subscriber (kiểu RxJS).</p>
+        <span class="badge">Mở →</span>
+      </a>
+      <a class="pattern-card available" href="promise-async.html">
+        <div class="card-icon"><span class="emoji">⏳</span></div>
+        <h2>Promise / Async</h2>
+        <p>Vòng đời Promise: pending → fulfilled / rejected.</p>
+        <span class="badge">Mở →</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Lấy cảm hứng từ <strong>Head First Design Patterns</strong> · HTML/CSS/JS thuần · 39 pattern</p>
+  </footer>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

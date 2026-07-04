@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="command.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Command Pattern</h1>
+    <p class="subtitle">Remote Control — mỗi nút giữ một <em>Command</em>, bấm là gọi <code>execute()</code></p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: gán command cho slot + nhật ký -->
+    <section class="panel controls">
+      <h3>1 · Gán Command cho từng slot</h3>
+      <p class="assign-hint">
+        Mỗi slot của remote giữ một cặp Command (ON/OFF). Chọn thiết bị (receiver)
+        mà slot đó điều khiển — remote không cần biết đó là gì:
+      </p>
+      <div class="slot-assign" id="slotAssign"></div>
+
+      <div class="sub-panel">
+        <h3>🧾 Nhật ký lệnh đã chạy</h3>
+        <div class="output-box" id="logBox"></div>
+        <button class="reset-btn" id="clearBtn">↺ Xoá nhật ký</button>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation (remote + thiết bị) -->
+    <section class="panel stage">
+      <div class="stage-area cmd-stage" id="stageArea">
+        <!-- Remote = Invoker -->
+        <div class="remote">
+          <div class="remote-top">Remote Control</div>
+          <div class="remote-slots" id="remoteSlots"></div>
+          <button class="undo-btn" id="undoBtn">↶ Undo</button>
+        </div>
+
+        <!-- Các thiết bị = Receiver -->
+        <div class="devices">
+          <div class="device" id="dev-light">
+            <div class="dev-art light"><span class="bulb"></span></div>
+            <div class="dev-label">Light</div>
+            <div class="dev-status" id="status-light">OFF</div>
+          </div>
+          <div class="device" id="dev-garage">
+            <div class="dev-art garage"><span class="door"></span></div>
+            <div class="dev-label">Garage Door</div>
+            <div class="dev-status" id="status-garage">Down</div>
+          </div>
+          <div class="device" id="dev-stereo">
+            <div class="dev-art stereo"><span class="wave"></span><span class="wave"></span><span class="wave"></span></div>
+            <div class="dev-label">Stereo</div>
+            <div class="dev-status" id="status-stereo">OFF</div>
+          </div>
+          <div class="device" id="dev-fan">
+            <div class="dev-art fan"><span class="blades"></span></div>
+            <div class="dev-label">Ceiling Fan</div>
+            <div class="dev-status" id="status-fan">OFF</div>
+          </div>
+        </div>
+      </div>
+      <p class="hint">
+        Remote (invoker) chỉ gọi <code>command.execute()</code> — nó <strong>KHÔNG</strong> biết gì về
+        Light hay GarageDoor. Mỗi Command bọc <code>receiver + hành động</code>.
+      </p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Command?</h4>
+        <p>
+          Nếu remote tự gọi thẳng <code>light.on()</code>, <code>garageDoor.up()</code>… thì nó phải
+          <strong>biết</strong> mọi loại thiết bị — thêm thiết bị mới là phải <strong>sửa remote</strong>.
+        </p>
+        <p>
+          Command <strong>đóng gói một yêu cầu thành object</strong>: mỗi Command giữ một
+          <strong>receiver</strong> và biết gọi <strong>hành động</strong> nào. Remote chỉ giữ các
+          Command rồi gọi <code>execute()</code>. Vì Command còn có <code>undo()</code>, ta dễ dàng
+          <strong>hoàn tác</strong> thao tác gần nhất.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="command.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

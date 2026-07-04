@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Factory Method Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="factory.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Factory Method Pattern</h1>
+    <p class="subtitle">Cùng một đơn pizza — mỗi cửa hàng tự tạo ra Pizza theo phong cách riêng</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: chọn cửa hàng + loại pizza + log các bước -->
+    <section class="panel controls">
+      <h3>1 · Chọn cửa hàng (concrete factory)</h3>
+      <div class="btn-row" id="storePicker">
+        <button class="btn primary" data-store="NY">NYPizzaStore</button>
+        <button class="btn" data-store="Chicago">ChicagoPizzaStore</button>
+      </div>
+
+      <h3>2 · Chọn loại pizza</h3>
+      <div class="btn-row" id="typePicker">
+        <button class="btn primary" data-type="cheese">cheese</button>
+        <button class="btn" data-type="veggie">veggie</button>
+        <button class="btn" data-type="clam">clam</button>
+        <button class="btn" data-type="pepperoni">pepperoni</button>
+      </div>
+
+      <button class="btn primary order-btn" id="orderBtn">🍕 orderPizza(type)</button>
+
+      <div class="sub-panel">
+        <h3>📋 Các bước chuẩn bị</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Chọn cửa hàng + loại pizza rồi bấm orderPizza()…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation (lò pizza) -->
+    <section class="panel stage">
+      <div class="stage-area wide" id="stageArea">
+        <div class="oven" id="oven">
+          <div class="oven-label">🏭 PizzaStore Factory</div>
+          <div class="oven-mouth"></div>
+        </div>
+        <div class="pizza-track" id="pizzaTrack"></div>
+        <div class="pizza-name" id="pizzaName"></div>
+      </div>
+      <p class="hint"><code>orderPizza()</code> cố định, nhưng <code>createPizza()</code> của mỗi cửa hàng quyết định <strong>Pizza cụ thể</strong> nào ra lò</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Factory Method?</h4>
+        <p>
+          <code>PizzaStore.orderPizza()</code> chứa quy trình <strong>cố định</strong>
+          (prepare → bake → cut → box) và <strong>không hề hardcode</strong> lớp Pizza nào.
+          Việc "tạo ra Pizza" được giao cho <strong>factory method</strong>
+          <code>createPizza()</code> — mỗi cửa hàng con tự override để chọn
+          concrete product của mình.
+        </p>
+        <p>
+          Nhờ vậy, thêm <em>CaliforniaPizzaStore</em> chỉ cần một lớp con mới,
+          <strong>không phải sửa</strong> code của <code>orderPizza()</code>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="factory.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

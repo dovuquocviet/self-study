@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prototype — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="prototype.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Prototype</h1>
+    <p class="subtitle">Nhân bản (clone) quái vật trong game thay vì new tốn kém</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: clone + chỉnh bản sao -->
+    <section class="panel controls">
+      <h3>Nhân bản &amp; chỉnh sửa</h3>
+      <div class="btn-row">
+        <button class="btn primary" id="btnClone">🧬 original.clone()</button>
+        <button class="btn danger" id="btnReset">↺ Xoá các bản sao</button>
+      </div>
+
+      <p class="field-label">Bản sao đang chọn: <span class="slider-val" id="selName">—</span></p>
+
+      <p class="field-label">Màu (hue): <span class="slider-val" id="hueVal">0</span>°</p>
+      <input type="range" class="slider" id="hue" min="0" max="360" value="0" disabled />
+
+      <p class="field-label">HP: <span class="slider-val" id="hpVal">100</span></p>
+      <input type="range" class="slider" id="hp" min="10" max="200" value="100" disabled />
+
+      <p class="ctrl-note">Chỉnh slider chỉ đổi <strong>bản sao đang chọn</strong>.
+        <code>original</code> luôn giữ nguyên — clone tạo ra <strong>đối tượng độc lập</strong>.</p>
+
+      <div class="sub-panel">
+        <h3>📋 Nhật ký clone</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bấm clone() để nhân bản con quái gốc…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area pt-stage" id="stageArea">
+        <div class="monster-zone">
+          <div class="zone-label">PROTOTYPE GỐC</div>
+          <div class="monster original" id="original">
+            <div class="m-body">
+              <div class="m-eye"></div><div class="m-eye"></div>
+              <div class="m-mouth"></div>
+            </div>
+            <div class="m-name">Goblin</div>
+            <div class="m-hpbar"><i></i></div>
+          </div>
+        </div>
+
+        <div class="divider-v"></div>
+
+        <div class="monster-zone clones-zone">
+          <div class="zone-label">BẢN SAO (clones)</div>
+          <div class="clones" id="clones">
+            <div class="clones-empty" id="clonesEmpty">Chưa có bản sao</div>
+          </div>
+        </div>
+      </div>
+      <p class="hint"><code>original.clone()</code> sao chép trạng thái sẵn có —
+        nhanh hơn <code>new</code> + cấu hình lại từ đầu, và bản gốc <strong>không đổi</strong></p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Prototype?</h4>
+        <p>
+          Khi tạo mới một object tốn kém (đọc file, query DB, tính toán nặng),
+          ta dựng sẵn một <strong>prototype</strong> rồi <code>clone()</code> để
+          ra các bản giống hệt — nhanh hơn rất nhiều.
+        </p>
+        <p>
+          Mỗi bản sao là <strong>đối tượng độc lập</strong>: sửa bản sao
+          <strong>không</strong> ảnh hưởng bản gốc (chú ý shallow vs deep copy
+          với các field tham chiếu).
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="prototype.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

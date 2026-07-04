@@ -1,0 +1,79 @@
+/* ===== Visitor Pattern — style RIÊNG cho giỏ hàng + visitor di chuyển ===== */
+
+.vs-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 22px; padding: 6px 0;
+}
+
+/* ---- Track chứa visitor token + hàng phần tử ---- */
+.vs-track { position: relative; width: 100%; padding-top: 56px; }
+
+/* ---- Visitor token bay phía trên, di chuyển ngang ---- */
+.vs-visitor {
+  position: absolute; top: 6px; left: 0;
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+  background: var(--panel-2); border: 2px solid var(--accent-2);
+  box-shadow: 0 0 14px rgba(106,208,255,.45);
+  transform: translateX(-50%);
+  transition: left .55s cubic-bezier(.5,.05,.3,1);
+  z-index: 6;
+}
+.vs-visitor.acting { animation: visitorBob .5s ease; }
+@keyframes visitorBob {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px) scale(1.12); }
+}
+.vs-visitor::after {
+  content: ""; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent;
+  border-top: 9px solid var(--accent-2);
+}
+
+/* ---- Hàng phần tử ---- */
+.vs-items { display: flex; gap: 12px; justify-content: center; }
+.vs-card {
+  position: relative; flex: 1; min-width: 0;
+  border: 1px solid var(--line); background: var(--panel-2); border-radius: 12px;
+  padding: 12px 8px 10px; text-align: center; transition: all .3s ease;
+}
+.vs-card b { display: block; font-size: .82rem; margin-top: 4px; }
+.vs-card small {
+  display: inline-block; margin-top: 3px; color: var(--accent-2);
+  font-size: .68rem; font-weight: 700; letter-spacing: .4px;
+}
+.vs-card .vs-icon { font-size: 1.8rem; line-height: 1; }
+.vs-card .vs-attrs { color: var(--muted); font-size: .68rem; margin-top: 5px; }
+
+.vs-card.visiting {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,180,84,.2);
+  transform: translateY(-4px);
+}
+
+/* kết quả nổi lên trong mỗi thẻ */
+.vs-out {
+  min-height: 18px; margin-top: 7px; font-size: .8rem; font-weight: 700;
+  color: var(--good); opacity: 0;
+}
+.vs-out.show { animation: outPop .4s ease forwards; }
+@keyframes outPop {
+  0% { opacity: 0; transform: translateY(8px) scale(.8); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- meta + tổng ---- */
+.vs-meta { display: flex; justify-content: center; }
+
+.vs-total {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 12px; padding-top: 10px; border-top: 2px solid var(--line);
+  font-weight: 700; font-size: 1rem;
+}
+.vs-total b { color: var(--good); font-size: 1.2rem; }
+
+/* ---- chip chọn visitor ---- */
+.visitor-chip.active { border-color: var(--accent-2); background: #16222b; color: var(--accent-2); }
+
+.ctrl-note { font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px; }
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

@@ -1,0 +1,91 @@
+/* ===== Proxy Pattern — style RIÊNG cho animation =====
+   Chỉ chứa style đặc thù: khung ảnh, placeholder + spinner, thanh tiến trình,
+   và "ảnh thật" vẽ bằng CSS gradient. Dùng lại các class chung từ styles.css. */
+
+/* khung ảnh ở giữa sân khấu */
+.photo-frame {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0b0e12;
+  box-shadow: inset 0 2px 14px rgba(0,0,0,.5);
+}
+
+/* ---------- Trạng thái placeholder (proxy chưa có ảnh thật) ---------- */
+.placeholder {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 14px;
+  background:
+    repeating-linear-gradient(45deg, #161c24 0 14px, #131820 14px 28px);
+  color: var(--muted);
+  transition: opacity .4s ease;
+}
+.photo-frame.loaded .placeholder { opacity: 0; pointer-events: none; }
+
+.spinner {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 4px solid var(--line);
+  border-top-color: var(--accent-2);
+  animation: prx-spin .8s linear infinite;
+}
+.photo-frame.loading .spinner { border-top-color: var(--accent); }
+@keyframes prx-spin { to { transform: rotate(360deg); } }
+
+.ph-text { font-size: .85rem; font-weight: 600; }
+
+/* thanh tiến trình (ẩn cho tới khi đang tải) */
+.progress {
+  width: 70%; height: 8px; border-radius: 999px;
+  background: var(--panel-2); border: 1px solid var(--line);
+  overflow: hidden; opacity: 0; transition: opacity .25s ease;
+}
+.photo-frame.loading .progress { opacity: 1; }
+.progress-bar {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width .1s linear;
+}
+
+/* ---------- Ảnh thật (CSS gradient "photo") ---------- */
+.real-photo {
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; transform: scale(1.06);
+  transition: opacity .5s ease, transform .5s ease;
+  background:
+    radial-gradient(120px 80px at 28% 26%, #ffe29a, transparent 70%),
+    linear-gradient(160deg, #ff9e64 0%, #c96fd0 42%, #6a5cff 78%, #1b2a6b 100%);
+}
+.photo-frame.loaded .real-photo { opacity: 1; transform: scale(1); }
+
+/* vài "ngọn núi"/chi tiết cho ảnh sinh động hơn */
+.real-photo::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(135deg, transparent 55%, rgba(20,16,40,.55) 56%) bottom right / 60% 45% no-repeat,
+    linear-gradient(45deg, transparent 60%, rgba(20,16,40,.45) 61%) bottom left / 55% 38% no-repeat;
+}
+.photo-caption {
+  position: relative; z-index: 1;
+  margin-bottom: 12px; padding: 3px 12px;
+  font-size: .78rem; font-weight: 700; color: #1a1a1a;
+  background: rgba(255,255,255,.85); border-radius: 999px;
+}
+
+/* nhãn dưới khung */
+.frame-tag {
+  margin-top: 16px; font-family: ui-monospace, Menlo, monospace;
+  font-size: .82rem; color: var(--accent-2); text-align: center;
+}
+
+/* ---------- panel phụ bộ đếm ---------- */
+.counter-row { display: flex; align-items: center; gap: 12px; }
+#realCount { font-size: 1.15rem; min-width: 42px; text-align: center; }
+.counter-note { font-size: .82rem; color: var(--muted); }
+.counter-hint { font-size: .78rem; color: var(--muted); margin: 12px 0 0; line-height: 1.5; }
+.counter-hint code { color: var(--accent-2); }
+.counter-hint strong { color: var(--good); }

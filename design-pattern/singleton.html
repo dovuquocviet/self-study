@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Singleton Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="singleton.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Singleton Pattern</h1>
+    <p class="subtitle">Một nhà máy chỉ có duy nhất MỘT bồn nấu sô-cô-la (Chocolate Boiler)</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + panel trạng thái -->
+    <section class="panel controls">
+      <h3>1 · Lấy thể hiện (instance)</h3>
+      <div class="ctrl-row">
+        <button class="btn primary full-w" id="getInstanceBtn">ChocolateBoiler.getInstance()</button>
+      </div>
+
+      <div class="sub-panel" id="instancePanel">
+        <div class="count-line">
+          Số instance thực sự tạo:
+          <span class="state-badge" id="instanceCount">0</span>
+        </div>
+        <div class="eq-line" id="equalityCheck">— gọi ≥ 2 lần để so sánh tham chiếu —</div>
+        <div class="ref-chips" id="refChips"></div>
+      </div>
+
+      <h3>2 · Thao tác trên bồn</h3>
+      <div class="btn-row">
+        <button class="btn" id="fillBtn">fill()</button>
+        <button class="btn" id="boilBtn">boil()</button>
+        <button class="btn" id="drainBtn">drain()</button>
+      </div>
+      <button class="btn danger full-w" id="resetBtn">↺ Reset toàn bộ</button>
+
+      <div class="sub-panel" id="statePanel">
+        <h3>Trạng thái bồn (chỉ 1)</h3>
+        <div class="state-flags">
+          <span class="flag" id="flagEmpty">empty</span>
+          <span class="flag" id="flagFull">đầy</span>
+          <span class="flag" id="flagBoiled">đã sôi</span>
+        </div>
+        <div class="cross-read" id="crossRead">Chưa có thao tác nào.</div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area wide" id="stageArea">
+        <div class="boiler-scene">
+          <div class="ref-stack" id="refStack"></div>
+          <div class="tank-wrap">
+            <div class="tank" id="tank">
+              <div class="liquid"></div>
+              <div class="bubbles">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+              </div>
+              <div class="steam"><span></span><span></span><span></span></div>
+            </div>
+            <div class="tank-name">THE Boiler #1</div>
+            <div class="tank-state" id="tankState">empty</div>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Mọi mũi tên <code>getInstance()</code> đều chỉ về <code>cùng một</code> bồn — số instance luôn = 1.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Singleton?</h4>
+        <p>
+          Có những thứ <strong>chỉ được phép tồn tại đúng một</strong>: 1 bồn nấu,
+          1 hàng đợi in, 1 cấu hình. Nếu lỡ <code>new</code> ra hai bồn, lệnh
+          <em>đổ nguyên liệu</em> và <em>đun sôi</em> sẽ rối loạn.
+        </p>
+        <p>
+          Singleton <strong>giấu constructor</strong> và chỉ mở một cửa duy nhất là
+          <code>getInstance()</code>. Lần đầu nó mới <strong>tạo</strong> (lazy),
+          các lần sau luôn <strong>trả lại</strong> đúng thể hiện cũ.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="singleton.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

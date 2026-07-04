@@ -1,0 +1,118 @@
+/* ===== State Pattern — style RIÊNG cho máy bán kẹo ===== */
+
+/* sân khấu: xếp dọc (sơ đồ → máy → badge) */
+.gm-stage {
+  width: 100%; max-width: 460px; height: auto; min-height: auto;
+  flex-direction: column; gap: 22px; padding: 6px 0;
+}
+
+/* ---- Sơ đồ 4 trạng thái ---- */
+.state-diagram {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 10px; width: 100%;
+}
+.state-diagram .node { padding: 10px 8px; }
+.state-diagram .node b { font-size: .92rem; letter-spacing: .3px; }
+.state-diagram .node small {
+  display: block; margin-top: 3px; color: var(--muted);
+  font-size: .72rem; font-weight: 400;
+}
+.state-diagram .node.active b { color: var(--accent); }
+
+/* ---- Máy bán kẹo (vẽ bằng CSS) ---- */
+.machine { position: relative; width: 172px; }
+
+.dome {
+  width: 172px; height: 172px; border-radius: 50%; position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 35% 28%,
+              rgba(255,255,255,.55), rgba(173,216,230,.20) 46%, rgba(120,160,200,.10));
+  border: 3px solid rgba(255,255,255,.38);
+  box-shadow: inset 0 8px 26px rgba(255,255,255,.28),
+              inset 0 -12px 22px rgba(0,0,0,.28),
+              0 6px 18px rgba(0,0,0,.35);
+}
+.gumballs { position: absolute; inset: 0; }
+.gumballs .gb {
+  position: absolute; width: 22px; height: 22px; border-radius: 50%;
+  box-shadow: inset 0 3px 5px rgba(255,255,255,.55), inset 0 -3px 5px rgba(0,0,0,.32);
+  animation: gbPop .35s ease;
+}
+@keyframes gbPop { from { transform: scale(.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.neck {
+  width: 64px; height: 16px; margin: -3px auto 0;
+  background: linear-gradient(#d14536, #b8331f);
+  border-radius: 0 0 5px 5px;
+}
+.body {
+  width: 152px; margin: 0 auto; position: relative;
+  padding: 18px 12px 14px;
+  background: linear-gradient(#e74c3c, #b8331f);
+  border-radius: 12px 12px 18px 18px;
+  box-shadow: inset 0 5px 12px rgba(255,255,255,.22), 0 12px 26px rgba(0,0,0,.42);
+}
+.window {
+  background: #2a1410; color: #ffd27d; text-align: center;
+  font-size: .58rem; letter-spacing: 2px; font-weight: 700;
+  padding: 6px 4px; border-radius: 6px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.6);
+}
+.slot {
+  position: absolute; top: 16px; right: 16px;
+  width: 9px; height: 28px; background: #2a1008;
+  border-radius: 5px; border: 1px solid rgba(0,0,0,.5);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.7);
+}
+.crank {
+  position: absolute; top: 15px; left: 15px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe27a, #d4a017);
+  border: 3px solid #a8830f;
+  transition: transform .15s;
+}
+.crank.spin { animation: crankSpin .6s ease; }
+@keyframes crankSpin { to { transform: rotate(360deg); } }
+
+.coin {
+  position: absolute; top: 8px; right: 15px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe27a, #d4a017);
+  border: 1px solid #a8830f; opacity: 0; z-index: 5;
+}
+.coin.drop { animation: coinDrop .6s ease forwards; }
+@keyframes coinDrop {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  70%  { opacity: 1; transform: translateY(22px) scale(.9); }
+  100% { opacity: 0; transform: translateY(30px) scale(.5); }
+}
+
+.chute {
+  width: 58px; height: 22px; margin: 12px auto 0; position: relative;
+  background: #2a1410; border-radius: 0 0 9px 9px; overflow: hidden;
+  box-shadow: inset 0 3px 8px rgba(0,0,0,.7);
+}
+.out-ball {
+  position: absolute; left: 20px; top: 1px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #ff6b6b; opacity: 0;
+  box-shadow: inset 0 3px 5px rgba(255,255,255,.5), inset 0 -3px 5px rgba(0,0,0,.3);
+}
+.out-ball.roll { animation: rollOut .75s ease forwards; }
+@keyframes rollOut {
+  0%   { opacity: 0; transform: translateY(-34px) rotate(0deg); }
+  25%  { opacity: 1; transform: translateY(-34px) rotate(90deg); }
+  100% { opacity: 1; transform: translateY(20px) rotate(380deg); }
+}
+
+/* ---- meta: badge + đếm kẹo ---- */
+.gm-meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.count-chip { font-size: .85rem; color: var(--muted); }
+.count-chip b { color: var(--good); font-size: 1.15rem; }
+
+/* ghi chú nhỏ ở cột trái */
+.ctrl-note {
+  font-size: .8rem; color: var(--muted); line-height: 1.55; margin: 12px 0 4px;
+}
+.ctrl-note code { color: var(--accent-2); }
+.ctrl-note strong { color: var(--text); }

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CQRS — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="cqrs.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>CQRS</h1>
+    <p class="subtitle">Tách Command (ghi) khỏi Query (đọc) — hai mô hình riêng</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: điều khiển + 2 store -->
+    <section class="panel controls">
+      <h3>✍️ Command — phía GHI</h3>
+      <div class="ctrl-row">
+        <button class="btn primary" id="btnPlace">📦 PlaceOrder</button>
+        <button class="btn primary" id="btnRename">✏️ UpdateName</button>
+      </div>
+      <p class="ctrl-note">Command là <strong>ý định thay đổi</strong>. Gửi qua
+        <code>bus.send(cmd)</code> → handler ghi vào <code>writeDb</code> rồi phát sự kiện đồng bộ.</p>
+
+      <h3>🔍 Query — phía ĐỌC</h3>
+      <div class="ctrl-row">
+        <button class="btn good" id="btnQuery">📋 GetOrders</button>
+      </div>
+      <p class="ctrl-note">Query chỉ <strong>đọc</strong> từ <code>readDb</code> đã dựng sẵn —
+        nhanh, không bao giờ chạm vào phía ghi.</p>
+
+      <div class="sub-panel">
+        <h3>🗄️ Hai kho dữ liệu</h3>
+        <div class="store-box">
+          <div class="store-title write-title">writeDb · Write Model</div>
+          <div class="store-list" id="writeList">
+            <div class="store-empty">— trống —</div>
+          </div>
+        </div>
+        <div class="store-box">
+          <div class="store-title read-title">readDb · Read Model (view)</div>
+          <div class="store-list" id="readList">
+            <div class="store-empty">— trống —</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu animation -->
+    <section class="panel stage">
+      <div class="stage-area cqrs-stage" id="stageArea">
+        <div class="cqrs-flow">
+          <div class="side">
+            <div class="side-label write-label">✍️ Write Model</div>
+            <div class="node store-node" id="writeNode">
+              <b>writeDb</b>
+              <small id="writeCount">0 lệnh ghi</small>
+            </div>
+            <div class="port port-cmd" id="portCmd">command ▾</div>
+          </div>
+
+          <div class="channel">
+            <div class="ch-label" id="chLabel">kênh đồng bộ</div>
+            <div class="ch-line">
+              <span class="arrow sync-arrow" id="syncArrow">⟶</span>
+              <span class="packet" id="packet"></span>
+            </div>
+            <div class="ch-sub">OrderPlaced / NameUpdated</div>
+          </div>
+
+          <div class="side">
+            <div class="side-label read-label">🔍 Read Model</div>
+            <div class="node store-node" id="readNode">
+              <b>readDb</b>
+              <small id="readCount">0 bản ghi</small>
+            </div>
+            <div class="port port-qry" id="portQry">query ▾</div>
+          </div>
+        </div>
+
+        <div class="cqrs-meta">
+          <span class="state-badge" id="actBadge">sẵn sàng</span>
+        </div>
+      </div>
+      <p class="hint">Một <code>command</code> đi vào bên trái, được <strong>đồng bộ</strong> sang phải;
+        <code>query</code> chỉ đọc bên phải — hai con đường tách biệt.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng CQRS?</h4>
+        <p>
+          Ghi và đọc có nhu cầu rất khác nhau: ghi cần đúng &amp; nhất quán, đọc cần nhanh.
+          <strong>CQRS</strong> tách thành hai mô hình — <code>Command</code> đổi trạng thái,
+          <code>Query</code> trả dữ liệu — qua hai handler riêng.
+        </p>
+        <p>
+          Phía ghi phát <strong>sự kiện</strong>, một projector cập nhật phía đọc (read model
+          đã được "dọn sẵn" tối ưu cho truy vấn). Hai bên scale, tối ưu độc lập.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="cqrs.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

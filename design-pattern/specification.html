@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Specification — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="specification.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Specification</h1>
+    <p class="subtitle">Gói quy tắc nghiệp vụ tổ hợp được (AND/OR/NOT) để lọc dữ liệu</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: chọn spec + toán tử -->
+    <section class="panel controls">
+      <h3>Bật / tắt quy tắc (spec)</h3>
+      <div class="base-picker" id="specPicker">
+        <button class="chip spec-chip" data-spec="price">💰 Giá &lt; 100</button>
+        <button class="chip spec-chip" data-spec="stock">📦 Còn hàng</button>
+        <button class="chip spec-chip" data-spec="book">📚 Danh mục = Sách</button>
+      </div>
+
+      <p class="field-label">Toán tử tổ hợp</p>
+      <div class="btn-row" id="opPicker">
+        <button class="btn op-btn active" data-op="and">AND (mọi spec)</button>
+        <button class="btn op-btn" data-op="or">OR (ít nhất 1)</button>
+      </div>
+      <button class="btn danger not-btn" id="notBtn" style="margin-top:8px;width:100%">NOT (đảo kết quả): TẮT</button>
+
+      <div class="sub-panel">
+        <h3>🌳 Spec tổ hợp hiện tại</h3>
+        <pre class="spec-tree" id="specTree"></pre>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: danh sách sản phẩm -->
+    <section class="panel stage">
+      <div class="stage-area spec-stage" id="stageArea">
+        <div class="prod-list" id="prodList"></div>
+        <div class="match-meta">
+          <span class="state-badge" id="matchBadge">3 / 6 thoả mãn</span>
+        </div>
+      </div>
+      <p class="hint">Đổi spec ở cột trái → <code>items.filter(i =&gt; spec.isSatisfiedBy(i))</code>
+        chạy lại, item thoả mãn <strong>sáng lên</strong>, item trượt mờ ra.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Specification?</h4>
+        <p>
+          Mỗi quy tắc nghiệp vụ là một object nhỏ có <code>isSatisfiedBy(item)</code>.
+          Chúng <strong>ghép lại</strong> bằng <code>.and()</code>, <code>.or()</code>,
+          <code>.not()</code> mà không sửa code cũ.
+        </p>
+        <p>
+          Bộ lọc, validate, query… đều dùng chung interface. Thêm điều kiện mới = thêm một
+          <code>Specification</code>, rồi <strong>tổ hợp</strong> tuỳ ý.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="specification.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

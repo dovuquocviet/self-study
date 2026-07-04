@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facade Pattern — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="facade.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>Facade Pattern</h1>
+    <p class="subtitle">Dàn Home Theater: một nút bấm thay cho cả tá thao tác</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: 2 nút điều khiển + log trình tự -->
+    <section class="panel controls">
+      <h3>Khách hàng (client) chỉ cần bấm</h3>
+      <div class="ctrl-row">
+        <button class="btn primary big-btn" id="watchBtn">🎬 watchMovie("Inception")</button>
+        <button class="btn danger big-btn" id="endBtn" disabled>⏹ endMovie()</button>
+      </div>
+
+      <p class="facade-tip">
+        Một lời gọi <code>watchMovie()</code> giấu đi <strong>10 lệnh</strong>
+        gửi tới 6 subsystem khác nhau. Facade <em>đơn giản hoá</em> chứ không
+        <em>khoá</em> — bạn vẫn có thể gọi thẳng từng subsystem nếu muốn.
+      </p>
+
+      <div class="sub-panel">
+        <h3>📋 Trình tự gọi subsystem</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bấm watchMovie() để facade khởi động cả dàn máy…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: sân khấu — ngăn xếp các subsystem -->
+    <section class="panel stage">
+      <div class="stage-area facade-stage" id="stageArea">
+        <div class="marquee" id="marquee">
+          <span class="marquee-label">SCREEN</span>
+          <span class="marquee-title" id="marqueeTitle">— màn hình tắt —</span>
+        </div>
+
+        <div class="subsystem-stack" id="stack">
+          <div class="node sys-node" id="popper" data-sys="Popcorn Popper">
+            <span class="sys-icon">🍿</span>
+            <span class="sys-name">Popcorn Popper</span>
+            <span class="sys-status">tắt</span>
+          </div>
+          <div class="node sys-node" id="lights" data-sys="Theater Lights">
+            <span class="sys-icon">💡</span>
+            <span class="sys-name">Theater Lights</span>
+            <span class="sys-status">tắt</span>
+          </div>
+          <div class="node sys-node" id="screen" data-sys="Screen">
+            <span class="sys-icon">🖼️</span>
+            <span class="sys-name">Screen</span>
+            <span class="sys-status">tắt</span>
+          </div>
+          <div class="node sys-node" id="projector" data-sys="Projector">
+            <span class="sys-icon">📽️</span>
+            <span class="sys-name">Projector</span>
+            <span class="sys-status">tắt</span>
+          </div>
+          <div class="node sys-node" id="amp" data-sys="Amplifier">
+            <span class="sys-icon">🔊</span>
+            <span class="sys-name">Amplifier</span>
+            <span class="sys-status">tắt</span>
+          </div>
+          <div class="node sys-node" id="dvd" data-sys="DVD Player">
+            <span class="sys-icon">📀</span>
+            <span class="sys-name">DVD Player</span>
+            <span class="sys-status">tắt</span>
+          </div>
+        </div>
+      </div>
+      <p class="hint"><code>HomeTheaterFacade</code> giữ tham chiếu tới cả 6 subsystem và điều phối chúng giúp bạn</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng Facade?</h4>
+        <p>
+          Một subsystem (dàn home theater) gồm <strong>nhiều lớp</strong> với
+          <strong>rất nhiều method</strong>. Nếu client phải tự gọi đúng thứ tự
+          từng cái thì code vừa dài vừa dễ sai.
+        </p>
+        <p>
+          <code>HomeTheaterFacade</code> cung cấp <strong>một giao diện đơn giản
+          hơn</strong>: <code>watchMovie()</code> / <code>endMovie()</code>. Nó
+          <strong>gói</strong> chuỗi lời gọi phức tạp lại — client chỉ ra lệnh
+          "xem phim", facade lo phần còn lại.
+        </p>
+        <p>
+          Khác với Adapter (đổi <em>giao diện</em>), Facade chỉ
+          <strong>đơn giản hoá</strong>: subsystem vẫn còn đó, vẫn dùng trực tiếp
+          được khi cần.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="facade.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>

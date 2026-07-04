@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVC / MVVM — Minh hoạ động</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <link rel="stylesheet" href="mvc.css" />
+</head>
+<body class="pattern-page">
+  <header class="site-header compact">
+    <a class="back" href="index.html">← Tất cả pattern</a>
+    <h1>MVC / MVVM</h1>
+    <p class="subtitle">Tách Model – View – Controller: một bộ đếm nhỏ, dữ liệu chảy một chiều</p>
+  </header>
+
+  <main class="pattern-layout">
+    <!-- CỘT TRÁI: nút tương tác (đi vào Controller) -->
+    <section class="panel controls">
+      <h3>Người dùng tương tác</h3>
+      <p class="ctrl-note">Mọi cú bấm <strong>không</strong> sửa thẳng màn hình. Nó gửi tới
+        <code>Controller</code> → cập nhật <code>Model</code> → Model báo <code>View</code> render lại.</p>
+      <div class="ctrl-row">
+        <button class="btn good" id="incBtn">＋ controller.increment()</button>
+        <button class="btn" id="decBtn">－ controller.decrement()</button>
+        <button class="btn danger" id="resetBtn">↺ controller.reset()</button>
+      </div>
+
+      <div class="sub-panel">
+        <h3>🔗 Đồng bộ Model ↔ View</h3>
+        <div class="sync-row">
+          <span>Model.count</span><b class="sync-val" id="modelVal">0</b>
+        </div>
+        <div class="sync-row">
+          <span>View hiển thị</span><b class="sync-val" id="viewSync">0</b>
+        </div>
+        <p class="sync-note" id="syncNote">View luôn phản chiếu đúng state của Model.</p>
+      </div>
+
+      <div class="sub-panel">
+        <h3>📜 Luồng sự kiện</h3>
+        <div class="output-box" id="log">
+          <div class="log-line muted-line">Bấm một nút để xem vòng MVC chạy…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘT GIỮA: 3 khối M-V-C nối thành vòng -->
+    <section class="panel stage">
+      <div class="stage-area mvc-stage" id="stageArea">
+        <div class="node mvc-box controller-box" id="ctrlBox">
+          <div class="mvc-tag">Controller</div>
+          <div class="mvc-desc">nhận input, gọi model</div>
+        </div>
+
+        <div class="node mvc-box model-box" id="modelBox">
+          <div class="mvc-tag">Model</div>
+          <div class="mvc-desc">state: <b id="modelState">0</b></div>
+        </div>
+
+        <div class="node mvc-box view-box" id="viewBox">
+          <div class="mvc-tag">View</div>
+          <div class="mvc-screen" id="viewScreen">0</div>
+        </div>
+
+        <!-- mũi tên vòng: C→M, M→V, V→(user)→C -->
+        <span class="flow-arrow a-cm" id="arrCM">①&nbsp;cập nhật</span>
+        <span class="flow-arrow a-mv" id="arrMV">②&nbsp;notify</span>
+        <span class="flow-arrow a-vc" id="arrVC">③&nbsp;input</span>
+      </div>
+      <p class="hint">Dữ liệu chảy <strong>một chiều</strong>:
+        <code>Controller → Model → View</code>. View không tự sửa state.</p>
+    </section>
+
+    <!-- CỘT PHẢI: code demo 2 tab -->
+    <section class="panel code-panel">
+      <div class="code-tabs">
+        <button class="code-tab active" data-tab="build">▶ Runtime</button>
+        <button class="code-tab" data-tab="classes">📦 Định nghĩa lớp</button>
+      </div>
+
+      <pre class="code-view" data-view="build"><code id="buildView"></code></pre>
+      <pre class="code-view hidden" data-view="classes"><code id="classView" class="static-code"></code></pre>
+
+      <div class="lesson">
+        <h4>💡 Vì sao dùng MVC?</h4>
+        <p>
+          <strong>Model</strong> giữ dữ liệu &amp; luật nghiệp vụ, <strong>View</strong> chỉ lo hiển thị,
+          <strong>Controller</strong> dịch thao tác người dùng thành lệnh cho Model. Mỗi phần một việc
+          nên dễ test &amp; thay riêng (đổi giao diện không đụng logic).
+        </p>
+        <p>
+          <strong>MVVM</strong> là biến thể: thay Controller bằng <em>ViewModel</em> và dùng
+          <em>data-binding</em> hai chiều — khi Model đổi, View tự cập nhật mà không cần gọi
+          <code>render()</code> tay. Ở đây ta mô phỏng binding bằng cơ chế <code>subscribe()</code>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="mvc.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="learn.js"></script>
+</body>
+</html>
