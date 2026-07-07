@@ -16,6 +16,10 @@
   var SUPABASE_KEY = "sb_publishable_bxcZGquuPk51GQJyafBmKg_CjJmyVK3";
   var SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
+  // Bắt buộc đăng nhập mới vào được app: che toàn trang bằng lớp phủ (gate)
+  // cho tới khi có phiên đăng nhập. Đặt false để quay lại chế độ tuỳ chọn.
+  var REQUIRE_LOGIN = true;
+
   // localStorage key  ->  course_slug (khoá trong bảng progress)
   var PROGRESS_KEYS = {
     "spring-internals-progress-v1": "spring-internals",
@@ -155,7 +159,10 @@
      GIAO DIỆN TÀI KHOẢN (widget nổi góc dưới-phải)
      ============================================================ */
   var ui = {};
-  function injectStyles() {
+  var stylesDone = false;
+  function ensureStyles() {
+    if (stylesDone) return;
+    stylesDone = true;
     var css = "" +
       ".ssync{position:fixed;right:14px;bottom:14px;z-index:99999;font:13px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}" +
       ".ssync-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;border:1px solid rgba(128,128,128,.35);background:rgba(30,30,35,.92);color:#e7e7ea;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);backdrop-filter:blur(6px)}" +
@@ -172,14 +179,94 @@
       ".ssync-pop button.act{width:100%;padding:9px;border:0;border-radius:9px;background:#3b82f6;color:#fff;cursor:pointer;font-size:13px}" +
       ".ssync-pop button.act:disabled{opacity:.6;cursor:default}" +
       ".ssync-pop button.link{background:none;border:0;color:#3b82f6;cursor:pointer;padding:0;font-size:12px}" +
-      ".ssync-email{font-size:12px;color:#9a9aa2;margin:0 0 8px;word-break:break-all}";
+      ".ssync-email{font-size:12px;color:#9a9aa2;margin:0 0 8px;word-break:break-all}" +
+      // ----- lớp phủ chặn app khi chưa đăng nhập -----
+      ".ssync-gate{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;background:#0e0e12;font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}" +
+      "html[data-theme=light] .ssync-gate{background:#f4f5f7}" +
+      ".ssync-gate-card{width:100%;max-width:360px;padding:28px 24px;border-radius:18px;border:1px solid rgba(128,128,128,.25);background:rgba(24,24,28,.98);color:#e7e7ea;box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center}" +
+      "html[data-theme=light] .ssync-gate-card{background:#fff;color:#222}" +
+      ".ssync-gate-card .logo{font-size:34px;margin-bottom:6px}" +
+      ".ssync-gate-card h2{margin:0 0 6px;font-size:19px}" +
+      ".ssync-gate-card p{margin:0 0 16px;color:#9a9aa2;font-size:13px}" +
+      ".ssync-gate-card input{width:100%;box-sizing:border-box;padding:11px 12px;margin:0 0 12px;border-radius:11px;border:1px solid rgba(128,128,128,.4);background:transparent;color:inherit;font-size:14px;text-align:center}" +
+      ".ssync-gate-card button.act{width:100%;padding:11px;border:0;border-radius:11px;background:#3b82f6;color:#fff;cursor:pointer;font-size:14px;font-weight:600}" +
+      ".ssync-gate-card button.act:disabled{opacity:.6;cursor:default}" +
+      ".ssync-gate-card .spin{width:26px;height:26px;margin:8px auto;border-radius:50%;border:3px solid rgba(128,128,128,.3);border-top-color:#3b82f6;animation:ssyncspin .8s linear infinite}" +
+      "@keyframes ssyncspin{to{transform:rotate(360deg)}}";
     var s = document.createElement("style");
     s.textContent = css;
-    document.head.appendChild(s);
+    (document.head || document.documentElement).appendChild(s);
+  }
+
+  /* ---------- gửi magic-link (dùng chung gate + widget) ---------- */
+  function sendMagicLink(email) {
+    return client.auth.signInWithOtp({
+      email: email,
+      options: { emailRedirectTo: location.origin + location.pathname + location.search }
+    });
+  }
+
+  /* ---------- GATE: lớp phủ bắt đăng nhập ---------- */
+  function gateShow(state) {
+    ensureStyles();
+    var g = document.getElementById("ssyncGate");
+    if (!g) {
+      g = document.createElement("div");
+      g.className = "ssync-gate";
+      g.id = "ssyncGate";
+      g.innerHTML = '<div class="ssync-gate-card" id="ssyncGateCard"></div>';
+      (document.body || document.documentElement).appendChild(g);
+    }
+    g.style.display = "flex";
+    gateRender(state || "loading");
+  }
+  function gateHide() {
+    var g = document.getElementById("ssyncGate");
+    if (g) g.style.display = "none";
+  }
+  function gateRender(state) {
+    var card = document.getElementById("ssyncGateCard");
+    if (!card) return;
+    if (state === "loading") {
+      card.innerHTML = '<div class="logo">🎓</div><h2>Tự học</h2>' +
+        '<div class="spin"></div><p>Đang kiểm tra đăng nhập…</p>';
+      return;
+    }
+    if (state === "error") {
+      card.innerHTML = '<div class="logo">⚠️</div><h2>Không kết nối được</h2>' +
+        '<p>Không tải được dịch vụ đăng nhập. Kiểm tra mạng rồi thử lại.</p>' +
+        '<button class="act" onclick="location.reload()">Thử lại</button>';
+      return;
+    }
+    // state === "login"
+    card.innerHTML =
+      '<div class="logo">🎓</div><h2>Đăng nhập để học</h2>' +
+      '<p>Nhập email để nhận link đăng nhập. Không cần mật khẩu.</p>' +
+      '<input type="email" id="ssyncGateEmail" placeholder="ban@email.com" autocomplete="email" />' +
+      '<button class="act" id="ssyncGateSend">Gửi link đăng nhập</button>';
+    var send = document.getElementById("ssyncGateSend");
+    var inp = document.getElementById("ssyncGateEmail");
+    inp.focus();
+    inp.addEventListener("keydown", function (e) { if (e.key === "Enter") send.click(); });
+    send.onclick = function () {
+      var email = (inp.value || "").trim();
+      if (!email || email.indexOf("@") < 0) { inp.focus(); return; }
+      send.disabled = true; send.textContent = "Đang gửi…";
+      sendMagicLink(email).then(function (r) {
+        if (r.error) {
+          card.innerHTML = '<div class="logo">⚠️</div><h2>Không gửi được</h2><p>' +
+            esc(r.error.message) + '</p><button class="act" id="ssyncGateBack">Thử lại</button>';
+          document.getElementById("ssyncGateBack").onclick = function () { gateRender("login"); };
+        } else {
+          card.innerHTML = '<div class="logo">📬</div><h2>Kiểm tra email</h2>' +
+            '<p>Đã gửi link đăng nhập tới <b>' + esc(email) + '</b>.<br>Mở email và bấm vào link để vào học.</p>';
+        }
+      });
+    };
   }
 
   function buildUI() {
-    injectStyles();
+    ensureStyles();
     var wrap = document.createElement("div");
     wrap.className = "ssync";
     wrap.innerHTML =
@@ -237,10 +324,7 @@
         var email = (inp.value || "").trim();
         if (!email || email.indexOf("@") < 0) { inp.focus(); return; }
         send.disabled = true; send.textContent = "Đang gửi…";
-        client.auth.signInWithOtp({
-          email: email,
-          options: { emailRedirectTo: location.origin + location.pathname + location.search }
-        }).then(function (r) {
+        sendMagicLink(email).then(function (r) {
           if (r.error) {
             ui.pop.innerHTML = '<h4>Không gửi được</h4><p>' + esc(r.error.message) + '</p>';
           } else {
@@ -258,26 +342,26 @@
     client.auth.signOut().then(function () {
       session = null;
       setStatus("signedout");
-      ui.pop.classList.remove("open");
+      if (ui.pop) ui.pop.classList.remove("open");
+      if (REQUIRE_LOGIN) gateShow("login");
     });
   }
 
   /* ---------- khởi động ---------- */
   function boot() {
     buildUI();
-    setStatus(navigator.onLine ? "signedout" : "signedout");
     client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
     });
     client.auth.getSession().then(function (r) {
       session = (r.data && r.data.session) || null;
-      setStatus(session ? "synced" : "signedout");
-      if (session) syncNow();
+      if (session) { gateHide(); setStatus("synced"); syncNow(); }
+      else { setStatus("signedout"); if (REQUIRE_LOGIN) gateShow("login"); }
     });
     client.auth.onAuthStateChange(function (event, s) {
       session = s || null;
-      if (event === "SIGNED_IN") { setStatus("synced"); syncNow(); }
-      else if (event === "SIGNED_OUT") { setStatus("signedout"); }
+      if (session) { gateHide(); setStatus("synced"); syncNow(); }
+      else if (event === "SIGNED_OUT") { setStatus("signedout"); if (REQUIRE_LOGIN) gateShow("login"); }
     });
     window.StudySync = { syncNow: syncNow, signOut: signOut, client: function () { return client; } };
   }
@@ -288,11 +372,14 @@
     var s = document.createElement("script");
     s.src = SDK_URL;
     s.onload = cb;
-    s.onerror = function () { console.warn("[sync] không tải được Supabase SDK"); };
+    s.onerror = function () { if (REQUIRE_LOGIN) gateShow("error"); console.warn("[sync] không tải được Supabase SDK"); };
     document.head.appendChild(s);
   }
 
-  function start() { loadSDK(boot); }
+  function start() {
+    if (REQUIRE_LOGIN) gateShow("loading");   // che nội dung ngay, trước khi biết trạng thái
+    loadSDK(boot);
+  }
   if (document.body) start();
   else document.addEventListener("DOMContentLoaded", start);
 })();
