@@ -270,3 +270,6 @@
     initTheme();
   });
 })();
+
+/* --- Đồng bộ tiến độ đa thiết bị (Supabase) — nạp sync.js một lần --- */
+(function(){try{if(!window.__studySyncLoad){window.__studySyncLoad=1;var s=document.createElement("script");s.src="/sync.js";document.head.appendChild(s);}}catch(e){}})();
