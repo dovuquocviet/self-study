@@ -32,7 +32,11 @@
     { emoji: "🐚", title: "Shell / Dòng lệnh",
       sub: "Nói chuyện trực tiếp với máy tính bằng dòng lệnh.",
       accent: "#10b981", href: "shell-course/index.html",
-      key: "shell-progress-v1", total: 12 }
+      key: "shell-progress-v1", total: 12 },
+    { emoji: "🦊", title: "Nhập môn GitLab CI/CD",
+      sub: "Mỗi lần git push, để máy tự build – test – deploy thay bạn.",
+      accent: "#fc6d26", href: "gitlabci-course/index.html",
+      key: "gitlabci-progress-v1", total: 12 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
