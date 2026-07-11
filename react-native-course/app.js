@@ -1,3 +1,16 @@
+/* ---- Favicon emoji: hiện logo trên tab trình duyệt (như Zalo có logo riêng) ---- */
+(function () {
+  try {
+    var e = "⚛️";
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+      '<text x="50" y="54" font-size="80" text-anchor="middle" dominant-baseline="central">' + e + '</text></svg>';
+    var link = document.querySelector('link[rel~="icon"]');
+    if (!link) { link = document.createElement("link"); link.setAttribute("rel", "icon"); (document.head || document.documentElement).appendChild(link); }
+    link.setAttribute("type", "image/svg+xml");
+    link.setAttribute("href", "data:image/svg+xml," + encodeURIComponent(svg));
+  } catch (_) {}
+})();
+
 /* ========================================================================
  * app.js — điều phối trang chủ + trang bài học.
  * Dữ liệu bài học nằm ở window.LESSONS (data.js).
