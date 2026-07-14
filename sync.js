@@ -27,7 +27,8 @@
     "rn_course_progress":           "react-native",
     "os-progress-v1":               "os",
     "networking-progress-v1":       "networking",
-    "shell-progress-v1":            "shell"
+    "shell-progress-v1":            "shell",
+    "gitlabci-progress-v1":         "gitlabci"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)
@@ -249,7 +250,7 @@
     inp.focus();
     inp.addEventListener("keydown", function (e) { if (e.key === "Enter") send.click(); });
     send.onclick = function () {
-      var email = (inp.value || "").trim();
+      var email = normEmail(inp.value);
       if (!email || email.indexOf("@") < 0) { inp.focus(); return; }
       send.disabled = true; send.textContent = "Đang gửi…";
       sendMagicLink(email).then(function (r) {
@@ -321,7 +322,7 @@
       var inp = document.getElementById("ssyncEmail");
       inp.addEventListener("keydown", function (e) { if (e.key === "Enter") send.click(); });
       send.onclick = function () {
-        var email = (inp.value || "").trim();
+        var email = normEmail(inp.value);
         if (!email || email.indexOf("@") < 0) { inp.focus(); return; }
         send.disabled = true; send.textContent = "Đang gửi…";
         sendMagicLink(email).then(function (r) {
@@ -336,6 +337,9 @@
     }
   }
   function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  // Chuẩn hoá email: bỏ khoảng trắng + hạ chữ thường, để "A@x.com" và
+  // "a@x.com " không tạo 2 tài khoản Supabase khác nhau.
+  function normEmail(s) { return String(s == null ? "" : s).trim().toLowerCase(); }
 
   function signOut() {
     if (!client) return;
