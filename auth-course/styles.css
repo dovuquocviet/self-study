@@ -1,0 +1,275 @@
+/* =========================================================
+   CS Foundations — design system (port từ spring-internals)
+   Mọi màu "thương hiệu" đều lấy từ biến --accent* / --sel-* / --hero
+   → mỗi course chỉ cần đổi khối :root + light-theme bên dưới.
+   ========================================================= */
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-2: #1c2330;
+  --line: #2a323d;
+  --text: #e7ecf2;
+  --muted: #93a1b1;
+
+  /* ==== MÀU CHỦ ĐẠO (đổi theo course) ==== */
+  --accent: #f43f5e;          /* Auth · đỏ hồng ổ khoá */
+  --accent-2: #fb7185;
+  --glow: rgba(244, 63, 94, .18);
+  --sel-bg: #2b0c14;          /* nền tô cho trạng thái "được chọn/đúng" */
+  --hero: #240610;            /* tông nền hero (radial) */
+
+  --good: #6ee7a8;
+  --bad: #ff9b9b;
+  --code-bg: #0b0e14;
+  --radius: 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 50% -10%, var(--hero), var(--bg));
+  color: var(--text);
+  min-height: 100vh;
+}
+a { color: var(--accent-2); }
+
+/* ---------- Light theme ---------- */
+html[data-theme="light"] {
+  --bg: #f5f7f9; --panel: #ffffff; --panel-2: #eef2f6; --line: #d7dee6;
+  --text: #1b2530; --muted: #5c6b7a;
+  --accent: #e11d48; --accent-2: #be123c; --glow: rgba(225, 29, 72, .15);
+  --sel-bg: #ffe4e9; --hero: #ffe4e9;
+  --good: #1f9d57; --bad: #cf4444; --code-bg: #0b0e14;
+}
+html[data-theme="light"] .code-tab.active,
+html[data-theme="light"] .btn.primary,
+html[data-theme="light"] .btn.good,
+html[data-theme="light"] .card.done .mark,
+html[data-theme="light"] .opt.correct,
+html[data-theme="light"] .explain.ok,
+html[data-theme="light"] .callout,
+html[data-theme="light"] .node.on { background: var(--sel-bg); }
+html[data-theme="light"] .opt.wrong,
+html[data-theme="light"] .explain.no { background: #fdecec; }
+html[data-theme="light"] .theory code,
+html[data-theme="light"] .lesson-kicker code,
+html[data-theme="light"] .step-desc code,
+html[data-theme="light"] .quiz code { background: #eef2f6; color: #1d4ed8; border-color: #d7dee6; }
+
+/* header bar */
+.hbar { display: flex; align-items: center; gap: 12px; max-width: 1280px; margin: 0 auto 4px; padding: 0 20px; }
+.hbar .spacer { flex: 1; }
+.theme-toggle {
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+  border-radius: 10px; width: 40px; height: 40px; font-size: 1.1rem; line-height: 1;
+  cursor: pointer; flex: 0 0 40px; transition: border-color .15s;
+}
+.theme-toggle:hover { border-color: var(--accent); }
+
+/* ---------- Header / footer ---------- */
+.site-header { text-align: center; padding: 44px 20px 22px; position: relative; }
+.site-header.compact { padding: 26px 20px 10px; position: relative; }
+.site-header h1 { margin: 0; font-size: 2.1rem; }
+.site-header h1 .leaf { color: var(--accent); }
+.subtitle { color: var(--muted); margin: 8px 0 0; }
+.back { color: var(--accent-2); text-decoration: none; font-size: .9rem; }
+.back:hover { text-decoration: underline; }
+.site-footer { text-align: center; color: var(--muted); padding: 32px 20px; font-size: .85rem; }
+
+/* ---------- Trang chủ ---------- */
+.container { max-width: 1040px; margin: 0 auto; padding: 0 20px 60px; }
+.intro { text-align: center; color: var(--muted); max-width: 720px; margin: 0 auto; line-height: 1.6; }
+
+.progress-wrap { max-width: 720px; margin: 26px auto 6px; }
+.progress-bar { height: 12px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--good)); transition: width .4s ease; }
+.progress-label { text-align: center; color: var(--muted); font-size: .85rem; margin: 8px 0 0; }
+.lesson-prog { margin: 14px auto 0; max-width: 520px; }
+.lesson-prog .progress-bar { height: 8px; }
+
+.phase-title {
+  margin: 40px 0 2px; padding-bottom: 10px; border-bottom: 1px solid var(--line);
+  font-size: 1.25rem; display: flex; align-items: center; gap: 10px;
+}
+.phase-title .pnum {
+  font-size: .78rem; color: #fff; background: var(--accent);
+  border-radius: 999px; padding: 2px 10px; font-weight: 700;
+}
+
+.lesson-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); margin-top: 16px; }
+.card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; display: flex; gap: 14px; align-items: flex-start; cursor: pointer;
+  transition: transform .18s, border-color .18s, box-shadow .18s; text-decoration: none; color: var(--text);
+}
+.card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 12px 30px var(--glow); }
+.card.done { border-color: rgba(110,231,168,.4); }
+.card .mark {
+  flex: 0 0 34px; width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--panel-2); border: 1px solid var(--line); font-weight: 700; font-size: .95rem;
+}
+.card.done .mark { background: #16271e; border-color: var(--good); color: var(--good); }
+.card.started .mark { border-color: var(--accent); color: var(--accent); }
+.card .ttl { font-weight: 700; font-size: 1.02rem; margin: 2px 0 4px; }
+.card .obj { color: var(--muted); font-size: .86rem; line-height: 1.45; }
+.card .badge { display: inline-block; margin-top: 8px; font-size: .74rem; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.card .badge.done { color: var(--good); border-color: var(--good); }
+.card .badge.started { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- Layout bài học ---------- */
+.lesson-wrap { max-width: 1320px; margin: 10px auto 60px; padding: 0 20px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.panel > h3 { margin: 0 0 10px; font-size: .95rem; color: var(--accent); }
+.lesson-kicker { text-align: center; color: var(--muted); font-size: .85rem; margin: 4px 0 0; }
+.tag { font-size: .72rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--accent); color: var(--accent); }
+
+/* phần 1 — lý thuyết */
+.theory { margin: 18px 0; }
+.theory h3 { color: var(--accent); }
+.theory p { line-height: 1.65; color: var(--text); margin: 0 0 10px; }
+.theory ul, .theory ol { margin: 0 0 10px; padding-left: 20px; }
+.theory li { line-height: 1.6; margin: 4px 0; color: var(--text); }
+.theory code, .lesson-kicker code, .step-desc code, .quiz code {
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 1px 6px; font-family: ui-monospace, Menlo, monospace; font-size: .86em; color: var(--accent-2);
+}
+.theory strong { color: var(--text); }
+.theory table { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: .88rem; }
+.theory th, .theory td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; }
+.theory th { background: var(--panel-2); color: var(--accent); }
+.callout {
+  margin: 14px 0 0; background: var(--panel-2); border: 1px solid var(--line);
+  border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px 14px;
+}
+.callout p { margin: 0; font-size: .9rem; color: var(--muted); }
+
+/* giữa: code (trái) + stage (phải) */
+.lesson-main { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; align-items: start; }
+.lesson-main > * { min-width: 0; }
+@media (max-width: 980px) { .lesson-main { grid-template-columns: 1fr; } }
+
+/* phần 2 — code panel */
+.code-panel { position: sticky; top: 14px; }
+.code-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.code-tab {
+  flex: 1; min-width: 120px; padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--muted); font-size: .82rem; transition: all .15s;
+}
+.code-tab:hover { color: var(--text); }
+.code-tab.active { color: var(--accent); border-color: var(--accent); background: var(--sel-bg); }
+.code-view {
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 4px; margin: 0; overflow-x: auto; min-height: 300px;
+}
+.code-view code { font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace; font-size: .84rem; line-height: 1.7; color: #d7e0ea; white-space: pre; display: block; }
+.code-view.hidden { display: none; }
+.cl { display: block; padding: 0 14px; border-left: 3px solid transparent; }
+.cl.hot { background: var(--glow); border-left-color: var(--accent); }
+.code-view .kw  { color: #ff9e64; font-weight: 600; }   /* keyword */
+.code-view .an  { color: #c792ea; font-weight: 600; }   /* preprocessor / annotation */
+.code-view .str { color: #9ece6a; }                     /* string */
+.code-view .num { color: #7dcfff; }                     /* number */
+.code-view .fn  { color: #e0af68; }                     /* function call */
+.code-view .var { color: #f7768e; }                     /* $variable */
+.code-view .fl  { color: #56d4c4; }                     /* -flag */
+.code-view .pr  { color: #6db33f; font-weight: 700; }   /* prompt $ */
+.code-view .cm  { color: #5c6773; font-style: italic; } /* comment */
+
+/* phần 3 — stage / step engine */
+.stage-panel { display: flex; flex-direction: column; }
+.stage-area {
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 12px;
+  padding: 18px 14px; min-height: 260px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 6px;
+}
+.node {
+  border: 1px solid var(--line); background: var(--panel-2); border-radius: 12px;
+  padding: 10px 14px; text-align: center; transition: all .3s ease; max-width: 340px; width: 100%;
+}
+.node .nl { font-weight: 700; font-size: .9rem; }
+.node .ns { font-size: .76rem; color: var(--muted); margin-top: 2px; }
+.node.on { border-color: var(--accent); background: var(--sel-bg); box-shadow: 0 0 0 3px var(--glow); transform: scale(1.03); }
+.node.on .ns { color: var(--accent-2); }
+.node.dim { opacity: .4; }
+.arrow { color: var(--line); font-size: 1.3rem; line-height: 1; transition: color .3s; }
+.arrow.on { color: var(--accent); }
+.row { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; width: 100%; }
+.row .node { width: auto; min-width: 120px; }
+
+.step-desc { margin-top: 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 84px; }
+.step-desc .st-title { font-weight: 700; color: var(--accent); font-size: .95rem; margin-bottom: 6px; }
+.step-desc .st-body { font-size: .88rem; color: var(--text); line-height: 1.55; }
+.step-counter { text-align: center; color: var(--muted); font-size: .8rem; margin: 10px 0 8px; }
+.step-controls { display: flex; gap: 8px; }
+.step-controls .btn { flex: 1; }
+
+/* nút chung */
+.btn {
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+  padding: 10px 14px; border-radius: 10px; cursor: pointer; font-size: .9rem;
+  transition: border-color .15s, transform .1s, background .15s;
+}
+.btn:hover { border-color: var(--accent); }
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn.primary { border-color: var(--accent); background: var(--sel-bg); color: var(--accent); font-weight: 600; }
+.btn.good { border-color: var(--good); background: #16271e; color: var(--good); }
+
+/* phần 4 — quiz */
+.quiz { margin-top: 18px; }
+.quiz > h3 { color: var(--accent); }
+.q { margin: 0 0 18px; padding: 0 0 16px; border-bottom: 1px dashed var(--line); }
+.q:last-of-type { border-bottom: 0; }
+.qtext { font-weight: 600; margin-bottom: 10px; line-height: 1.5; }
+.qnum { color: var(--accent); margin-right: 6px; }
+.opt {
+  display: block; width: 100%; text-align: left; margin: 6px 0; padding: 10px 12px;
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+  border-radius: 10px; cursor: pointer; font-size: .9rem; transition: all .15s;
+}
+.opt:hover:not(.locked) { border-color: var(--accent); }
+.opt .letter { color: var(--muted); font-weight: 700; margin-right: 8px; }
+.opt.locked { cursor: default; }
+.opt.correct { border-color: var(--good); background: #16271e; color: var(--good); }
+.opt.wrong { border-color: var(--bad); background: #2a1717; color: var(--bad); }
+.explain { display: none; margin-top: 8px; font-size: .86rem; line-height: 1.55; padding: 10px 12px; border-radius: 10px; }
+.explain.show { display: block; }
+.explain.ok { background: #16271e; border: 1px solid var(--good); }
+.explain.no { background: #2a1717; border: 1px solid var(--bad); }
+.quiz-status { color: var(--muted); font-size: .85rem; margin: 6px 0 12px; }
+.quiz-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.done-hint { color: var(--muted); font-size: .82rem; margin-top: 8px; }
+
+/* nav */
+.lesson-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; }
+.lesson-nav a { color: var(--accent-2); text-decoration: none; font-size: .9rem; }
+.lesson-nav a:hover { text-decoration: underline; }
+
+/* toast */
+#toast {
+  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+  background: #16271e; border: 1px solid var(--good); color: var(--good);
+  padding: 12px 18px; border-radius: 12px; opacity: 0; pointer-events: none; transition: all .3s; z-index: 50;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- Responsive · điện thoại (iPhone 15 ~393px) ---------- */
+@media (max-width: 640px) {
+  .site-header { padding: 30px 16px 16px; }
+  .site-header.compact { padding: 20px 16px 8px; }
+  .site-header h1 { font-size: 1.55rem; line-height: 1.2; }
+  .subtitle { font-size: .9rem; }
+  .hbar { padding: 0 16px; }
+  .container { padding: 0 16px 48px; }
+  .lesson-wrap { padding: 0 16px 48px; }
+  .panel { padding: 15px; }
+  .lesson-grid { grid-template-columns: 1fr; }
+  .lesson-main { grid-template-columns: 1fr; }
+  .code-panel { position: static; }
+  .lesson-nav { flex-wrap: wrap; gap: 8px; }
+  .code-view code { font-size: .78rem; }
+  .code-view { min-height: 220px; }
+  .stage-area { min-height: 220px; }
+  .theory table { display: block; max-width: 100%; overflow-x: auto; }
+}

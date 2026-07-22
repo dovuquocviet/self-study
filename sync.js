@@ -28,7 +28,8 @@
     "os-progress-v1":               "os",
     "networking-progress-v1":       "networking",
     "shell-progress-v1":            "shell",
-    "gitlabci-progress-v1":         "gitlabci"
+    "gitlabci-progress-v1":         "gitlabci",
+    "auth-progress-v1":             "auth"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)
