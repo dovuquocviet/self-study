@@ -54,9 +54,10 @@
       sub: "Session · Bearer token · OAuth 2 · PKCE · SSO · Login with code.",
       accent: "#f43f5e", href: "auth-course/index.html",
       key: "auth-progress-v1", total: 12 },
-    { emoji: "💠", title: "Nhập môn GraphQL",
+    // `logo` (tuỳ chọn): dùng file ảnh thay emoji — ở đây là logo GraphQL chính chủ
+    { emoji: "💠", logo: "graphql-course/logo.svg", title: "Nhập môn GraphQL",
       sub: "Client tự gọi món: schema · resolver · DataLoader · cache.",
-      accent: "#e535ab", href: "graphql-course/index.html",
+      accent: "#e10098", href: "graphql-course/index.html",
       key: "graphql-progress-v1", total: 14 }
   ];
 
@@ -86,10 +87,12 @@
                 : done > 0 ? "started" : "";
       var statusLabel = state === "done" ? "✓ Hoàn thành"
                       : state === "started" ? "Đang học" : "Chưa bắt đầu";
+      // course nào khai `logo` thì hiện ảnh thật, còn lại vẫn dùng emoji
+      var icon = c.logo ? '<img src="' + c.logo + '" alt="" />' : c.emoji;
       return '' +
         '<a class="course-card ' + state + '" href="' + c.href + '" style="--c:' + c.accent + '">' +
           '<div class="cc-top">' +
-            '<span class="cc-emoji">' + c.emoji + '</span>' +
+            '<span class="cc-emoji">' + icon + '</span>' +
             '<span class="cc-status">' + statusLabel + '</span>' +
           '</div>' +
           '<h2 class="cc-title">' + esc(c.title) + '</h2>' +
