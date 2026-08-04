@@ -53,7 +53,11 @@
     { emoji: "🔐", title: "Nhập môn Auth: Authentication & Authorization",
       sub: "Session · Bearer token · OAuth 2 · PKCE · SSO · Login with code.",
       accent: "#f43f5e", href: "auth-course/index.html",
-      key: "auth-progress-v1", total: 12 }
+      key: "auth-progress-v1", total: 12 },
+    { emoji: "💠", title: "Nhập môn GraphQL",
+      sub: "Client tự gọi món: schema · resolver · DataLoader · cache.",
+      accent: "#e535ab", href: "graphql-course/index.html",
+      key: "graphql-progress-v1", total: 14 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
