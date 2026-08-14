@@ -25,6 +25,14 @@
   --num: #7dcfff;
   --fn: #e0af68;
   --cm: #5c6773;
+  /* ==== Editor tô màu cú pháp (code-editor.js) ==== */
+  --ed-bg: #10151b;
+  --ed-fg: #d7dee8;
+  --ed-gutter: #46525f;
+  --ed-tag: #7ee0d0;     /* <View>, <Text>, tên component */
+  --ed-attr: #c3a6ff;    /* style=, onPress= */
+  --ed-brace: #ffd479;   /* { } nhúng JS trong JSX */
+  --ed-punc: #8b98a8;
   --radius: 16px;
   --maxw: 1200px;
 }
@@ -157,26 +165,20 @@ code { font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, monospace;
 .snack-run { background: var(--good); color: #08130c; border-color: var(--good); }
 .snack-run:hover { filter: brightness(1.08); }
 .snack-reset:hover, .snack-clear:hover { border-color: var(--accent); }
-.snack-body { display: grid; grid-template-columns: 1fr 320px; min-height: 340px; }
-.snack-editor-wrap { position: relative; display: flex; background: #10151b; overflow: hidden; }
-.snack-lines {
-  padding: 12px 6px 12px 12px; text-align: right; color: #45505e;
-  font-family: ui-monospace, monospace; font-size: 13px; line-height: 1.5;
-  user-select: none; overflow: hidden; min-width: 34px;
-}
-.snack-editor {
-  flex: 1; border: 0; outline: 0; resize: none;
-  background: transparent; color: #d6dee8; caret-color: var(--accent);
-  font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 13px; line-height: 1.5;
-  padding: 12px 12px 12px 4px; tab-size: 2; white-space: pre; overflow: auto;
-}
-.snack-preview-wrap { background: #0c1015; border-left: 1px solid var(--line); display: grid; place-items: center; padding: 16px; }
+.snack-body { display: grid; grid-template-columns: minmax(0, 1fr) 372px; }
+/* Khung chứa editor — phần bên trong do ../code-editor.js dựng (có tô màu cú pháp) */
+.snack-editor-wrap { position: relative; display: flex; background: var(--ed-bg); overflow: hidden; }
+.snack-preview-wrap { background: #0c1015; border-left: 1px solid var(--line); display: grid; place-items: center; padding: 20px 16px; }
+/* Khung điện thoại: tỉ lệ ~9:19 như máy thật.
+   "Tai thỏ" nằm trong VIỀN trên (padding-top) nên không đè lên nội dung app. */
 .snack-phone {
-  width: 232px; height: 300px; background: #000; border-radius: 26px;
-  padding: 10px; box-shadow: 0 8px 30px rgba(0,0,0,.5); position: relative;
+  width: 264px; height: 542px; flex: none; position: relative;
+  background: #11161d; border: 1px solid #333c49; border-radius: 34px;
+  padding: 26px 10px 14px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.55), inset 0 0 0 2px #05070a;
 }
-.snack-notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 74px; height: 15px; background: #000; border-radius: 0 0 12px 12px; z-index: 2; }
-.snack-iframe { width: 100%; height: 100%; border: 0; border-radius: 18px; background: #fff; }
+.snack-notch { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 84px; height: 10px; background: #05070a; border-radius: 6px; }
+.snack-iframe { width: 100%; height: 100%; border: 0; border-radius: 22px; background: #fff; display: block; }
 .snack-console { border-top: 1px solid var(--line); }
 .snack-console-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; font-size: .74rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; background: var(--panel-2); }
 .snack-console-body { max-height: 130px; overflow: auto; padding: 6px 12px; font-family: ui-monospace, monospace; font-size: 12px; }

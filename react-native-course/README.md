@@ -25,9 +25,12 @@ python3 -m http.server 8080
 ## Cách hoạt động của editor (phần 2)
 
 `runtime.js` = "Expo Snack" thu nhỏ:
-1. Babel (vendor) transpile JSX của bạn ngay tại trang.
-2. Code được nhét vào `<iframe sandbox>` có **importmap** trỏ `react-native` → `react-native-web`.
-3. `console.log` và lỗi trong iframe được gửi về khung Console bằng `postMessage`.
+1. Editor tô màu cú pháp (`../code-editor.js`, dùng chung mọi khoá) — textarea trong suốt
+   nằm chồng lên một lớp <pre> đã tô màu.
+2. Babel (vendor) transpile JSX của bạn ngay tại trang (`retainLines` để số dòng trong
+   stack trace khớp code bạn viết).
+3. Code được nhét vào `<iframe sandbox>` có **importmap** trỏ `react-native` → `react-native-web`.
+4. `console.log` và lỗi trong iframe (lỗi in kèm code frame trỏ đúng dòng) được gửi về khung Console bằng `postMessage`.
 
 Code demo **bắt buộc** `export default` một component và **không chứa dấu backtick** (\`).
 
@@ -43,6 +46,7 @@ Code demo **bắt buộc** `export default` một component và **không chứa 
 | `diagrams.js` | Các sơ đồ tương tác (`window.Diagrams[id]`) |
 | `styles.css` | Dark theme |
 | `vendor/` | mermaid, marked, highlight, babel (offline) |
+| `../code-editor.js` | Editor tô màu cú pháp, dùng chung với khoá thực hành |
 
 ## Thêm một bài mới
 

@@ -17,14 +17,23 @@
   var SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
   // Bắt buộc đăng nhập mới vào được app: che toàn trang bằng lớp phủ (gate)
-  // cho tới khi có phiên đăng nhập. Đặt false để quay lại chế độ tuỳ chọn.
-  var REQUIRE_LOGIN = true;
+  // cho tới khi có phiên đăng nhập.
+  //
+  // NGOẠI LỆ — chạy máy mình (localhost / 127.0.0.1 / mở bằng file://) thì BỎ QUA gate
+  // cho đỡ vướng khi phát triển & học. Lúc đó tiến độ chỉ nằm trong localStorage của
+  // trình duyệt này, không đẩy lên cloud (muốn đồng bộ thì bấm widget góc phải để đăng nhập).
+  // Bản deploy (vercel) vẫn bắt đăng nhập như cũ.
+  // Muốn tắt hẳn gate ở mọi nơi: đặt REQUIRE_LOGIN = false.
+  var IS_LOCAL = location.protocol === "file:" ||
+    /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(location.hostname);
+  var REQUIRE_LOGIN = !IS_LOCAL;
 
   // localStorage key  ->  course_slug (khoá trong bảng progress)
   var PROGRESS_KEYS = {
     "spring-internals-progress-v1": "spring-internals",
     "dp_progress_v1":               "design-pattern",
     "rn_course_progress":           "react-native",
+    "rn_practice_progress":         "react-native-practice",
     "os-progress-v1":               "os",
     "networking-progress-v1":       "networking",
     "shell-progress-v1":            "shell",

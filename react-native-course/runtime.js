@@ -93,13 +93,8 @@
     var body = el("div", "snack-body");
 
     var editorWrap = el("div", "snack-editor-wrap");
-    var lines = el("div", "snack-lines");
-    var ta = document.createElement("textarea");
-    ta.className = "snack-editor";
-    ta.spellcheck = false;
-    ta.value = initialCode;
-    editorWrap.appendChild(lines);
-    editorWrap.appendChild(ta);
+    // Editor tô màu cú pháp dùng chung (../code-editor.js)
+    var ed = window.CodeEditor.mount(editorWrap, initialCode, { onRun: function () { run(); } });
 
     var previewWrap = el("div", "snack-preview-wrap");
     var phone = el("div", "snack-phone");
@@ -127,34 +122,36 @@
     container.appendChild(body);
     container.appendChild(consoleBox);
 
-    // ---- hành vi editor ----
-    function syncLines() {
-      var n = ta.value.split("\n").length;
-      var html = "";
-      for (var i = 1; i <= n; i++) html += i + "<br>";
-      lines.innerHTML = html;
-      lines.scrollTop = ta.scrollTop;
-    }
-    ta.addEventListener("input", syncLines);
-    ta.addEventListener("scroll", function () { lines.scrollTop = ta.scrollTop; });
-    ta.addEventListener("keydown", function (e) {
-      if (e.key === "Tab") {
-        e.preventDefault();
-        var s = ta.selectionStart, en = ta.selectionEnd;
-        ta.value = ta.value.slice(0, s) + "  " + ta.value.slice(en);
-        ta.selectionStart = ta.selectionEnd = s + 2;
-        syncLines();
-      }
-      // Ctrl/Cmd + Enter = Run
-      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); run(); }
-    });
-    syncLines();
-
     // ---- console ----
     function logLine(level, text) {
       var line = el("div", "snack-log " + level);
       line.textContent = (level === "err" ? "⛔ " : level === "warn" ? "⚠️ " : "› ") + text;
       consoleBody.appendChild(line);
+      consoleBody.scrollTop = consoleBody.scrollHeight;
+    }
+    // Lỗi: in nguyên stack trace + trích đúng dòng code gây lỗi (xem runtime khoá
+    // thực hành để biết chi tiết; ở đây bản rút gọn).
+    var lastErr = { text: "", at: 0 };
+    function logError(text) {
+      // blob:http://host/uuid:7:19 -> App.js:7:19 (giữ số dòng nhờ retainLines)
+      var t = String(text || "").replace(/blob:[^\s)'"]*/g, function (mm) {
+        var pos = /(:\d+:\d+)$/.exec(mm);
+        return "App.js" + (pos ? pos[1] : "");
+      });
+      var key = t.split("\n")[0], now = Date.now();
+      if (key === lastErr.text && now - lastErr.at < 3000) return;   // React bắn trùng
+      lastErr = { text: key, at: now };
+      var m = /App\.js:(\d+)/.exec(t);
+      var box = el("div", "snack-log err");
+      if (m) {
+        var ln = +m[1], src = ed.getValue().split("\n");
+        var frame = "";
+        for (var i = Math.max(1, ln - 2); i <= Math.min(src.length, ln + 2); i++) {
+          frame += (i === ln ? " > " : "   ") + i + " | " + src[i - 1] + "\n";
+        }
+        box.textContent = "⛔ " + t + "\n\n" + frame;
+      } else box.textContent = "⛔ " + t;
+      consoleBody.appendChild(box);
       consoleBody.scrollTop = consoleBody.scrollHeight;
     }
     clearBtn.onclick = function () { consoleBody.innerHTML = ""; };
@@ -163,15 +160,18 @@
     var currentUrl = null;
     function run() {
       consoleBody.innerHTML = "";
-      var code = ta.value;
+      var code = ed.getValue();
       var transpiled;
       try {
+        // retainLines: giữ nguyên SỐ DÒNG sau khi transpile => stack trace lúc chạy
+        // chỉ đúng dòng trong code bạn viết.
         transpiled = window.Babel.transform(code, {
           presets: [["react", { runtime: "automatic" }]],
-          filename: "App.js"
+          filename: "App.js",
+          retainLines: true
         }).code;
       } catch (err) {
-        logLine("err", "Lỗi cú pháp: " + (err.message || err));
+        logError("Lỗi cú pháp: " + (err.message || err));
         return;
       }
       if (currentUrl) URL.revokeObjectURL(currentUrl);
@@ -182,15 +182,17 @@
     }
     runBtn.onclick = run;
     resetBtn.onclick = function () {
-      ta.value = initialCode; syncLines(); run();
+      ed.setValue(initialCode); run();
     };
 
     // nhận message từ iframe
     var handler = function (ev) {
       var d = ev.data;
       if (!d || d.__snack !== 1) return;
-      if (d.type === "log") logLine(d.payload.level === "error" ? "err" : d.payload.level, d.payload.text);
-      else if (d.type === "err") logLine("err", d.payload.text);
+      if (d.type === "log") {
+        if (d.payload.level === "error") logError(d.payload.text);
+        else logLine(d.payload.level, d.payload.text);
+      } else if (d.type === "err") logError(d.payload.text);
     };
     window.addEventListener("message", handler);
 
@@ -208,7 +210,7 @@
 
     return {
       run: run,
-      getCode: function () { return ta.value; },
+      getCode: function () { return ed.getValue(); },
       destroy: function () { window.removeEventListener("message", handler); if (currentUrl) URL.revokeObjectURL(currentUrl); }
     };
   }
