@@ -39,6 +39,7 @@
     "shell-progress-v1":            "shell",
     "gitlabci-progress-v1":         "gitlabci",
     "auth-progress-v1":             "auth",
+    "authadv-progress-v1":          "auth-advanced",
     "graphql-progress-v1":          "graphql",
     "secbackend-progress-v1":       "secure-backend",
     "secmobile-progress-v1":        "secure-mobile",

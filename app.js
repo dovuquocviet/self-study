@@ -58,6 +58,10 @@
       sub: "Session · Bearer token · OAuth 2 · PKCE · SSO · Login with code.",
       accent: "#f43f5e", href: "auth-course/index.html",
       key: "auth-progress-v1", total: 12 },
+    { emoji: "🗝️", title: "Auth nâng cao: OAuth 1.0a, OAuth 2.x & chuẩn hiện đại",
+      sub: "4 chuỗi của OAuth 1 · PKCE · OIDC · JWT/JWKS · DPoP · PAR · FAPI · Passkeys.",
+      accent: "#db2777", href: "auth-advanced-course/index.html",
+      key: "authadv-progress-v1", total: 16 },
     // `logo` (tuỳ chọn): dùng file ảnh thay emoji — ở đây là logo GraphQL chính chủ
     { emoji: "💠", logo: "graphql-course/logo.svg", title: "Nhập môn GraphQL",
       sub: "Client tự gọi món: schema · resolver · DataLoader · cache.",
