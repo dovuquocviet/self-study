@@ -39,7 +39,10 @@
     "shell-progress-v1":            "shell",
     "gitlabci-progress-v1":         "gitlabci",
     "auth-progress-v1":             "auth",
-    "graphql-progress-v1":          "graphql"
+    "graphql-progress-v1":          "graphql",
+    "secbackend-progress-v1":       "secure-backend",
+    "secmobile-progress-v1":        "secure-mobile",
+    "secdb-progress-v1":            "secure-db"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)

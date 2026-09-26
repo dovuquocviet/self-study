@@ -62,7 +62,19 @@
     { emoji: "💠", logo: "graphql-course/logo.svg", title: "Nhập môn GraphQL",
       sub: "Client tự gọi món: schema · resolver · DataLoader · cache.",
       accent: "#e10098", href: "graphql-course/index.html",
-      key: "graphql-progress-v1", total: 14 }
+      key: "graphql-progress-v1", total: 14 },
+    { emoji: "🛡️", title: "An toàn bảo mật khi code Backend",
+      sub: "Injection · phân quyền · SSRF · secret · mật mã — không phụ thuộc ngôn ngữ.",
+      accent: "#ef4444", href: "secure-backend-course/index.html",
+      key: "secbackend-progress-v1", total: 27 },
+    { emoji: "📱", title: "An toàn bảo mật khi code Mobile",
+      sub: "Lưu trữ · mạng · token · deep link · WebView — Android, iOS, RN, Flutter.",
+      accent: "#06b6d4", href: "secure-mobile-course/index.html",
+      key: "secmobile-progress-v1", total: 23 },
+    { emoji: "🗄️", title: "An toàn bảo mật cho Database",
+      sub: "PostgreSQL · Redis · Kafka · ClickHouse · MongoDB · Cloudflare D1/KV/R2.",
+      accent: "#f59e0b", href: "secure-db-course/index.html",
+      key: "secdb-progress-v1", total: 24 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
