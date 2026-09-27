@@ -98,7 +98,11 @@
     { emoji: "🏗️", title: "System design cho microservice & serverless",
       sub: "Thiết kế hệ thống: Rust service, Kafka, Workers, read model",
       accent: "#6366f1", href: "system-design-course/index.html",
-      key: "sysdesign-progress-v1", total: 24 }
+      key: "sysdesign-progress-v1", total: 24 },
+    { emoji: "🧬", title: "Database internals đa mô hình",
+      sub: "Page, WAL, B-tree/LSM, MVCC, cột, inverted index, log — cơ chế dưới 6 DB",
+      accent: "#84cc16", href: "db-internals-course/index.html",
+      key: "dbinternals-progress-v1", total: 21 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
