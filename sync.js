@@ -51,7 +51,8 @@
     "sysdesign-progress-v1":      "system-design",
     "dbinternals-progress-v1":    "db-internals",
     "pgdeep-progress-v1":         "postgres-deep",
-    "kafkadeep-progress-v1":      "kafka-deep"
+    "kafkadeep-progress-v1":      "kafka-deep",
+    "chdeep-progress-v1":         "clickhouse-deep"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)

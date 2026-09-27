@@ -110,7 +110,11 @@
     { emoji: "📨", title: "Kafka chuyên sâu",
       sub: "Log phân tán, replication, producer/consumer, exactly-once, vận hành & Kafka→ClickHouse",
       accent: "#8b5cf6", href: "kafka-deep-course/index.html",
-      key: "kafkadeep-progress-v1", total: 23 }
+      key: "kafkadeep-progress-v1", total: 23 },
+    { emoji: "🟨", title: "ClickHouse chuyên sâu",
+      sub: "MergeTree, họ engine, ingest Kafka, MV, cluster & tối ưu",
+      accent: "#facc15", href: "clickhouse-deep-course/index.html",
+      key: "chdeep-progress-v1", total: 23 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
