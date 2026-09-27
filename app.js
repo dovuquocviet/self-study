@@ -82,7 +82,11 @@
     { emoji: "🦀", title: "Nhập môn Rust cho dev Java",
       sub: "Ownership, borrow, trait, async, axum + sqlx — đối chiếu Java/Spring",
       accent: "#dea584", href: "rust-course/index.html",
-      key: "rust-progress-v1", total: 21 }
+      key: "rust-progress-v1", total: 21 },
+    { emoji: "⚙️", title: "Rust nâng cao cho backend",
+      sub: "Lifetime · trait · async sâu · Tokio · concurrency · axum/sqlx · tracing · UniFFI · WASM",
+      accent: "#ea580c", href: "rust-advanced-course/index.html",
+      key: "rustadv-progress-v1", total: 21 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
