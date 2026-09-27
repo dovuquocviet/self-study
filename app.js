@@ -114,7 +114,11 @@
     { emoji: "🟨", title: "ClickHouse chuyên sâu",
       sub: "MergeTree, họ engine, ingest Kafka, MV, cluster & tối ưu",
       accent: "#facc15", href: "clickhouse-deep-course/index.html",
-      key: "chdeep-progress-v1", total: 23 }
+      key: "chdeep-progress-v1", total: 23 },
+    { emoji: "🟥", title: "Redis chuyên sâu",
+      sub: "Event loop, encoding, persistence, Cluster và pattern thực chiến",
+      accent: "#dc382d", href: "redis-deep-course/index.html",
+      key: "redisdeep-progress-v1", total: 25 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.

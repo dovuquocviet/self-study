@@ -52,7 +52,8 @@
     "dbinternals-progress-v1":    "db-internals",
     "pgdeep-progress-v1":         "postgres-deep",
     "kafkadeep-progress-v1":      "kafka-deep",
-    "chdeep-progress-v1":         "clickhouse-deep"
+    "chdeep-progress-v1":         "clickhouse-deep",
+    "redisdeep-progress-v1":      "redis-deep"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)
