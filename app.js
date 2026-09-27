@@ -122,7 +122,11 @@
     { emoji: "🔎", title: "Elasticsearch chuyên sâu",
       sub: "Kiến trúc, mapping, analyzer tiếng Việt, relevance, đồng bộ từ DB & vận hành",
       accent: "#00bfb3", href: "elastic-deep-course/index.html",
-      key: "esdeep-progress-v1", total: 23 }
+      key: "esdeep-progress-v1", total: 23 },
+    { emoji: "📲", title: "Nền tảng Mobile native: app chạy thế nào bên dưới",
+      sub: "OS, vòng đời, main thread, rendering, bộ nhớ, RN vs native, push, build & phát hành",
+      accent: "#22c55e", href: "mobile-native-course/index.html",
+      key: "mobilenative-progress-v1", total: 22 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
