@@ -130,7 +130,11 @@
     { emoji: "🚀", title: "Mobile performance: đo, tìm và sửa",
       sub: "Đo trước khi sửa · startup · jank · memory · mạng · size · RN vs native",
       accent: "#14b8a6", href: "mobile-perf-course/index.html",
-      key: "mobileperf-progress-v1", total: 21 }
+      key: "mobileperf-progress-v1", total: 21 },
+    { emoji: "🟣", title: "Nhập môn Kotlin & Jetpack Compose (cho dev Java)",
+      sub: "Kotlin, coroutines & Compose cho dev Java/Spring",
+      accent: "#7f52ff", href: "kotlin-compose-course/index.html",
+      key: "kotlin-progress-v1", total: 26 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
