@@ -102,7 +102,11 @@
     { emoji: "🧬", title: "Database internals đa mô hình",
       sub: "Page, WAL, B-tree/LSM, MVCC, cột, inverted index, log — cơ chế dưới 6 DB",
       accent: "#84cc16", href: "db-internals-course/index.html",
-      key: "dbinternals-progress-v1", total: 21 }
+      key: "dbinternals-progress-v1", total: 21 },
+    { emoji: "🐘", title: "PostgreSQL chuyên sâu",
+      sub: "Cơ chế bên trong & vận hành production: MVCC, index, planner, lock, replication",
+      accent: "#336791", href: "postgres-deep-course/index.html",
+      key: "pgdeep-progress-v1", total: 24 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
