@@ -94,7 +94,11 @@
     { emoji: "🌩️", title: "Kiến trúc serverless trên Cloudflare",
       sub: "Durable Objects, Queues, Workflows, D1/KV/R2/Hyperdrive, chi phí & pattern",
       accent: "#eab308", href: "serverless-arch-course/index.html",
-      key: "serverless-progress-v1", total: 20 }
+      key: "serverless-progress-v1", total: 20 },
+    { emoji: "🏗️", title: "System design cho microservice & serverless",
+      sub: "Thiết kế hệ thống: Rust service, Kafka, Workers, read model",
+      accent: "#6366f1", href: "system-design-course/index.html",
+      key: "sysdesign-progress-v1", total: 24 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.

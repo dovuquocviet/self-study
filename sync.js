@@ -47,7 +47,8 @@
     "rust-progress-v1":           "rust",
     "rustadv-progress-v1":        "rust-advanced",
     "cfworkers-progress-v1":      "cf-workers",
-    "serverless-progress-v1":     "serverless-arch"
+    "serverless-progress-v1":     "serverless-arch",
+    "sysdesign-progress-v1":      "system-design"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)
