@@ -57,7 +57,8 @@
     "esdeep-progress-v1":         "elastic-deep",
     "mobilenative-progress-v1":   "mobile-native",
     "mobileperf-progress-v1":     "mobile-perf",
-    "kotlin-progress-v1":         "kotlin-compose"
+    "kotlin-progress-v1":         "kotlin-compose",
+    "swift-progress-v1":          "swift-swiftui"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)

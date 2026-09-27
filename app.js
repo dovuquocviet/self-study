@@ -134,7 +134,11 @@
     { emoji: "🟣", title: "Nhập môn Kotlin & Jetpack Compose (cho dev Java)",
       sub: "Kotlin, coroutines & Compose cho dev Java/Spring",
       accent: "#7f52ff", href: "kotlin-compose-course/index.html",
-      key: "kotlin-progress-v1", total: 26 }
+      key: "kotlin-progress-v1", total: 26 },
+    { emoji: "🕊️", title: "Nhập môn Swift & SwiftUI (cho dev Java)",
+      sub: "Swift, concurrency, SwiftUI cho dev Java/RN",
+      accent: "#f05138", href: "swift-swiftui-course/index.html",
+      key: "swift-progress-v1", total: 24 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
