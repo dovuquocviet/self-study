@@ -138,7 +138,11 @@
     { emoji: "🕊️", title: "Nhập môn Swift & SwiftUI (cho dev Java)",
       sub: "Swift, concurrency, SwiftUI cho dev Java/RN",
       accent: "#f05138", href: "swift-swiftui-course/index.html",
-      key: "swift-progress-v1", total: 24 }
+      key: "swift-progress-v1", total: 24 },
+    { emoji: "🧩", title: "Nhập môn Kotlin Multiplatform (KMP)",
+      sub: "Chia sẻ logic Android/iOS, giữ UI native",
+      accent: "#0ea5e9", href: "kmp-course/index.html",
+      key: "kmp-progress-v1", total: 19 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
