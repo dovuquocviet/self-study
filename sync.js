@@ -55,7 +55,8 @@
     "chdeep-progress-v1":         "clickhouse-deep",
     "redisdeep-progress-v1":      "redis-deep",
     "esdeep-progress-v1":         "elastic-deep",
-    "mobilenative-progress-v1":   "mobile-native"
+    "mobilenative-progress-v1":   "mobile-native",
+    "mobileperf-progress-v1":     "mobile-perf"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)

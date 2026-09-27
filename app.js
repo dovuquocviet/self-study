@@ -126,7 +126,11 @@
     { emoji: "📲", title: "Nền tảng Mobile native: app chạy thế nào bên dưới",
       sub: "OS, vòng đời, main thread, rendering, bộ nhớ, RN vs native, push, build & phát hành",
       accent: "#22c55e", href: "mobile-native-course/index.html",
-      key: "mobilenative-progress-v1", total: 22 }
+      key: "mobilenative-progress-v1", total: 22 },
+    { emoji: "🚀", title: "Mobile performance: đo, tìm và sửa",
+      sub: "Đo trước khi sửa · startup · jank · memory · mạng · size · RN vs native",
+      accent: "#14b8a6", href: "mobile-perf-course/index.html",
+      key: "mobileperf-progress-v1", total: 21 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
