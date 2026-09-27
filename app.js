@@ -78,7 +78,11 @@
     { emoji: "🗄️", title: "An toàn bảo mật cho Database",
       sub: "PostgreSQL · Redis · Kafka · ClickHouse · MongoDB · Cloudflare D1/KV/R2.",
       accent: "#f59e0b", href: "secure-db-course/index.html",
-      key: "secdb-progress-v1", total: 24 }
+      key: "secdb-progress-v1", total: 24 },
+    { emoji: "🦀", title: "Nhập môn Rust cho dev Java",
+      sub: "Ownership, borrow, trait, async, axum + sqlx — đối chiếu Java/Spring",
+      accent: "#dea584", href: "rust-course/index.html",
+      key: "rust-progress-v1", total: 21 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
