@@ -118,7 +118,11 @@
     { emoji: "🟥", title: "Redis chuyên sâu",
       sub: "Event loop, encoding, persistence, Cluster và pattern thực chiến",
       accent: "#dc382d", href: "redis-deep-course/index.html",
-      key: "redisdeep-progress-v1", total: 25 }
+      key: "redisdeep-progress-v1", total: 25 },
+    { emoji: "🔎", title: "Elasticsearch chuyên sâu",
+      sub: "Kiến trúc, mapping, analyzer tiếng Việt, relevance, đồng bộ từ DB & vận hành",
+      accent: "#00bfb3", href: "elastic-deep-course/index.html",
+      key: "esdeep-progress-v1", total: 23 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
