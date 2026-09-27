@@ -45,7 +45,8 @@
     "secmobile-progress-v1":        "secure-mobile",
     "secdb-progress-v1":            "secure-db",
     "rust-progress-v1":           "rust",
-    "rustadv-progress-v1":        "rust-advanced"
+    "rustadv-progress-v1":        "rust-advanced",
+    "cfworkers-progress-v1":      "cf-workers"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)

@@ -86,7 +86,11 @@
     { emoji: "⚙️", title: "Rust nâng cao cho backend",
       sub: "Lifetime · trait · async sâu · Tokio · concurrency · axum/sqlx · tracing · UniFFI · WASM",
       accent: "#ea580c", href: "rust-advanced-course/index.html",
-      key: "rustadv-progress-v1", total: 21 }
+      key: "rustadv-progress-v1", total: 21 },
+    { emoji: "☁️", title: "Nhập môn Cloudflare Workers",
+      sub: "Serverless ở edge: isolate, wrangler, bindings, Rust/WASM",
+      accent: "#f38020", href: "cf-workers-course/index.html",
+      key: "cfworkers-progress-v1", total: 20 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
