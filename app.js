@@ -90,7 +90,11 @@
     { emoji: "☁️", title: "Nhập môn Cloudflare Workers",
       sub: "Serverless ở edge: isolate, wrangler, bindings, Rust/WASM",
       accent: "#f38020", href: "cf-workers-course/index.html",
-      key: "cfworkers-progress-v1", total: 20 }
+      key: "cfworkers-progress-v1", total: 20 },
+    { emoji: "🌩️", title: "Kiến trúc serverless trên Cloudflare",
+      sub: "Durable Objects, Queues, Workflows, D1/KV/R2/Hyperdrive, chi phí & pattern",
+      accent: "#eab308", href: "serverless-arch-course/index.html",
+      key: "serverless-progress-v1", total: 20 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.

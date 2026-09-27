@@ -46,7 +46,8 @@
     "secdb-progress-v1":            "secure-db",
     "rust-progress-v1":           "rust",
     "rustadv-progress-v1":        "rust-advanced",
-    "cfworkers-progress-v1":      "cf-workers"
+    "cfworkers-progress-v1":      "cf-workers",
+    "serverless-progress-v1":     "serverless-arch"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)
