@@ -50,7 +50,8 @@
     "serverless-progress-v1":     "serverless-arch",
     "sysdesign-progress-v1":      "system-design",
     "dbinternals-progress-v1":    "db-internals",
-    "pgdeep-progress-v1":         "postgres-deep"
+    "pgdeep-progress-v1":         "postgres-deep",
+    "kafkadeep-progress-v1":      "kafka-deep"
   };
 
   // Bản gốc của localStorage (dùng khi ghi từ đám mây để không kích lại push)

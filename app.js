@@ -106,7 +106,11 @@
     { emoji: "🐘", title: "PostgreSQL chuyên sâu",
       sub: "Cơ chế bên trong & vận hành production: MVCC, index, planner, lock, replication",
       accent: "#336791", href: "postgres-deep-course/index.html",
-      key: "pgdeep-progress-v1", total: 24 }
+      key: "pgdeep-progress-v1", total: 24 },
+    { emoji: "📨", title: "Kafka chuyên sâu",
+      sub: "Log phân tán, replication, producer/consumer, exactly-once, vận hành & Kafka→ClickHouse",
+      accent: "#8b5cf6", href: "kafka-deep-course/index.html",
+      key: "kafkadeep-progress-v1", total: 23 }
   ];
 
   // Đếm số bài đã hoàn thành từ object tiến độ của course.
