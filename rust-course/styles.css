@@ -71,6 +71,7 @@ html[data-theme="light"] .quiz code { background: #eef2f6; color: #1d4ed8; borde
 .site-header.compact { padding: 26px 20px 10px; position: relative; }
 .site-header h1 { margin: 0; font-size: 2.1rem; }
 .site-header h1 .leaf { color: var(--accent); }
+.site-header h1 .leaf img { width: 1em; height: 1em; vertical-align: -0.13em; }
 .subtitle { color: var(--muted); margin: 8px 0 0; }
 .back { color: var(--accent-2); text-decoration: none; font-size: .9rem; }
 .back:hover { text-decoration: underline; }

@@ -1,7 +1,7 @@
 /* ---- Favicon emoji: hiện logo trên tab trình duyệt (như Zalo có logo riêng) ---- */
 (function () {
   try {
-    var e = "🎨";
+    var e = "🧩";
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
       '<text x="50" y="54" font-size="80" text-anchor="middle" dominant-baseline="central">' + e + '</text></svg>';
     var link = document.querySelector('link[rel~="icon"]');
