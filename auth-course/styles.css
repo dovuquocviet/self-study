@@ -273,3 +273,36 @@ html[data-theme="light"] .quiz code { background: #eef2f6; color: #1d4ed8; borde
   .stage-area { min-height: 220px; }
   .theory table { display: block; max-width: 100%; overflow-x: auto; }
 }
+
+/* sequence diagram trong stageHtml (<div class="seq">) — sơ đồ rộng nên bài có .seq
+   xếp stage lên trên, code xuống dưới, mỗi khối chiếm cả chiều ngang */
+.lesson-main:has(.seq) { grid-template-columns: 1fr; }
+.lesson-main:has(.seq) .code-panel { position: static; }
+.lesson-main:has(.seq) .stage-panel { order: -1; }
+.stage-area:has(.seq) { display: block; padding: 12px; }
+.seq-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .78rem; color: var(--muted); margin-bottom: 8px; }
+.seq-legend i { display: inline-block; width: 26px; border-top: 3px solid var(--muted); vertical-align: middle; margin-right: 6px; }
+.seq-legend i.front { border-top-color: #f08c00; }
+.seq-legend i.back { border-top-color: #37b24d; }
+.seq-legend i.dash { border-top-style: dashed; }
+.seq svg { width: 100%; height: auto; display: block; }
+.seq text { fill: var(--text); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.seq .actor-name { font-family: system-ui, -apple-system, sans-serif; font-weight: 700; }
+.seq .sub { fill: var(--muted); }
+.seq .actor { fill: var(--panel-2); stroke: var(--muted); stroke-width: 1.5; }
+.seq .life { stroke: var(--muted); stroke-dasharray: 4 4; opacity: .6; }
+.seq .band-front { fill: rgba(240, 140, 0, .08); }
+.seq .band-back { fill: rgba(55, 178, 77, .09); }
+.seq .band-label { font-weight: 700; }
+.seq .band-label.front { fill: #f08c00; }
+.seq .band-label.back { fill: #37b24d; }
+.seq .act { fill: rgba(55, 178, 77, .3); stroke: #37b24d; }
+.seq .act-s { fill: var(--panel-2); stroke: var(--muted); }
+.seq .ln-front { stroke: #f08c00; stroke-width: 2.2; }
+.seq .ln-back { stroke: #37b24d; stroke-width: 2.2; }
+.seq .bg-front { fill: #f08c00; }
+.seq .bg-back { fill: #37b24d; }
+.seq text.badge { fill: #fff; font-weight: 700; }
+.seq .note rect { fill: var(--panel-2); stroke: #f59f00; }
+.seq .arrow { font-size: inherit; line-height: normal; transition: opacity .25s; }
+.seq:has(.on) .arrow:not(.on) { opacity: .15; }
